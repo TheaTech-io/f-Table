@@ -8,7 +8,10 @@ import { Table } from "@tanstack/react-table"
 
 import { useDebouncedCallback } from "use-debounce"
 import { DataTableFilter } from "./DataTableFilter"
-import { DataTableDateFilter } from "./DataTableDateFilter" // Import Date Filter
+import { DateRangePicker } from "@/components/DatePicker";
+import { DateRange } from "react-day-picker";
+import React, { useState, useEffect } from "react"; // Ensure useState, useEffect are imported
+
 import * as XLSX from 'xlsx'; // Import xlsx
 import { saveAs } from 'file-saver'; // Import file-saver
 
@@ -27,6 +30,20 @@ export function Filterbar<TData>({
   setGlobalFilter,
 }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0
+
+  const dateColumn = table.getColumn("date");
+  const initialDateFilter = dateColumn?.getFilterValue() as DateRange | undefined;
+  const [dateRange, setDateRange] = useState<DateRange | undefined>(initialDateFilter);
+
+   useEffect(() => {
+     setDateRange(dateColumn?.getFilterValue() as DateRange | undefined);
+   }, [dateColumn?.getFilterValue()]);
+
+
+  useEffect(() => {
+    console.log("Date filter value changed in table state:", dateColumn?.getFilterValue());
+  }, [dateColumn?.getFilterValue()]); // Log when the filter value in the table state changes
+
   const debouncedSetGlobalFilter = useDebouncedCallback((value) => {
     setGlobalFilter(value || "") // Update global filter state
   }, 300)
@@ -65,13 +82,19 @@ export function Filterbar<TData>({
             type="checkbox"
           />
         )}
-        {/* Date Range Filter */}
-        {table.getColumn("date")?.getIsVisible() && (
-           <DataTableDateFilter<TData, unknown>
-             column={table.getColumn("date")}
-             title="Date Range"
-           />
-         )}
+          {/* Date Range Filter */}
+          {dateColumn?.getIsVisible() && (
+             <DateRangePicker
+               value={dateRange}
+               onChange={(newRange) => {
+                 setDateRange(newRange); // Update local state
+                 table.getColumn("date")?.setFilterValue(newRange); // Apply filter to table
+               }}
+               align="start" // Match overview style
+               placeholder="Select date range" // Add placeholder
+               enableYearNavigation={true}
+             />
+           )}
         {/* Clear Filters Button */}
         {isFiltered && (
           <Button
@@ -79,6 +102,7 @@ export function Filterbar<TData>({
             onClick={() => {
               table.resetColumnFilters()
               setGlobalFilter("") // Reset global filter state
+              setDateRange(undefined) // Reset date range state
             }}
             className="border border-gray-200 px-2 font-semibold text-indigo-600 sm:border-none sm:py-1 dark:border-gray-800 dark:text-indigo-500"
           >
@@ -103,7 +127,7 @@ export function Filterbar<TData>({
 
             saveAs(dataBlob, "call_reports_export.xlsx");
           }}
-          className="hidden gap-x-2 px-2 py-1.5 text-sm sm:text-xs lg:flex"
+          className="hidden h-[30px] items-center gap-x-2 px-2 text-xs lg:flex" // Adjusted height and text size for consistency
         >
           <RiDownloadLine className="size-4 shrink-0" aria-hidden="true" />
           Export
