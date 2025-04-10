@@ -1,108 +1,71 @@
 import React from 'react';
 
-type Category = "red" | "orange" | "emerald" | "gray"
-type Metric = {
-  label: string
-  value: number
-  percentage: string
-  fraction: string
-}
+type CallReportMetric = {
+  label: string;
+  percentageValue: number; // For progress bar (0-100)
+  displayValue: string; // Formatted string like "85% - 425/500"
+};
 
-const getCategory = (value: number): Category => {
-  if (value < 0.3) return "red"
-  if (value < 0.7) return "orange"
-  return "emerald"
-}
-
-const categoryConfig = {
-  red: {
-    activeClass: "bg-red-500 dark:bg-red-500",
-    bars: 1,
-  },
-  orange: {
-    activeClass: "bg-orange-500 dark:bg-orange-500",
-    bars: 2,
-  },
-  emerald: {
-    activeClass: "bg-emerald-500 dark:bg-emerald-500",
-    bars: 3,
-  },
-  gray: {
-    activeClass: "bg-gray-300 dark:bg-gray-800",
-    bars: 0,
-  },
-} as const
-
-function Indicator({ number }: { number: number }) {
-  const category = getCategory(number)
-  const config = categoryConfig[category]
-  const inactiveClass = "bg-gray-300 dark:bg-gray-800"
+function ProgressBar({ percentage }: { percentage: number }) {
+  const cappedPercentage = Math.min(100, Math.max(0, percentage)); // Ensure percentage is between 0 and 100
 
   return (
-    <div className="flex gap-0.5">
-      {[0, 1, 2].map((index) => (
-        <div
-          key={index}
-          className={`h-3.5 w-1 rounded-sm ${
-            index < config.bars ? config.activeClass : inactiveClass
-          }`}
-        />
-      ))}
+    <div className="h-2 w-20 rounded-full bg-gray-200 dark:bg-gray-700">
+      <div
+        className="h-full rounded-full bg-indigo-600 dark:bg-indigo-500"
+        style={{ width: `${cappedPercentage}%` }}
+      />
     </div>
-  )
+  );
 }
 
-const metrics: Metric[] = [
-  {
-    label: "Lead-to-Quote Ratio",
-    value: 0.61,
-    percentage: "59.8%",
-    fraction: "450/752",
-  },
-  {
-    label: "Project Load",
-    value: 0.24,
-    percentage: "12.9%",
-    fraction: "129/1K",
-  },
-  {
-    label: "Win Probability",
-    value: 0.8,
-    percentage: "85.1%",
-    fraction: "280/329",
-  },
-]
 
-function MetricCard({ metric }: { metric: Metric }) {
+const callReportMetrics: CallReportMetric[] = [
+  {
+    label: "Yanıtlanma Oranı", // Answer Rate
+    percentageValue: 85,
+    displayValue: "85% - 425/500",
+  },
+  {
+    label: "Günlük Çağrı Hedefi", // Daily Call Target
+    percentageValue: 75,
+    displayValue: "75% - Ort. 750 / Hedef 1000",
+  },
+  {
+    label: "Pozitif Memnuniyet", // Positive Satisfaction Rate
+    percentageValue: 72,
+    displayValue: "72% - 252/350",
+  },
+];
+
+function CallReportMetricCard({ metric }: { metric: CallReportMetric }) {
   return (
     <div>
       <dt className="text-sm text-gray-500 dark:text-gray-500">
         {metric.label}
       </dt>
       <dd className="mt-1.5 flex items-center gap-2">
-        <Indicator number={metric.value} />
+        <ProgressBar percentage={metric.percentageValue} />
         <p className="text-lg font-semibold text-gray-900 dark:text-gray-50">
-          {metric.percentage}{" "}
-          <span className="font-medium text-gray-400 dark:text-gray-600">
-            - {metric.fraction}
-          </span>
+          {metric.displayValue}
         </p>
       </dd>
     </div>
-  )
+  );
 }
 
 export function MetricsCards() {
   return (
     <>
-      <h1 className="text-lg font-semibold text-gray-900 dark:text-gray-50">
-        Call Reports
-      </h1>
+      {/* Title can remain generic or be updated if needed */}
+      {/* <h1 className="text-lg font-semibold text-gray-900 dark:text-gray-50">
+        Overview
+      </h1> */}
       <dl className="mt-6 flex flex-wrap items-center gap-x-12 gap-y-8">
-        {metrics.map((metric) => (
-          <MetricCard key={metric.label} metric={metric} />
+        {callReportMetrics.map((metric) => (
+          <CallReportMetricCard key={metric.label} metric={metric} />
         ))}
       </dl>
     </>
-  )
+  );
 }
