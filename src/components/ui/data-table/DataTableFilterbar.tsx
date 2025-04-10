@@ -2,53 +2,58 @@
 
 import { Button } from "@/components/Button"
 import { Searchbar } from "@/components/Searchbar"
-import { satisfactionLevels, callStatuses } from "@/data/data" // Updated imports for new filters
+import { satisfactionLevels, callStatuses } from "@/data/data"
 import { RiDownloadLine } from "@remixicon/react"
 import { Table } from "@tanstack/react-table"
-import { useState } from "react"
+
 import { useDebouncedCallback } from "use-debounce"
 import { DataTableFilter } from "./DataTableFilter"
-import { ViewOptions } from "./DataTableViewOptions"
+import { DataTableDateFilter } from "./DataTableDateFilter" // Import Date Filter
+import * as XLSX from 'xlsx'; // Import xlsx
+import { saveAs } from 'file-saver'; // Import file-saver
+
+
+
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>
+  globalFilter: string // Add global filter state
+  setGlobalFilter: (value: string) => void // Add setter for global filter
 }
 
-export function Filterbar<TData>({ table }: DataTableToolbarProps<TData>) {
+export function Filterbar<TData>({
+  table,
+  globalFilter,
+  setGlobalFilter,
+}: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0
-  const [searchTerm, setSearchTerm] = useState<string>("")
-
-  const debouncedSetNameFilter = useDebouncedCallback((value) => {
-    table.getColumn("name")?.setFilterValue(value) // Filter 'name' column
+  const debouncedSetGlobalFilter = useDebouncedCallback((value) => {
+    setGlobalFilter(value || "") // Update global filter state
   }, 300)
 
-  const debouncedSetCustomerNumberFilter = useDebouncedCallback((value) => {
-    table.getColumn("customerNumber")?.setFilterValue(value) // Filter 'customerNumber' column
-  }, 300)
-
-  const handleNameSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleGlobalSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value
-    setSearchTerm(value) // Keep using searchTerm for the primary search (Name)
-    debouncedSetNameFilter(value)
-  }
-
-  const [customerNumberSearchTerm, setCustomerNumberSearchTerm] = useState<string>("")
-  const handleCustomerNumberSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value
-    setCustomerNumberSearchTerm(value)
-    debouncedSetCustomerNumberFilter(value)
+    debouncedSetGlobalFilter(value)
   }
 
   return (
     <div className="flex flex-wrap items-center justify-between gap-2 sm:gap-x-6">
       <div className="flex w-full flex-col gap-2 sm:w-fit sm:flex-row sm:items-center">
+         {/* Global Search */}
+         <Searchbar
+           type="search"
+           placeholder="Search by name or number..." // Unified placeholder
+           value={globalFilter ?? ""} // Use globalFilter state
+           onChange={handleGlobalSearchChange} // Use unified handler
+           className="w-full sm:max-w-[250px] sm:[&>input]:h-[30px]" // Adjusted width
+         />
         {/* Filter for Customer Satisfaction */}
         {table.getColumn("customerSatisfaction")?.getIsVisible() && (
           <DataTableFilter
             column={table.getColumn("customerSatisfaction")}
-            title="Satisfaction" // Shortened title for space
+            title="Satisfaction"
             options={satisfactionLevels}
-            type="checkbox" // Use checkbox for multi-select
+            type="checkbox"
           />
         )}
         {/* Filter for Call Status */}
@@ -57,37 +62,23 @@ export function Filterbar<TData>({ table }: DataTableToolbarProps<TData>) {
             column={table.getColumn("callStatus")}
             title="Call Status"
             options={callStatuses}
-            type="checkbox" // Use checkbox for multi-select
+            type="checkbox"
           />
         )}
-         {/* Search by Name */}
-        {table.getColumn("name")?.getIsVisible() && (
-          <Searchbar
-            type="search"
-            placeholder="Search by name..." // Updated placeholder
-            value={searchTerm}
-            onChange={handleNameSearchChange} // Updated handler
-            className="w-full sm:max-w-[180px] sm:[&>input]:h-[30px]" // Adjusted width
-          />
-        )}
-         {/* Search by Customer Number */}
-        {table.getColumn("customerNumber")?.getIsVisible() && (
-           <Searchbar
-             type="search"
-             placeholder="Search by number..." // New placeholder
-             value={customerNumberSearchTerm} // New state variable
-             onChange={handleCustomerNumberSearchChange} // New handler
-             className="w-full sm:max-w-[180px] sm:[&>input]:h-[30px]" // Adjusted width
+        {/* Date Range Filter */}
+        {table.getColumn("date")?.getIsVisible() && (
+           <DataTableDateFilter<TData, unknown>
+             column={table.getColumn("date")}
+             title="Date Range"
            />
-        )}
+         )}
         {/* Clear Filters Button */}
         {isFiltered && (
           <Button
             variant="ghost"
             onClick={() => {
               table.resetColumnFilters()
-              setSearchTerm("") // Reset search terms as well
-              setCustomerNumberSearchTerm("")
+              setGlobalFilter("") // Reset global filter state
             }}
             className="border border-gray-200 px-2 font-semibold text-indigo-600 sm:border-none sm:py-1 dark:border-gray-800 dark:text-indigo-500"
           >
@@ -98,12 +89,26 @@ export function Filterbar<TData>({ table }: DataTableToolbarProps<TData>) {
       <div className="flex items-center gap-2">
         <Button
           variant="secondary"
+          onClick={() => { // Add onClick handler for export
+            const visibleData = table.getFilteredRowModel().rows.map(row => {
+              return row.original;
+            });
+
+            const worksheet = XLSX.utils.json_to_sheet(visibleData);
+            const workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, "CallReports");
+
+            const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+            const dataBlob = new Blob([excelBuffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8" });
+
+            saveAs(dataBlob, "call_reports_export.xlsx");
+          }}
           className="hidden gap-x-2 px-2 py-1.5 text-sm sm:text-xs lg:flex"
         >
           <RiDownloadLine className="size-4 shrink-0" aria-hidden="true" />
           Export
         </Button>
-        <ViewOptions table={table} />
+        {/* ViewOptions removed */}
       </div>
     </div>
   )

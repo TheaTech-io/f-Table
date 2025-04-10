@@ -9,6 +9,8 @@ import {
   TableRow,
 } from "@/components/Table"
 import { cx } from "@/lib/utils"
+import { useState } from "react"
+
 import * as React from "react"
 
 import { DataTableBulkEditor } from "./DataTableBulkEditor"
@@ -32,12 +34,27 @@ interface DataTableProps<TData> {
 
 export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
   const pageSize = 20
-  const [rowSelection, setRowSelection] = React.useState({})
+  const [rowSelection, setRowSelection] = useState({})
+  const [globalFilter, setGlobalFilter] = useState("")
   const table = useReactTable({
     data,
     columns,
     state: {
       rowSelection,
+      globalFilter, // Add global filter state
+    },
+    onGlobalFilterChange: setGlobalFilter, // Add handler
+    globalFilterFn: (row, _columnId, filterValue) => { // Mark columnId as unused
+      const rowData = row.original as any; // Use 'as any' or a specific type if available
+      const name = rowData?.name as string | undefined;
+      const customerNumber = rowData?.customerNumber as string | undefined;
+
+      const filterLower = filterValue.toLowerCase();
+
+      const nameMatch = name?.toLowerCase().includes(filterLower) ?? false;
+      const numberMatch = customerNumber?.toLowerCase().includes(filterLower) ?? false;
+
+      return nameMatch || numberMatch;
     },
     initialState: {
       pagination: {
@@ -56,7 +73,7 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
   return (
     <>
       <div className="space-y-3">
-        <Filterbar table={table} />
+        <Filterbar table={table} globalFilter={globalFilter} setGlobalFilter={setGlobalFilter} />
         <div className="relative overflow-hidden overflow-x-auto">
           <Table>
             <TableHead>

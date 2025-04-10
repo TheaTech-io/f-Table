@@ -674,6 +674,25 @@ export const callReports: CallReport[] = [
     customerNumber: "+44 161 123 4567",
     conversationNotes: "General inquiry about product features.",
   },
+  {
+    id: "cr11",
+    name: "Ivy Martinez",
+    date: "04/11/2025 09:15",
+    audioRecordingUrl: "placeholder_url_11.mp3",
+    customerSatisfaction: "Neutral",
+    callStatus: "In Queue",
+    customerNumber: "+1 555-777-8888",
+    conversationNotes: "Customer waiting for agent.",
+  },
+  {
+    id: "cr12",
+    name: "Jack Robinson",
+    date: "04/11/2025 10:30",
+    customerSatisfaction: "Positive",
+    callStatus: "Dialing",
+    customerNumber: "+1 555-999-0000",
+    conversationNotes: "Attempting to reach customer for follow-up.",
+  },
 ]
 
 export const satisfactionLevels = [
@@ -683,7 +702,9 @@ export const satisfactionLevels = [
 ]
 
 export const callStatuses = [
-   { value: "Answered", label: "Answered" },
-   { value: "Busy", label: "Busy" },
-   { value: "Missed", label: "Missed" },
+   { value: "Answered", label: "Answered", color: "bg-green-500" },
+   { value: "Busy", label: "Busy", color: "bg-red-500" },
+   { value: "Missed", label: "Missed", color: "bg-yellow-500" }, // Assuming Missed maps to previous Yellow
+   { value: "In Queue", label: "In Queue", color: "bg-yellow-500" }, // Using Yellow-500 default
+   { value: "Dialing", label: "Dialing", color: "bg-blue-500" }, // Using Blue-500 default
 ]

@@ -41,6 +41,10 @@ const config: Config = {
           from: { opacity: "0", transform: "translateX(50%)" },
           to: { opacity: "1", transform: "translateX(0)" },
         },
+        blink: { // Added blink keyframes
+          '0%, 100%': { opacity: '1' },
+          '50%': { opacity: '0.5' },
+        },
       },
       animation: {
         hide: "hide 150ms cubic-bezier(0.16, 1, 0.3, 1)",
@@ -57,6 +61,7 @@ const config: Config = {
           "dialogOverlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1)",
         dialogContentShow:
           "dialogContentShow 150ms cubic-bezier(0.16, 1, 0.3, 1)",
+        blink: 'blink 1s cubic-bezier(0.4, 0, 0.6, 1) infinite', // Added blink animation utility
       },
     },
   },

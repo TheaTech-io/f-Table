@@ -1,17 +1,29 @@
 "use client"
 
 import { ColumnDef, createColumnHelper } from "@tanstack/react-table"
-import { RiPlayFill, RiFileList2Line } from "@remixicon/react" // Icons are installed
+import { RiPlayFill, RiFileListLine } from "@remixicon/react" // Use RiFileListLine for notes
 
-import { CallReport } from "@/data/schema" // Updated schema import
-import { Badge, BadgeProps } from "@/components/Badge" // Use existing Badge
-import { Button } from "@/components/Button" // Use existing Button
-import { Checkbox } from "@/components/Checkbox" // Use existing Checkbox
+import { CallReport } from "@/data/schema"
+import { callStatuses } from "@/data/data" // Import callStatuses for color/label mapping
+import { Badge, BadgeProps } from "@/components/Badge"
+import { Button } from "@/components/Button"
+import { Checkbox } from "@/components/Checkbox"
 import { DataTableColumnHeader } from "./DataTableColumnHeader"
+import { cx } from "@/lib/utils" // Import cx for conditional classes
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription, // Add DialogDescription import
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/Dialog" // Import Dialog components
 
-const columnHelper = createColumnHelper<CallReport>() // Updated type
+const columnHelper = createColumnHelper<CallReport>()
 
-export const columns: ColumnDef<CallReport>[] = [ // Updated type assertion
+export const columns: ColumnDef<CallReport>[] = [
   columnHelper.display({
     id: "select",
     header: ({ table }) => (
@@ -46,9 +58,10 @@ export const columns: ColumnDef<CallReport>[] = [ // Updated type assertion
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Name" />
     ),
+    cell: ({ getValue }) => <div className="font-medium">{getValue()}</div>, // Added font-medium for consistency
     enableSorting: true,
-    enableHiding: false,
-    filterFn: "includesString", // Enable basic text filtering
+    enableHiding: false, // Keep Name visible
+    enableGlobalFilter: true, // Enable global filtering
     meta: {
       className: "text-left",
       displayName: "Name",
@@ -58,8 +71,9 @@ export const columns: ColumnDef<CallReport>[] = [ // Updated type assertion
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Date" />
     ),
-    cell: ({ getValue }) => getValue(), // Assuming pre-formatted MM/DD/YYYY HH:MM
+    cell: ({ getValue }) => getValue(),
     enableSorting: true,
+
     meta: {
       className: "tabular-nums",
       displayName: "Date",
@@ -71,12 +85,12 @@ export const columns: ColumnDef<CallReport>[] = [ // Updated type assertion
     cell: ({ row }) => (
       <Button
         variant="ghost"
-        className="h-6 w-6 p-1" // Adjusted padding for icon-like appearance
+        className="h-6 w-6 p-1"
         onClick={(e) => {
-          e.stopPropagation() // Prevent row selection if clicking button
-          alert(`Playing/Downloading ${row.original.audioRecordingUrl}`) // Placeholder action
+          e.stopPropagation()
+          console.log(`Play/Download: ${row.original.audioRecordingUrl}`)
         }}
-        disabled={!row.original.audioRecordingUrl} // Disable if no URL
+        disabled={!row.original.audioRecordingUrl}
         title={row.original.audioRecordingUrl ? "Play/Download Recording" : "No Recording Available"}
       >
         <RiPlayFill className="h-4 w-4" />
@@ -93,14 +107,14 @@ export const columns: ColumnDef<CallReport>[] = [ // Updated type assertion
     ),
     cell: ({ getValue }) => {
       const satisfaction = getValue()
-      let variant: BadgeProps["variant"] = "neutral" // Default: Neutral (Grey/Yellow)
-      if (satisfaction === "Positive") variant = "success" // Green
-      if (satisfaction === "Negative") variant = "error" // Corrected variant
+      let variant: BadgeProps["variant"] = "neutral"
+      if (satisfaction === "Positive") variant = "success"
+      if (satisfaction === "Negative") variant = "error"
 
       return <Badge variant={variant}>{satisfaction}</Badge>
     },
     enableSorting: true,
-    filterFn: "arrIncludesSome", // Enable filtering based on predefined values
+    filterFn: "arrIncludesSome",
     meta: {
       displayName: "Customer Satisfaction",
     },
@@ -110,20 +124,25 @@ export const columns: ColumnDef<CallReport>[] = [ // Updated type assertion
       <DataTableColumnHeader column={column} title="Call Status" />
     ),
     cell: ({ getValue }) => {
-      const status = getValue()
-      let colorClass = "bg-yellow-500" // Default: Missed (Yellow/Orange)
-      if (status === "Answered") colorClass = "bg-green-500" // Green
-      if (status === "Busy") colorClass = "bg-red-500" // Red
+      const statusValue = getValue()
+      const statusInfo = callStatuses.find((s) => s.value === statusValue) // Find status object
+      if (!statusInfo) return null
 
       return (
-        <span
-          title={status} // Basic tooltip via title attribute
-          className={`inline-block h-2.5 w-2.5 shrink-0 rounded-full ${colorClass}`}
-        />
+        <div className="flex items-center">
+          <span
+            className={cx(
+              "mr-2 h-2 w-2 shrink-0 rounded-full", // Dot indicator
+              statusInfo.color, // Use color from status object
+              statusValue === "Dialing" && "animate-blink", // Apply blink animation
+            )}
+          />
+          <span className="truncate">{statusInfo.label}</span> {/* Display status text */}
+        </div>
       )
     },
     enableSorting: true,
-    filterFn: "arrIncludesSome", // Enable filtering based on predefined values
+    filterFn: "arrIncludesSome",
     meta: {
       displayName: "Call Status",
     },
@@ -132,33 +151,54 @@ export const columns: ColumnDef<CallReport>[] = [ // Updated type assertion
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Customer Number" />
     ),
-    cell: ({ getValue }) => getValue(), // Add formatting if needed
-    enableSorting: false, // Sorting might not be useful here
-    filterFn: "includesString", // Enable basic text filtering
+    cell: ({ getValue }) => getValue(),
+    enableSorting: false, // Keep sorting disabled as per previous version
+    enableGlobalFilter: true, // Enable global filtering
     meta: {
       displayName: "Customer Number",
     },
   }),
-  columnHelper.display({
+  columnHelper.accessor("conversationNotes", { // Changed to accessor to allow filtering/hiding if needed later
     id: "conversationNotes",
     header: "Conversation Notes",
-    cell: ({ row }) => (
-      <Button
-        variant="ghost"
-        className="h-6 w-6 p-1" // Adjusted padding
-        onClick={(e) => {
-          e.stopPropagation() // Prevent row selection
-          alert(`Viewing notes: ${row.original.conversationNotes}`) // Placeholder action
-        }}
-        disabled={!row.original.conversationNotes} // Disable if no notes
-        title={row.original.conversationNotes ? "View Notes" : "No Notes Available"}
-      >
-        <RiFileList2Line className="h-4 w-4" />
-      </Button>
-    ),
+    cell: ({ row }) => { // Use row from cell context
+        const notes = row.original.conversationNotes; // Get notes from original row data
+        if (!notes) return null;
+
+        return (
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button
+                variant="ghost"
+                className="h-6 w-6 p-1"
+                onClick={(e) => e.stopPropagation()} // Prevent row selection, Dialog handles open
+                title="View Notes"
+              >
+                <RiFileListLine className="h-4 w-4" /> {/* Notes Icon */}
+              </Button>
+            </DialogTrigger>
+            <DialogContent onClick={(e) => e.stopPropagation()} /* Prevent closing on content click */ >
+              <DialogHeader>
+                <DialogTitle>Conversation Notes</DialogTitle>
+                <DialogDescription className="sr-only"> {/* Add sr-only description for accessibility */}
+                  Full conversation notes for this call.
+                </DialogDescription>
+              </DialogHeader>
+              <div className="mt-4 max-h-60 overflow-y-auto text-sm text-gray-700 dark:text-gray-300"> {/* Added scroll */}
+                {notes}
+              </div>
+              <DialogFooter className="mt-6">
+                <DialogClose asChild>
+                  <Button variant="secondary">Close</Button>
+                </DialogClose>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+        );
+      },
     enableSorting: false,
     meta: {
       displayName: "Conversation Notes",
     },
   }),
-] as ColumnDef<CallReport>[] // Updated type assertion
+] as ColumnDef<CallReport>[]
