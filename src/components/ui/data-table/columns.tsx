@@ -158,6 +158,59 @@ export const columns: ColumnDef<CallReport>[] = [
       displayName: "Customer Number",
     },
   }),
+    columnHelper.accessor("stability", {
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Stability" />
+      ),
+      enableSorting: true, // Enable sorting
+      meta: {
+        className: "text-left", // Align left like original
+        displayName: "Stability",
+      },
+      cell: ({ getValue }) => {
+        const value = getValue()
+
+        function Indicator({ number }: { number: number }) {
+          let category: "zero" | "bad" | "ok" | "good";
+          if (number === 0) {
+            category = "zero";
+          } else if (number < 9) {
+            category = "bad";
+          } else if (number >= 9 && number <= 15) {
+            category = "ok";
+          } else { // > 15
+            category = "good";
+          }
+
+          const getBarClass = (index: number) => {
+            const filledClass = "bg-indigo-600 dark:bg-indigo-500";
+            const emptyClass = "bg-gray-300 dark:bg-gray-700"; // Adjusted dark mode empty
+
+            if (category === "zero") return emptyClass;
+            if (category === "good") return filledClass;
+            if (category === "ok" && index < 2) return filledClass;
+            if (category === "bad" && index < 1) return filledClass;
+            return emptyClass;
+          };
+
+          return (
+            <div className="flex items-center gap-0.5"> {/* Ensure vertical alignment */}
+              <div className={`h-3.5 w-1 rounded-sm ${getBarClass(0)}`} />
+              <div className={`h-3.5 w-1 rounded-sm ${getBarClass(1)}`} />
+              <div className={`h-3.5 w-1 rounded-sm ${getBarClass(2)}`} />
+            </div>
+          );
+        }
+
+        return (
+          <div className="flex items-center gap-1.5"> {/* Added gap */}
+            <span className="w-6 tabular-nums text-right">{value}</span> {/* Ensure consistent width and alignment */}
+            <Indicator number={value} />
+          </div>
+        );
+      },
+    }),
+
   columnHelper.accessor("conversationNotes", { // Changed to accessor to allow filtering/hiding if needed later
     id: "conversationNotes",
     header: "Conversation Notes",

@@ -16,6 +16,7 @@ export type CallReport = {
   callStatus: "Answered" | "Busy" | "Missed" | "In Queue" | "Dialing" // Added "In Queue", "Dialing"
   customerNumber: string // New field, format +1 XXX-XXX-XXXX
   conversationNotes?: string // New field, placeholder text
+  stability: number // Re-added field
 }
 
 
