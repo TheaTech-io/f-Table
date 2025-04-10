@@ -11,9 +11,6 @@ export default function Example() {
         <MetricsCards />
       </div>
 
-      <h1 className="text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50">
-        Call Reports
-      </h1>
       <div className="mt-4 sm:mt-6 lg:mt-10">
         <DataTable data={callReports} columns={columns} />
       </div>
