@@ -587,7 +587,7 @@ export const callReports: CallReport[] = [
     callStatus: "Answered",
     customerNumber: "+1 555-123-4567",
     conversationNotes: "Customer inquired about billing cycle and recent charges. Resolved.",
-    stability: 95, // Added stability
+    callAttempts: 1, // Replaced stability
   },
   {
     id: "cr2",
@@ -598,7 +598,7 @@ export const callReports: CallReport[] = [
     callStatus: "Busy",
     customerNumber: "+1 555-987-6543",
     conversationNotes: "Unable to resolve issue regarding service outage, requires follow-up from Tier 2.",
-    stability: 78, // Added stability
+    callAttempts: 3, // Replaced stability
   },
   {
     id: "cr3",
@@ -608,7 +608,7 @@ export const callReports: CallReport[] = [
     callStatus: "Missed",
     customerNumber: "+44 20 7123 4567",
     conversationNotes: "Callback requested regarding account setup.",
-    stability: 88, // Added stability
+    callAttempts: 2, // Replaced stability
   },
   {
     id: "cr4",
@@ -619,7 +619,7 @@ export const callReports: CallReport[] = [
     callStatus: "Answered",
     customerNumber: "+1 555-111-2222",
     conversationNotes: "Provided technical support for software installation.",
-    stability: 92, // Added stability
+    callAttempts: 1, // Replaced stability
   },
   {
     id: "cr5",
@@ -629,7 +629,7 @@ export const callReports: CallReport[] = [
     callStatus: "Answered",
     customerNumber: "+49 30 12345678",
     conversationNotes: "Customer dissatisfied with product quality. Offered refund.",
-    stability: 45, // Added stability
+    callAttempts: 3, // Replaced stability
   },
   {
     id: "cr6",
@@ -640,7 +640,7 @@ export const callReports: CallReport[] = [
     callStatus: "Answered",
     customerNumber: "+1 555-333-4444",
     conversationNotes: "Assisted with password reset.",
-    stability: 99, // Added stability
+    callAttempts: 1, // Replaced stability
   },
   {
     id: "cr7",
@@ -650,7 +650,7 @@ export const callReports: CallReport[] = [
     callStatus: "Missed",
     customerNumber: "+81 3-1234-5678",
     conversationNotes: "Left voicemail regarding upcoming maintenance.",
-    stability: 60, // Added stability
+    callAttempts: 2, // Replaced stability
   },
   {
     id: "cr8",
@@ -661,7 +661,7 @@ export const callReports: CallReport[] = [
     callStatus: "Busy",
     customerNumber: "+55 11 98765-4321",
     conversationNotes: "Line was busy, will try again later.",
-    stability: 30, // Added stability
+    callAttempts: 3, // Replaced stability
   },
   {
     id: "cr9",
@@ -672,7 +672,7 @@ export const callReports: CallReport[] = [
     callStatus: "Answered",
     customerNumber: "+1 555-555-6666",
     conversationNotes: "Confirmed order details and shipping address.",
-    stability: 85, // Added stability
+    callAttempts: 1, // Replaced stability
   },
   {
     id: "cr10",
@@ -682,7 +682,7 @@ export const callReports: CallReport[] = [
     callStatus: "Answered",
     customerNumber: "+44 161 123 4567",
     conversationNotes: "General inquiry about product features.",
-    stability: 70, // Added stability
+    callAttempts: 2, // Replaced stability
   },
   {
     id: "cr11",
@@ -693,7 +693,7 @@ export const callReports: CallReport[] = [
     callStatus: "In Queue",
     customerNumber: "+1 555-777-8888",
     conversationNotes: "Customer waiting for agent.",
-    stability: 55, // Added stability
+    callAttempts: 0, // Replaced stability
   },
   {
     id: "cr12",
@@ -703,7 +703,7 @@ export const callReports: CallReport[] = [
     callStatus: "Dialing",
     customerNumber: "+1 555-999-0000",
     conversationNotes: "Attempting to reach customer for follow-up.",
-    stability: 20, // Added stability
+    callAttempts: 3, // Replaced stability
   },
 ]
 

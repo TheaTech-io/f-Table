@@ -158,38 +158,26 @@ export const columns: ColumnDef<CallReport>[] = [
       displayName: "Customer Number",
     },
   }),
-    columnHelper.accessor("stability", {
+    columnHelper.accessor("callAttempts", {
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Stability" />
+        <DataTableColumnHeader column={column} title="Call Attempts" /> // Updated title
       ),
-      enableSorting: true, // Enable sorting
+      enableSorting: true, // Keep sorting enabled
       meta: {
-        className: "text-left", // Align left like original
-        displayName: "Stability",
+        className: "text-left", // Keep alignment
+        displayName: "Call Attempts", // Updated display name
       },
       cell: ({ getValue }) => {
-        const value = getValue()
+        const attempts = getValue() as number; // Get attempt count (0-3)
 
-        function Indicator({ number }: { number: number }) {
-          let category: "zero" | "bad" | "ok" | "good";
-          if (number === 0) {
-            category = "zero";
-          } else if (number < 9) {
-            category = "bad";
-          } else if (number >= 9 && number <= 15) {
-            category = "ok";
-          } else { // > 15
-            category = "good";
-          }
-
+        function Indicator({ count }: { count: number }) {
           const getBarClass = (index: number) => {
             const filledClass = "bg-indigo-600 dark:bg-indigo-500";
-            const emptyClass = "bg-gray-300 dark:bg-gray-700"; // Adjusted dark mode empty
+            const emptyClass = "bg-gray-300 dark:bg-gray-700";
 
-            if (category === "zero") return emptyClass;
-            if (category === "good") return filledClass;
-            if (category === "ok" && index < 2) return filledClass;
-            if (category === "bad" && index < 1) return filledClass;
+            if (index < count) {
+              return filledClass;
+            }
             return emptyClass;
           };
 
@@ -202,12 +190,7 @@ export const columns: ColumnDef<CallReport>[] = [
           );
         }
 
-        return (
-          <div className="flex items-center gap-1.5"> {/* Added gap */}
-            <span className="w-6 tabular-nums text-right">{value}</span> {/* Ensure consistent width and alignment */}
-            <Indicator number={value} />
-          </div>
-        );
+        return <Indicator count={attempts} />;
       },
     }),
 
