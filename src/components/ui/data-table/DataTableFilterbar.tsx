@@ -4,11 +4,12 @@ import { Button } from "@/components/Button"
 import { Searchbar } from "@/components/Searchbar"
 import { satisfactionLevels, callStatuses } from "@/data/data"
 import { RiDownloadLine } from "@remixicon/react"
+import { RiEyeLine } from "@remixicon/react"; // Import an icon for the View button
 import { Table } from "@tanstack/react-table"
 
 import { useDebouncedCallback } from "use-debounce"
 import { DataTableFilter } from "./DataTableFilter"
-import { ViewOptions } from "./DataTableViewOptions";
+
 import { DateRangePicker } from "@/components/DatePicker";
 import { DateRange } from "react-day-picker";
 import React, { useState, useEffect } from "react"; // Ensure useState, useEffect are imported
@@ -63,7 +64,7 @@ export function Filterbar<TData>({
            placeholder="Search by name or number..." // Unified placeholder
            value={globalFilter ?? ""} // Use globalFilter state
            onChange={handleGlobalSearchChange} // Use unified handler
-           className="w-full sm:max-w-[250px] sm:[&>input]:h-[30px]" // Adjusted width
+           className="w-full sm:max-w-[250px] [&>input]:h-[30px]" // Ensure input height matches filters
          />
         {/* Filter for Customer Satisfaction */}
         {table.getColumn("customerSatisfaction")?.getIsVisible() && (
@@ -94,6 +95,7 @@ export function Filterbar<TData>({
                align="start" // Match overview style
                placeholder="Select date range" // Add placeholder
                enableYearNavigation={true}
+               className="h-[30px]" // Set height to match filters
              />
            )}
         {/* Clear Filters Button */}
@@ -133,8 +135,16 @@ export function Filterbar<TData>({
           <RiDownloadLine className="size-4 shrink-0" aria-hidden="true" />
           Export
         </Button>
-        <ViewOptions table={table} />
-        {/* ViewOptions removed */}
+        <Button
+          variant="secondary"
+          className="hidden h-[30px] items-center gap-x-2 px-2 text-xs lg:flex" // Match Export button style
+        >
+          <RiEyeLine className="size-4 shrink-0" aria-hidden="true" />
+          View
+        </Button>
+
+
+
       </div>
     </div>
   )
