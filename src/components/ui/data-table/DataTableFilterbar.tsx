@@ -24,12 +24,14 @@ interface DataTableToolbarProps<TData> {
   table: Table<TData>
   globalFilter: string // Add global filter state
   setGlobalFilter: (value: string) => void // Add setter for global filter
+  setIsReportErrorOpen: React.Dispatch<React.SetStateAction<boolean>> // Add prop for drawer state
 }
 
 export function Filterbar<TData>({
   table,
   globalFilter,
   setGlobalFilter,
+  setIsReportErrorOpen, // Destructure new prop
 }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0
 
@@ -114,6 +116,14 @@ export function Filterbar<TData>({
             Clear filters
           </Button>
         )}
+        <Button
+          variant="secondary"
+          onClick={() => setIsReportErrorOpen(true)}
+          className="h-[30px] items-center gap-x-2 px-2 text-xs" // Match Export button style
+        >
+          Hata Bildir
+        </Button>
+
       </div>
       <div className="flex items-center gap-2">
         <Button
