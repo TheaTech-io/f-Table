@@ -7,6 +7,18 @@ export type Usage = {
   lastEdited: string
 }
 
+export type CallReport = {
+  id: string // Add an ID for key prop
+  name: string // Replaces 'owner'
+  date: string // Replaces 'lastEdited', format MM/DD/YYYY HH:MM
+  audioRecordingUrl?: string // Placeholder for URL or identifier
+  customerSatisfaction: "Positive" | "Negative" | "Neutral" // Replaces 'status' logic
+  callStatus: "Answered" | "Busy" | "Missed" // Replaces 'status' logic
+  customerNumber: string // New field, format +1 XXX-XXX-XXXX
+  conversationNotes?: string // New field, placeholder text
+}
+
+
 export type OverviewData = {
   date: string
   "Rows written": number

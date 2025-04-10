@@ -2,8 +2,7 @@
 
 import { Button } from "@/components/Button"
 import { Searchbar } from "@/components/Searchbar"
-import { conditions, regions, statuses } from "@/data/data"
-import { formatters } from "@/lib/utils"
+import { satisfactionLevels, callStatuses } from "@/data/data" // Updated imports for new filters
 import { RiDownloadLine } from "@remixicon/react"
 import { Table } from "@tanstack/react-table"
 import { useState } from "react"
@@ -19,57 +18,77 @@ export function Filterbar<TData>({ table }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0
   const [searchTerm, setSearchTerm] = useState<string>("")
 
-  const debouncedSetFilterValue = useDebouncedCallback((value) => {
-    table.getColumn("owner")?.setFilterValue(value)
+  const debouncedSetNameFilter = useDebouncedCallback((value) => {
+    table.getColumn("name")?.setFilterValue(value) // Filter 'name' column
   }, 300)
 
-  const handleSearchChange = (event: any) => {
+  const debouncedSetCustomerNumberFilter = useDebouncedCallback((value) => {
+    table.getColumn("customerNumber")?.setFilterValue(value) // Filter 'customerNumber' column
+  }, 300)
+
+  const handleNameSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value
-    setSearchTerm(value)
-    debouncedSetFilterValue(value)
+    setSearchTerm(value) // Keep using searchTerm for the primary search (Name)
+    debouncedSetNameFilter(value)
+  }
+
+  const [customerNumberSearchTerm, setCustomerNumberSearchTerm] = useState<string>("")
+  const handleCustomerNumberSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value
+    setCustomerNumberSearchTerm(value)
+    debouncedSetCustomerNumberFilter(value)
   }
 
   return (
     <div className="flex flex-wrap items-center justify-between gap-2 sm:gap-x-6">
       <div className="flex w-full flex-col gap-2 sm:w-fit sm:flex-row sm:items-center">
-        {table.getColumn("status")?.getIsVisible() && (
+        {/* Filter for Customer Satisfaction */}
+        {table.getColumn("customerSatisfaction")?.getIsVisible() && (
           <DataTableFilter
-            column={table.getColumn("status")}
-            title="Status"
-            options={statuses}
-            type="select"
+            column={table.getColumn("customerSatisfaction")}
+            title="Satisfaction" // Shortened title for space
+            options={satisfactionLevels}
+            type="checkbox" // Use checkbox for multi-select
           />
         )}
-        {table.getColumn("region")?.getIsVisible() && (
+        {/* Filter for Call Status */}
+        {table.getColumn("callStatus")?.getIsVisible() && (
           <DataTableFilter
-            column={table.getColumn("region")}
-            title="Region"
-            options={regions}
-            type="checkbox"
+            column={table.getColumn("callStatus")}
+            title="Call Status"
+            options={callStatuses}
+            type="checkbox" // Use checkbox for multi-select
           />
         )}
-        {table.getColumn("costs")?.getIsVisible() && (
-          <DataTableFilter
-            column={table.getColumn("costs")}
-            title="Costs"
-            type="number"
-            options={conditions}
-            formatter={formatters.currency}
-          />
-        )}
-        {table.getColumn("owner")?.getIsVisible() && (
+         {/* Search by Name */}
+        {table.getColumn("name")?.getIsVisible() && (
           <Searchbar
             type="search"
-            placeholder="Search by owner..."
+            placeholder="Search by name..." // Updated placeholder
             value={searchTerm}
-            onChange={handleSearchChange}
-            className="w-full sm:max-w-[250px] sm:[&>input]:h-[30px]"
+            onChange={handleNameSearchChange} // Updated handler
+            className="w-full sm:max-w-[180px] sm:[&>input]:h-[30px]" // Adjusted width
           />
         )}
+         {/* Search by Customer Number */}
+        {table.getColumn("customerNumber")?.getIsVisible() && (
+           <Searchbar
+             type="search"
+             placeholder="Search by number..." // New placeholder
+             value={customerNumberSearchTerm} // New state variable
+             onChange={handleCustomerNumberSearchChange} // New handler
+             className="w-full sm:max-w-[180px] sm:[&>input]:h-[30px]" // Adjusted width
+           />
+        )}
+        {/* Clear Filters Button */}
         {isFiltered && (
           <Button
             variant="ghost"
-            onClick={() => table.resetColumnFilters()}
+            onClick={() => {
+              table.resetColumnFilters()
+              setSearchTerm("") // Reset search terms as well
+              setCustomerNumberSearchTerm("")
+            }}
             className="border border-gray-200 px-2 font-semibold text-indigo-600 sm:border-none sm:py-1 dark:border-gray-800 dark:text-indigo-500"
           >
             Clear filters
