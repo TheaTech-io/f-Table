@@ -1,6 +1,9 @@
 "use client"
 
 import { ColumnDef, createColumnHelper } from "@tanstack/react-table"
+import { parse } from 'date-fns'; // Add this import at the top if not already present
+import { DateRange } from 'react-day-picker'; // Ensure DateRange type is imported
+
 import { RiPlayFill, RiFileListLine } from "@remixicon/react" // Use RiFileListLine for notes
 
 import { CallReport } from "@/data/schema"
@@ -73,8 +76,49 @@ export const columns: ColumnDef<CallReport>[] = [
     ),
     cell: ({ getValue }) => getValue(),
     enableSorting: true,
+    filterFn: (row, columnId, filterValue: DateRange | undefined): boolean => { // Ensure filterValue can be undefined
+      if (!filterValue?.from && !filterValue?.to) {
+        return true; // No filter applied
+      }
 
+      const dateString = row.getValue(columnId) as string;
+      let rowDate: Date;
+
+      try {
+        rowDate = parse(dateString, "MM/dd/yyyy HH:mm", new Date());
+         if (isNaN(rowDate.getTime())) {
+           console.warn(`Invalid date format for row ${row.id}: ${dateString}`);
+           return false; // Treat invalid dates as not matching
+         }
+      } catch (e) {
+        console.error(`Error parsing date for row ${row.id}: ${dateString}`, e);
+        return false; // Treat errors as not matching
+      }
+        console.log(`Row ${row.id} (${dateString}): Parsed Date =`, rowDate);
+
+
+      const startDate = filterValue.from;
+      const endDate = filterValue.to;
+
+      console.log(`Filter Range: From =`, filterValue.from, `To =`, filterValue.to);
+
+      const rowDateOnly = new Date(rowDate.getFullYear(), rowDate.getMonth(), rowDate.getDate());
+      const startDateOnly = startDate ? new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate()) : null;
+      const endDatePlusOne = endDate ? new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate() + 1) : null;
+
+      const effectiveEndDatePlusOne = endDatePlusOne ?? (startDateOnly ? new Date(startDateOnly.getFullYear(), startDateOnly.getMonth(), startDateOnly.getDate() + 1) : null);
+
+      const isAfterStart = startDateOnly ? rowDateOnly >= startDateOnly : true;
+      const isBeforeEnd = effectiveEndDatePlusOne ? rowDateOnly < effectiveEndDatePlusOne : true;
+
+      console.log(`Row ${row.id}: Comparing rowDateOnly (${rowDateOnly}) with startDateOnly (${startDateOnly}) and effectiveEndDatePlusOne (${effectiveEndDatePlusOne})`);
+
+      console.log(`Row ${row.id}: isAfterStart = ${isAfterStart}, isBeforeEnd = ${isBeforeEnd}, Result = ${isAfterStart && isBeforeEnd}`);
+
+      return isAfterStart && isBeforeEnd;
+    },
     meta: {
+
       className: "tabular-nums",
       displayName: "Date",
     },
@@ -164,7 +208,7 @@ export const columns: ColumnDef<CallReport>[] = [
       ),
       enableSorting: true, // Keep sorting enabled
       meta: {
-        className: "text-left", // Keep alignment
+        className: "text-center", // Ensure cell content can be centered
         displayName: "Call Attempts", // Updated display name
       },
       cell: ({ getValue }) => {
@@ -182,7 +226,7 @@ export const columns: ColumnDef<CallReport>[] = [
           };
 
           return (
-            <div className="flex items-center gap-0.5"> {/* Ensure vertical alignment */}
+            <div className="inline-flex items-center justify-center gap-0.5"> {/* Use inline-flex and ensure centering */}
               <div className={`h-3.5 w-1 rounded-sm ${getBarClass(0)}`} />
               <div className={`h-3.5 w-1 rounded-sm ${getBarClass(1)}`} />
               <div className={`h-3.5 w-1 rounded-sm ${getBarClass(2)}`} />
