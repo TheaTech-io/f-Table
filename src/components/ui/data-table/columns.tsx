@@ -158,6 +158,42 @@ export const columns: ColumnDef<CallReport>[] = [
       displayName: "Customer Number",
     },
   }),
+    columnHelper.accessor("callAttempts", {
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Call Attempts" /> // Updated title
+      ),
+      enableSorting: true, // Keep sorting enabled
+      meta: {
+        className: "text-left", // Keep alignment
+        displayName: "Call Attempts", // Updated display name
+      },
+      cell: ({ getValue }) => {
+        const attempts = getValue() as number; // Get attempt count (0-3)
+
+        function Indicator({ count }: { count: number }) {
+          const getBarClass = (index: number) => {
+            const filledClass = "bg-indigo-600 dark:bg-indigo-500";
+            const emptyClass = "bg-gray-300 dark:bg-gray-700";
+
+            if (index < count) {
+              return filledClass;
+            }
+            return emptyClass;
+          };
+
+          return (
+            <div className="flex items-center gap-0.5"> {/* Ensure vertical alignment */}
+              <div className={`h-3.5 w-1 rounded-sm ${getBarClass(0)}`} />
+              <div className={`h-3.5 w-1 rounded-sm ${getBarClass(1)}`} />
+              <div className={`h-3.5 w-1 rounded-sm ${getBarClass(2)}`} />
+            </div>
+          );
+        }
+
+        return <Indicator count={attempts} />;
+      },
+    }),
+
   columnHelper.accessor("conversationNotes", { // Changed to accessor to allow filtering/hiding if needed later
     id: "conversationNotes",
     header: "Conversation Notes",
