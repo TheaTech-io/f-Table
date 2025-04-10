@@ -8,6 +8,7 @@ import { Table } from "@tanstack/react-table"
 
 import { useDebouncedCallback } from "use-debounce"
 import { DataTableFilter } from "./DataTableFilter"
+import { ViewOptions } from "./DataTableViewOptions";
 import { DateRangePicker } from "@/components/DatePicker";
 import { DateRange } from "react-day-picker";
 import React, { useState, useEffect } from "react"; // Ensure useState, useEffect are imported
@@ -132,6 +133,7 @@ export function Filterbar<TData>({
           <RiDownloadLine className="size-4 shrink-0" aria-hidden="true" />
           Export
         </Button>
+        <ViewOptions table={table} />
         {/* ViewOptions removed */}
       </div>
     </div>
