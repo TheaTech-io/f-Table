@@ -17,6 +17,8 @@ import { DataTableBulkEditor } from "./DataTableBulkEditor"
 import { Filterbar } from "./DataTableFilterbar"
 import { DataTablePagination } from "./DataTablePagination"
 
+import { ReportErrorDrawer } from "@/components/ui/ReportErrorDrawer" // Added import
+
 import {
   ColumnDef,
   flexRender,
@@ -36,6 +38,8 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
   const pageSize = 20
   const [rowSelection, setRowSelection] = useState({})
   const [globalFilter, setGlobalFilter] = useState("")
+  const [isReportErrorOpen, setIsReportErrorOpen] = useState(false) // Added state for drawer
+
   const table = useReactTable({
     data,
     columns,
@@ -73,7 +77,7 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
   return (
     <>
       <div className="space-y-3">
-        <Filterbar table={table} globalFilter={globalFilter} setGlobalFilter={setGlobalFilter} />
+        <Filterbar table={table} globalFilter={globalFilter} setGlobalFilter={setGlobalFilter} setIsReportErrorOpen={setIsReportErrorOpen} />
         <div className="relative overflow-hidden overflow-x-auto">
           <Table>
             <TableHead>
@@ -141,6 +145,8 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
               )}
             </TableBody>
           </Table>
+      <ReportErrorDrawer open={isReportErrorOpen} onOpenChange={setIsReportErrorOpen} />
+
           <DataTableBulkEditor table={table} rowSelection={rowSelection} />
         </div>
         <DataTablePagination table={table} pageSize={pageSize} />
