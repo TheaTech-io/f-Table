@@ -8,6 +8,8 @@ import { Table } from "@tanstack/react-table"
 
 import { useDebouncedCallback } from "use-debounce"
 import { DataTableFilter } from "./DataTableFilter"
+import { ViewOptions } from "./DataTableViewOptions"
+
 import { DateRangePicker } from "@/components/DatePicker";
 import { DateRange } from "react-day-picker";
 import React, { useState, useEffect } from "react"; // Ensure useState, useEffect are imported
@@ -62,7 +64,7 @@ export function Filterbar<TData>({
            placeholder="Search by name or number..." // Unified placeholder
            value={globalFilter ?? ""} // Use globalFilter state
            onChange={handleGlobalSearchChange} // Use unified handler
-           className="w-full sm:max-w-[250px] sm:[&>input]:h-[30px]" // Adjusted width
+           className="w-full sm:max-w-[250px] [&>input]:h-[30px] h-[30px]" // Added h-[30px] to container
          />
         {/* Filter for Customer Satisfaction */}
         {table.getColumn("customerSatisfaction")?.getIsVisible() && (
@@ -84,16 +86,19 @@ export function Filterbar<TData>({
         )}
           {/* Date Range Filter */}
           {dateColumn?.getIsVisible() && (
-             <DateRangePicker
-               value={dateRange}
-               onChange={(newRange) => {
-                 setDateRange(newRange); // Update local state
-                 table.getColumn("date")?.setFilterValue(newRange); // Apply filter to table
-               }}
-               align="start" // Match overview style
-               placeholder="Select date range" // Add placeholder
-               enableYearNavigation={true}
-             />
+             <div className="flex items-center">
+               <DateRangePicker
+                 value={dateRange}
+                 onChange={(newRange) => {
+                   setDateRange(newRange); // Update local state
+                   table.getColumn("date")?.setFilterValue(newRange); // Apply filter to table
+                 }}
+                 align="start" // Match overview style
+                 placeholder="Select date range" // Add placeholder
+                 enableYearNavigation={true}
+                 className="[&>button]:py-1.5 [&>button]:px-2 [&>button]:text-xs [&>button]:h-[30px]"
+               />
+             </div>
            )}
         {/* Clear Filters Button */}
         {isFiltered && (
@@ -127,12 +132,15 @@ export function Filterbar<TData>({
 
             saveAs(dataBlob, "call_reports_export.xlsx");
           }}
-          className="hidden h-[30px] items-center gap-x-2 px-2 text-xs lg:flex" // Adjusted height and text size for consistency
+          className="h-[30px] items-center gap-x-2 px-2 text-xs hidden lg:flex" // Reverted to hidden lg:flex
         >
           <RiDownloadLine className="size-4 shrink-0" aria-hidden="true" />
           Export
         </Button>
-        {/* ViewOptions removed */}
+        <ViewOptions table={table} />
+
+
+
       </div>
     </div>
   )
