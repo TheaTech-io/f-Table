@@ -82,6 +82,13 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
 
   return (
     <>
+      {/* Move Drawer rendering here so it's always in the DOM */}
+      <CallReportDrawer
+        open={isDrawerOpen}
+        onOpenChange={setIsDrawerOpen}
+        datas={selectedRowData}
+      />
+
       <div className="space-y-3">
         <Filterbar table={table} globalFilter={globalFilter} setGlobalFilter={setGlobalFilter} setIsReportErrorOpen={setIsReportErrorOpen} />
         <div className="relative overflow-hidden overflow-x-auto">
@@ -150,12 +157,6 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
                     colSpan={columns.length}
                     className="h-24 text-center"
                   >
-      <CallReportDrawer
-        open={isDrawerOpen}
-        onOpenChange={setIsDrawerOpen}
-        datas={selectedRowData}
-      />
-
                     No results.
                   </TableCell>
                 </TableRow>
