@@ -1,7 +1,7 @@
 import * as TabsPrimitives from "@radix-ui/react-tabs"
 import React from "react"
 
-import { cx, focusRing } from "@/lib/utils"
+import { cn } from "@/lib/utils"
 
 const Tabs = (
   props: Omit<
@@ -24,13 +24,13 @@ interface TabsListProps
 }
 
 const variantStyles: Record<TabsListVariant, string> = {
-  line: cx(
+  line: cn(
     // base
     "flex items-center justify-start border-b",
     // border color
     "border-gray-200 dark:border-gray-800",
   ),
-  solid: cx(
+  solid: cn(
     // base
     "inline-flex items-center justify-center rounded-md p-1",
     // border color
@@ -46,7 +46,7 @@ const TabsList = React.forwardRef<
 >(({ className, variant = "line", children, ...props }, forwardedRef) => (
   <TabsPrimitives.List
     ref={forwardedRef}
-    className={cx(variantStyles[variant], className)}
+    className={cn(variantStyles[variant], className)}
     {...props}
   >
     <TabsListVariantContext.Provider value={variant}>
@@ -60,7 +60,7 @@ TabsList.displayName = "TabsList"
 function getVariantStyles(tabVariant: TabsListVariant) {
   switch (tabVariant) {
     case "line":
-      return cx(
+      return cn(
         // base
         "-mb-px items-center justify-center whitespace-nowrap border-b-2 border-transparent px-3 pb-3 text-sm font-medium transition-all",
         // text color
@@ -77,7 +77,7 @@ function getVariantStyles(tabVariant: TabsListVariant) {
         "disabled:text-gray-300 disabled:dark:text-gray-700",
       )
     case "solid":
-      return cx(
+      return cn(
         // base
         "inline-flex items-center justify-center whitespace-nowrap rounded px-3 py-1 text-sm font-medium transition-all",
         // text color
@@ -101,7 +101,7 @@ const TabsTrigger = React.forwardRef<
   return (
     <TabsPrimitives.Trigger
       ref={forwardedRef}
-      className={cx(getVariantStyles(variant), focusRing, className)}
+      className={cn(getVariantStyles(variant), className)}
       {...props}
     >
       {children}
@@ -117,7 +117,7 @@ const TabsContent = React.forwardRef<
 >(({ className, ...props }, forwardedRef) => (
   <TabsPrimitives.Content
     ref={forwardedRef}
-    className={cx("outline-none", focusRing, className)}
+    className={cn("outline-none", className)}
     {...props}
   />
 ))

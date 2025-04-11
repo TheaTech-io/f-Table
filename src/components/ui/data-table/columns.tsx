@@ -7,12 +7,13 @@ import { DateRange } from 'react-day-picker'; // Ensure DateRange type is import
 import { RiPlayFill, RiFileListLine } from "@remixicon/react" // Use RiFileListLine for notes
 
 import { CallReport } from "@/data/schema"
+import { cn } from "@/lib/utils"
+
 import { callStatuses } from "@/data/data" // Import callStatuses for color/label mapping
 import { Badge, BadgeProps } from "@/components/Badge"
 import { Button } from "@/components/Button"
 import { Checkbox } from "@/components/Checkbox"
 import { DataTableColumnHeader } from "./DataTableColumnHeader"
-import { cx } from "@/lib/utils" // Import cx for conditional classes
 import {
   Dialog,
   DialogClose,
@@ -142,6 +143,7 @@ export const columns: ColumnDef<CallReport>[] = [
     ),
     enableSorting: false,
     meta: {
+      className: "text-center", // Added centering
       displayName: "Audio Recording",
     },
   }),
@@ -160,6 +162,7 @@ export const columns: ColumnDef<CallReport>[] = [
     enableSorting: true,
     filterFn: "arrIncludesSome",
     meta: {
+      className: "text-center", // Added centering
       displayName: "Customer Satisfaction",
     },
   }),
@@ -175,7 +178,7 @@ export const columns: ColumnDef<CallReport>[] = [
       return (
         <div className="flex items-center">
           <span
-            className={cx(
+            className={cn(
               "mr-2 h-2 w-2 shrink-0 rounded-full", // Dot indicator
               statusInfo.color, // Use color from status object
               statusValue === "Dialing" && "animate-blink", // Apply blink animation
@@ -188,6 +191,7 @@ export const columns: ColumnDef<CallReport>[] = [
     enableSorting: true,
     filterFn: "arrIncludesSome",
     meta: {
+      className: "text-center", // Added centering
       displayName: "Call Status",
     },
   }),
@@ -199,17 +203,18 @@ export const columns: ColumnDef<CallReport>[] = [
     enableSorting: false, // Keep sorting disabled as per previous version
     enableGlobalFilter: true, // Enable global filtering
     meta: {
+      className: "text-left", // Added alignment for consistency
       displayName: "Customer Number",
     },
   }),
     columnHelper.accessor("stability", {
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Stability" />
+        <DataTableColumnHeader column={column} title="Call Attempts" />
       ),
       enableSorting: true, // Keep sorting enabled
       meta: {
         className: "text-center", // Ensure cell content can be centered
-        displayName: "Stability",
+        displayName: "Call Attempts",
       },
       cell: ({ getValue }) => {
         const attempts = getValue() as number; // Get attempt count (0-3)
@@ -278,6 +283,7 @@ export const columns: ColumnDef<CallReport>[] = [
       },
     enableSorting: false,
     meta: {
+      className: "text-center", // Added centering
       displayName: "Conversation Notes",
     },
   }),

@@ -21,7 +21,7 @@ import { enUS } from "date-fns/locale"
 import * as React from "react"
 import { tv, VariantProps } from "tailwind-variants"
 
-import { cx, focusInput, focusRing, hasErrorInput } from "@/lib/utils"
+import { cn, focusInput, focusRing, hasErrorInput } from "@/lib/utils"
 
 import { Button } from "./Button"
 import { Calendar as CalendarPrimitive, type Matcher } from "./Calendar"
@@ -59,7 +59,7 @@ const TimeSegment = ({ segment, state }: TimeSegmentProps) => {
     <div
       {...segmentProps}
       ref={ref}
-      className={cx(
+      className={cn(
         // base
         "relative block w-full appearance-none rounded-md border px-2.5 py-1.5 text-left uppercase tabular-nums shadow-sm outline-none transition sm:text-sm",
         // border color
@@ -84,7 +84,7 @@ const TimeSegment = ({ segment, state }: TimeSegmentProps) => {
     >
       <span
         aria-hidden="true"
-        className={cx(
+        className={cn(
           "pointer-events-none block w-full text-left text-gray-700 sm:text-sm",
           {
             hidden: !segment.isPlaceholder,
@@ -196,7 +196,7 @@ const Trigger = React.forwardRef<HTMLButtonElement, TriggerProps>(
       <PopoverPrimitives.Trigger asChild>
         <button
           ref={forwardedRef}
-          className={cx(triggerStyles({ hasError }), className)}
+          className={cn(triggerStyles({ hasError }), className)}
           {...props}
         >
           <RiCalendar2Fill className="size-5 shrink-0 text-gray-400 dark:text-gray-600" />
@@ -233,7 +233,7 @@ const CalendarPopover = React.forwardRef<
         align={align}
         avoidCollisions
         onOpenAutoFocus={(e) => e.preventDefault()}
-        className={cx(
+        className={cn(
           // base
           "relative z-50 w-fit rounded-md border text-sm shadow-xl shadow-black/[2.5%]",
           // widths
@@ -366,7 +366,7 @@ const PresetContainer = <TPreset extends Preset, TValue>({
           <li key={index} className="sm:w-full sm:py-px">
             <button
               title={preset.label}
-              className={cx(
+              className={cn(
                 // base
                 "relative w-full overflow-hidden text-ellipsis whitespace-nowrap rounded border px-2.5 py-1.5 text-left text-base shadow-sm outline-none transition-all sm:border-none sm:py-2 sm:text-sm sm:shadow-none",
                 // text color
@@ -622,7 +622,7 @@ const SingleDatePicker = ({
           <div className="flex flex-col sm:flex-row sm:items-start">
             {presets && presets.length > 0 && (
               <div
-                className={cx(
+                className={cn(
                   "relative flex h-14 w-full items-center sm:h-full sm:w-40",
                   "border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-800",
                   "overflow-auto",
@@ -924,7 +924,7 @@ const RangeDatePicker = ({
           <div className="flex flex-col overflow-x-auto sm:flex-row sm:items-start">
             {presets && presets.length > 0 && (
               <div
-                className={cx(
+                className={cn(
                   "relative flex h-16 w-full items-center sm:h-full sm:w-40",
                   "border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-800",
                   "overflow-auto",

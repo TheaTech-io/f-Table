@@ -8,7 +8,7 @@ import { RiCalendarLine } from "@remixicon/react"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/Popover"
 import { Button } from "@/components/Button"
 import { Column } from "@tanstack/react-table"
-import { cx, focusRing } from "@/lib/utils"
+import { cn } from "@/lib/utils"
 
 interface DataTableDateFilterProps<TData, TValue> {
   column: Column<TData, TValue> | undefined
@@ -49,10 +49,10 @@ export function DataTableDateFilter<TData, TValue>({
       <PopoverTrigger asChild>
         <button
           type="button"
-          className={cx(
+          className={cn(
             "flex w-full items-center gap-x-1.5 whitespace-nowrap rounded-md border border-gray-300 px-2 py-1.5 font-medium text-gray-600 hover:bg-gray-50 sm:w-fit sm:text-xs dark:border-gray-700 dark:text-gray-400 hover:dark:bg-gray-900",
             selectedRange ? "" : "border-dashed",
-            focusRing,
+            "outline outline-offset-2 outline-0 focus-visible:outline-2 outline-indigo-500 dark:outline-indigo-500" // Inline replacement for focusRing
           )}
         >
           <RiCalendarLine className="h-3.5 w-3.5 shrink-0" />

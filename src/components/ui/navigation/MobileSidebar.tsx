@@ -9,7 +9,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/Drawer"
-import { cx, focusRing } from "@/lib/utils"
+import { cn } from "@/lib/utils"
 import {
   RiHome2Line,
   RiLinkM,
@@ -91,12 +91,12 @@ export default function MobileSidebar() {
                     <DrawerClose asChild>
                       <Link
                         href={item.href}
-                        className={cx(
+                        className={cn(
                           isActive(item.href)
                             ? "text-indigo-600 dark:text-indigo-400"
                             : "text-gray-600 hover:text-gray-900 dark:text-gray-400 hover:dark:text-gray-50",
                           "flex items-center gap-x-2.5 rounded-md px-2 py-1.5 text-base font-medium transition hover:bg-gray-100 sm:text-sm hover:dark:bg-gray-900",
-                          focusRing,
+                          "outline outline-offset-2 outline-0 focus-visible:outline-2 outline-indigo-500 dark:outline-indigo-500",
                         )}
                       >
                         <item.icon
@@ -118,12 +118,12 @@ export default function MobileSidebar() {
                     <li key={item.name}>
                       <Link
                         href={item.href}
-                        className={cx(
+                        className={cn(
                           pathname === item.href || pathname.includes(item.href)
                             ? "text-indigo-600 dark:text-indigo-400"
                             : "text-gray-700 hover:text-gray-900 dark:text-gray-400 hover:dark:text-gray-50",
                           "flex items-center gap-x-2.5 rounded-md px-2 py-1.5 font-medium transition hover:bg-gray-100 sm:text-sm hover:dark:bg-gray-900",
-                          focusRing,
+                          "outline outline-offset-2 outline-0 focus-visible:outline-2 outline-indigo-500 dark:outline-indigo-500",
                         )}
                       >
                         <item.icon

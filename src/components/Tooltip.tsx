@@ -5,7 +5,7 @@
 import * as TooltipPrimitives from "@radix-ui/react-tooltip"
 import React from "react"
 
-import { cx } from "@/lib/utils"
+import { cn } from "@/lib/utils"
 
 interface TooltipProps
   extends Omit<TooltipPrimitives.TooltipContentProps, "content" | "onClick">,
@@ -59,7 +59,7 @@ const Tooltip = React.forwardRef<
               side={side}
               sideOffset={sideOffset}
               align="center"
-              className={cx(
+              className={cn(
                 // base
                 "max-w-60 select-none rounded-md px-2.5 py-1.5 text-sm leading-5 shadow-md",
                 // text color

@@ -3,7 +3,7 @@
 import * as RadioGroupPrimitives from "@radix-ui/react-radio-group"
 import * as React from "react"
 
-import { cx, focusInput, focusRing } from "@/lib/utils"
+import { cn } from "@/lib/utils"
 
 const RadioCardGroup = React.forwardRef<
   React.ElementRef<typeof RadioGroupPrimitives.Root>,
@@ -12,7 +12,7 @@ const RadioCardGroup = React.forwardRef<
   return (
     <RadioGroupPrimitives.Root
       ref={forwardedRef}
-      className={cx("grid gap-2", className)}
+      className={cn("grid gap-2", className)}
       {...props}
     />
   )
@@ -25,7 +25,7 @@ const RadioCardGroupIndicator = React.forwardRef<
 >(({ className, ...props }, forwardedRef) => {
   return (
     <div
-      className={cx(
+      className={cn(
         // base
         "relative flex size-4 shrink-0 appearance-none items-center justify-center rounded-full border shadow-sm outline-none",
         // border color
@@ -39,7 +39,6 @@ const RadioCardGroupIndicator = React.forwardRef<
         "group-data-[disabled]:border-gray-300 group-data-[disabled]:bg-gray-100 group-data-[disabled]:text-gray-400",
         "group-data-[disabled]:dark:border-gray-700 group-data-[disabled]:dark:bg-gray-800",
         // focus
-        focusRing,
         className,
       )}
     >
@@ -49,7 +48,7 @@ const RadioCardGroupIndicator = React.forwardRef<
         {...props}
       >
         <div
-          className={cx(
+          className={cn(
             // base
             "size size-1.5 shrink-0 rounded-full",
             // indicator
@@ -71,7 +70,7 @@ const RadioCardItem = React.forwardRef<
   return (
     <RadioGroupPrimitives.Item
       ref={forwardedRef}
-      className={cx(
+      className={cn(
         // base
         "group relative w-full rounded-md border p-4 text-left shadow-sm transition-all focus:outline-none",
         // background color
@@ -79,7 +78,6 @@ const RadioCardItem = React.forwardRef<
         // border color
         "border-gray-200 dark:border-gray-800",
         "data-[state=checked]:border-indigo-600 data-[state=checked]:dark:border-indigo-600",
-        focusInput,
         className,
       )}
       {...props}

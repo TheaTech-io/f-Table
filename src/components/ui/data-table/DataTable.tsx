@@ -8,7 +8,6 @@ import {
   TableHeaderCell,
   TableRow,
 } from "@/components/Table"
-import { cx } from "@/lib/utils"
 import { useState } from "react"
 
 import * as React from "react"
@@ -19,7 +18,7 @@ import { DataTablePagination } from "./DataTablePagination"
 
 import { ReportErrorDrawer } from "@/components/ui/ReportErrorDrawer" // Added import
 
-import { CallReportDrawer } from "@/components/ui/call-reports/CallReportDrawer"; // Adjust path if needed
+import { BaseCallDrawer } from "@/components/ui/call-reports/BaseCallDrawer"; // Use the new BaseCallDrawer
 import { CallReport } from "@/data/schema"; // Import the data type
 
 import {
@@ -31,6 +30,8 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table"
+import { cn } from "@/lib/utils"
+
 
 interface DataTableProps<TData> {
   columns: ColumnDef<TData>[]
@@ -82,6 +83,15 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
 
   return (
     <>
+      {/* Drawer Components */}
+      <BaseCallDrawer
+        open={isDrawerOpen}
+        onOpenChange={setIsDrawerOpen}
+        datas={selectedRowData}
+      />
+      <ReportErrorDrawer open={isReportErrorOpen} onOpenChange={setIsReportErrorOpen} />
+
+
       <div className="space-y-3">
         <Filterbar table={table} globalFilter={globalFilter} setGlobalFilter={setGlobalFilter} setIsReportErrorOpen={setIsReportErrorOpen} />
         <div className="relative overflow-hidden overflow-x-auto">
@@ -95,8 +105,8 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
                   {headerGroup.headers.map((header) => (
                     <TableHeaderCell
                       key={header.id}
-                      className={cx(
-                        "whitespace-nowrap py-1 text-sm sm:text-xs",
+                      className={cn(
+                        "whitespace-nowrap px-4 py-2 text-sm font-medium text-gray-500 dark:text-gray-400", // Adjusted padding, font, color
                         header.column.columnDef.meta?.className,
                       )}
                     >
@@ -124,11 +134,11 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
                     {row.getVisibleCells().map((cell, index) => (
                       <TableCell
                         key={cell.id}
-                        className={cx(
+                        className={cn(
                           row.getIsSelected()
                             ? "bg-gray-50 dark:bg-gray-900"
                             : "",
-                          "relative whitespace-nowrap py-1 text-gray-600 first:w-10 dark:text-gray-400",
+                          "relative whitespace-nowrap px-4 py-2 text-sm text-gray-700 first:w-10 dark:text-gray-300", // Adjusted padding, color
                           cell.column.columnDef.meta?.className,
                         )}
                       >
@@ -150,19 +160,12 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
                     colSpan={columns.length}
                     className="h-24 text-center"
                   >
-      <CallReportDrawer
-        open={isDrawerOpen}
-        onOpenChange={setIsDrawerOpen}
-        datas={selectedRowData}
-      />
-
                     No results.
                   </TableCell>
                 </TableRow>
               )}
             </TableBody>
           </Table>
-      <ReportErrorDrawer open={isReportErrorOpen} onOpenChange={setIsReportErrorOpen} />
 
           <DataTableBulkEditor table={table} rowSelection={rowSelection} setIsReportErrorOpen={setIsReportErrorOpen} />
         </div>

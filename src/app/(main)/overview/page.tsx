@@ -5,7 +5,7 @@ import { Filterbar } from "@/components/ui/overview/DashboardFilterbar"
 import { ProgressBarCard } from "@/components/ui/overview/DashboardProgressBarCard"
 import { overviews } from "@/data/overview-data"
 import { OverviewData } from "@/data/schema"
-import { cx } from "@/lib/utils"
+import { cn } from "@/lib/utils"
 import { subDays, toDate } from "date-fns"
 import React from "react"
 import { DateRange } from "react-day-picker"
@@ -215,7 +215,7 @@ export default function Overview() {
           />
         </div>
         <dl
-          className={cx(
+          className={cn(
             "mt-10 grid grid-cols-1 gap-14 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-3",
           )}
         >

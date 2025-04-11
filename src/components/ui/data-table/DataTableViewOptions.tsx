@@ -7,11 +7,12 @@ import { Column, Table } from "@tanstack/react-table"
 
 import ReactDOM from "react-dom"
 import invariant from "tiny-invariant"
+import { cn } from "@/lib/utils"
+
 
 import { Button } from "@/components/Button"
 import { Checkbox } from "@/components/Checkbox"
 import { Label } from "@/components/Label"
-import { cx } from "@/lib/utils"
 import { triggerPostMoveFlash } from "@atlaskit/pragmatic-drag-and-drop-flourish/trigger-post-move-flash"
 import {
   attachClosestEdge,
@@ -205,7 +206,7 @@ function ListItem({
     <React.Fragment>
       <div ref={ref} className="relative border-b border-transparent">
         <div
-          className={cx(
+          className={cn(
             "relative flex items-center justify-between gap-2",
             draggableState.type === "dragging" && "opacity-50",
           )}
@@ -410,8 +411,8 @@ function ViewOptions<TData>({ table }: DataTableViewOptionsProps<TData>) {
           <PopoverTrigger asChild>
             <Button
               variant="secondary"
-              className={cx(
-                "ml-auto hidden gap-x-2 px-2 py-1.5 text-sm sm:text-xs lg:flex",
+              className={cn(
+                "ml-auto hidden h-[30px] items-center gap-x-2 px-2 text-sm sm:text-xs lg:flex", // Added h-[30px], items-center, removed py-1.5
               )}
             >
               <RiEqualizer2Line className="size-4" aria-hidden="true" />
@@ -432,7 +433,7 @@ function ViewOptions<TData>({ table }: DataTableViewOptionsProps<TData>) {
                   return (
                     <div
                       key={column.id}
-                      className={cx(!column.getCanHide() && "hidden")}
+                      className={cn(!column.getCanHide() && "hidden")}
                     >
                       <ListItem column={column} item={item} index={index} />
                     </div>

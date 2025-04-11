@@ -3,7 +3,7 @@
 import * as CheckboxPrimitives from "@radix-ui/react-checkbox"
 import React from "react"
 
-import { cx, focusRing } from "@/lib/utils"
+import { cn } from "@/lib/utils"
 
 const Checkbox = React.forwardRef<
   React.ElementRef<typeof CheckboxPrimitives.Root>,
@@ -14,7 +14,7 @@ const Checkbox = React.forwardRef<
       ref={forwardedRef}
       {...props}
       checked={checked}
-      className={cx(
+      className={cn(
         // base
         "relative inline-flex size-4 shrink-0 appearance-none items-center justify-center rounded shadow-sm outline-none ring-1 ring-inset transition duration-100 enabled:cursor-pointer",
         // text color
@@ -31,7 +31,7 @@ const Checkbox = React.forwardRef<
         // indeterminate
         "enabled:data-[state=indeterminate]:bg-indigo-600 enabled:data-[state=indeterminate]:ring-0 enabled:data-[state=indeterminate]:ring-transparent",
         // focus
-        focusRing,
+        "outline outline-offset-2 outline-0 focus-visible:outline-2 outline-indigo-500 dark:outline-indigo-500",
         className,
       )}
     >

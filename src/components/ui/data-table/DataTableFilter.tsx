@@ -24,7 +24,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/Select"
-import { cx, focusRing } from "@/lib/utils"
+import { cn } from "@/lib/utils"
 import React from "react"
 
 export type ConditionFilter = {
@@ -56,11 +56,11 @@ const ColumnFiltersLabel = ({
 
   if (columnFilterLabels.length < 3) {
     return (
-      <span className={cx("truncate", className)}>
+      <span className={cn("truncate", className)}>
         {columnFilterLabels.map((value, index) => (
           <span
             key={value}
-            className={cx("font-semibold text-indigo-600 dark:text-indigo-400")}
+            className={cn("font-semibold text-indigo-600 dark:text-indigo-400")}
           >
             {value}
             {index < columnFilterLabels.length - 1 && ", "}
@@ -73,7 +73,7 @@ const ColumnFiltersLabel = ({
   return (
     <>
       <span
-        className={cx(
+        className={cn(
           "font-semibold text-indigo-600 dark:text-indigo-400",
           className,
         )}
@@ -279,8 +279,8 @@ export function DataTableFilter<TData, TValue>({
       <PopoverTrigger asChild>
         <button
           type="button"
-          className={cx(
-            "flex w-full items-center gap-x-1.5 whitespace-nowrap rounded-md border border-gray-300 px-2 py-1.5 font-medium text-gray-600 hover:bg-gray-50 sm:w-fit sm:text-xs dark:border-gray-700 dark:text-gray-400 hover:dark:bg-gray-900",
+          className={cn(
+            "flex h-[30px] w-full items-center gap-x-1.5 whitespace-nowrap rounded-md border border-gray-300 px-2 font-medium text-gray-600 hover:bg-gray-50 sm:w-fit sm:text-xs dark:border-gray-700 dark:text-gray-400 hover:dark:bg-gray-900", // Added h-[30px], removed py-1.5
             selectedValues &&
               ((typeof selectedValues === "object" &&
                 "condition" in selectedValues &&
@@ -289,7 +289,7 @@ export function DataTableFilter<TData, TValue>({
                 (Array.isArray(selectedValues) && selectedValues.length > 0))
               ? ""
               : "border-dashed",
-            focusRing,
+            "outline outline-offset-2 outline-0 focus-visible:outline-2 outline-indigo-500 dark:outline-indigo-500",
           )}
         >
           <span
@@ -303,7 +303,7 @@ export function DataTableFilter<TData, TValue>({
             }}
           >
             <RiAddLine
-              className={cx(
+              className={cn(
                 "-ml-px size-5 shrink-0 transition sm:size-4",
                 selectedValues && "rotate-45 hover:text-red-500",
               )}

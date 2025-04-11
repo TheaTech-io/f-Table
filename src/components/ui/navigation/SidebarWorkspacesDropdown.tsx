@@ -9,7 +9,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/Dropdown"
-import { cx, focusInput } from "@/lib/utils"
+import { cn } from "@/lib/utils"
 import { RiArrowRightSLine, RiExpandUpDownLine } from "@remixicon/react"
 import React from "react"
 import { ModalAddWorkspace } from "./ModalAddWorkspace"
@@ -51,9 +51,8 @@ export const WorkspacesDropdownDesktop = () => {
       >
         <DropdownMenuTrigger asChild>
           <button
-            className={cx(
-              "flex w-full items-center gap-x-2.5 rounded-md border border-gray-300 bg-white p-2 text-sm shadow-sm transition-all hover:bg-gray-50 dark:border-gray-800 dark:bg-gray-950 hover:dark:bg-gray-900",
-              focusInput,
+            className={cn(
+              "flex w-full items-center gap-x-2.5 rounded-md border border-gray-300 bg-white p-2 text-sm shadow-sm transition-all hover:bg-gray-50 dark:border-gray-800 dark:bg-gray-950 hover:dark:bg-gray-900 focus:ring-2 focus:ring-indigo-200 focus:dark:ring-indigo-700/30 focus:border-indigo-500 focus:dark:border-indigo-700"
             )}
           >
             <span
@@ -96,7 +95,7 @@ export const WorkspacesDropdownDesktop = () => {
               <DropdownMenuItem key={workspace.value}>
                 <div className="flex w-full items-center gap-x-2.5">
                   <span
-                    className={cx(
+                    className={cn(
                       workspace.color,
                       "flex aspect-square size-8 items-center justify-center rounded p-2 text-xs font-medium text-white",
                     )}
@@ -155,7 +154,7 @@ export const WorkspacesDropdownMobile = () => {
         <DropdownMenuTrigger asChild>
           <button className="flex items-center gap-x-1.5 rounded-md p-2 hover:bg-gray-100 focus:outline-none hover:dark:bg-gray-900">
             <span
-              className={cx(
+              className={cn(
                 "flex aspect-square size-7 items-center justify-center rounded bg-indigo-600 p-2 text-xs font-medium text-white dark:bg-indigo-500",
               )}
               aria-hidden="true"
@@ -196,7 +195,7 @@ export const WorkspacesDropdownMobile = () => {
               <DropdownMenuItem key={workspace.value}>
                 <div className="flex w-full items-center gap-x-2.5">
                   <span
-                    className={cx(
+                    className={cn(
                       workspace.color,
                       "flex size-8 items-center justify-center rounded p-2 text-xs font-medium text-white",
                     )}

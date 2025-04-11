@@ -8,7 +8,7 @@ import { Label } from "@/components/Label"
 import { ProgressBar } from "@/components/ProgressBar"
 import { ProgressCircle } from "@/components/ProgressCircle"
 import { Switch } from "@/components/Switch"
-import { cx } from "@/lib/utils"
+import { cn } from "@/lib/utils"
 import { RiArrowRightUpLine } from "@remixicon/react"
 import React from "react"
 
@@ -192,7 +192,7 @@ export default function Billing() {
                   />
                 </div>
                 <div
-                  className={cx(
+                  className={cn(
                     "transform-gpu transition-all ease-[cubic-bezier(0.16,1,0.3,1.03)] will-change-transform",
                     isSpendMgmtEnabled ? "h-52 md:h-32" : "h-0",
                   )}
@@ -202,7 +202,7 @@ export default function Billing() {
                   }}
                 >
                   <div
-                    className={cx(
+                    className={cn(
                       "animate-slideDownAndFade transition",
                       isSpendMgmtEnabled ? "" : "hidden",
                     )}
