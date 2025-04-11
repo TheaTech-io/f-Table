@@ -82,6 +82,15 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
 
   return (
     <>
+      {/* Drawer Components */}
+      <CallReportDrawer
+        open={isDrawerOpen}
+        onOpenChange={setIsDrawerOpen}
+        datas={selectedRowData}
+      />
+      <ReportErrorDrawer open={isReportErrorOpen} onOpenChange={setIsReportErrorOpen} />
+
+
       <div className="space-y-3">
         <Filterbar table={table} globalFilter={globalFilter} setGlobalFilter={setGlobalFilter} setIsReportErrorOpen={setIsReportErrorOpen} />
         <div className="relative overflow-hidden overflow-x-auto">
@@ -96,7 +105,7 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
                     <TableHeaderCell
                       key={header.id}
                       className={cx(
-                        "whitespace-nowrap py-1 text-sm sm:text-xs",
+                        "whitespace-nowrap px-4 py-2 text-sm font-medium text-gray-500 dark:text-gray-400", // Adjusted padding, font, color
                         header.column.columnDef.meta?.className,
                       )}
                     >
@@ -128,7 +137,7 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
                           row.getIsSelected()
                             ? "bg-gray-50 dark:bg-gray-900"
                             : "",
-                          "relative whitespace-nowrap py-1 text-gray-600 first:w-10 dark:text-gray-400",
+                          "relative whitespace-nowrap px-4 py-2 text-sm text-gray-700 first:w-10 dark:text-gray-300", // Adjusted padding, color
                           cell.column.columnDef.meta?.className,
                         )}
                       >
@@ -150,19 +159,12 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
                     colSpan={columns.length}
                     className="h-24 text-center"
                   >
-      <CallReportDrawer
-        open={isDrawerOpen}
-        onOpenChange={setIsDrawerOpen}
-        datas={selectedRowData}
-      />
-
                     No results.
                   </TableCell>
                 </TableRow>
               )}
             </TableBody>
           </Table>
-      <ReportErrorDrawer open={isReportErrorOpen} onOpenChange={setIsReportErrorOpen} />
 
           <DataTableBulkEditor table={table} rowSelection={rowSelection} setIsReportErrorOpen={setIsReportErrorOpen} />
         </div>

@@ -411,7 +411,7 @@ function ViewOptions<TData>({ table }: DataTableViewOptionsProps<TData>) {
             <Button
               variant="secondary"
               className={cx(
-                "ml-auto hidden gap-x-2 px-2 py-1.5 text-sm sm:text-xs lg:flex",
+                "ml-auto hidden h-[30px] items-center gap-x-2 px-2 text-sm sm:text-xs lg:flex", // Added h-[30px], items-center, removed py-1.5
               )}
             >
               <RiEqualizer2Line className="size-4" aria-hidden="true" />

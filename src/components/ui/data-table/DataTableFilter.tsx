@@ -280,7 +280,7 @@ export function DataTableFilter<TData, TValue>({
         <button
           type="button"
           className={cx(
-            "flex w-full items-center gap-x-1.5 whitespace-nowrap rounded-md border border-gray-300 px-2 py-1.5 font-medium text-gray-600 hover:bg-gray-50 sm:w-fit sm:text-xs dark:border-gray-700 dark:text-gray-400 hover:dark:bg-gray-900",
+            "flex h-[30px] w-full items-center gap-x-1.5 whitespace-nowrap rounded-md border border-gray-300 px-2 font-medium text-gray-600 hover:bg-gray-50 sm:w-fit sm:text-xs dark:border-gray-700 dark:text-gray-400 hover:dark:bg-gray-900", // Added h-[30px], removed py-1.5
             selectedValues &&
               ((typeof selectedValues === "object" &&
                 "condition" in selectedValues &&
