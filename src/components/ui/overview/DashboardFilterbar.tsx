@@ -25,7 +25,7 @@ import { PeriodValue } from "@/app/(main)/overview/page"
 import { Button } from "@/components/Button"
 import { Checkbox } from "@/components/Checkbox"
 import { DateRangePicker } from "@/components/DatePicker"
-import { cx } from "@/lib/utils"
+import { cn } from "@/lib/utils"
 import { RiSettings5Line } from "@remixicon/react"
 import { eachDayOfInterval, interval, subDays, subYears } from "date-fns"
 import React from "react"
@@ -180,7 +180,7 @@ export function Filterbar({
             </DialogDescription>
           </DialogHeader>
           <div
-            className={cx(
+            className={cn(
               "mt-8 grid max-h-[70vh] grid-cols-1 gap-4 overflow-y-scroll sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-3",
             )}
           >

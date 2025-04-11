@@ -3,7 +3,7 @@
 import * as PopoverPrimitives from "@radix-ui/react-popover"
 import * as React from "react"
 
-import { cx } from "@/lib/utils"
+import { cn } from "@/lib/utils"
 
 const Popover = (
   props: React.ComponentPropsWithoutRef<typeof PopoverPrimitives.Root>,
@@ -68,7 +68,7 @@ const PopoverContent = React.forwardRef<
           align={align}
           collisionPadding={collisionPadding}
           avoidCollisions
-          className={cx(
+          className={cn(
             // base
             "max-h-[var(--radix-popper-available-height)] min-w-60 overflow-hidden rounded-md border p-2.5 text-sm shadow-md",
             // border color

@@ -3,7 +3,7 @@ import { Badge } from "@/components/Badge"
 import { LineChart } from "@/components/LineChart"
 import { overviews } from "@/data/overview-data"
 import { OverviewData } from "@/data/schema"
-import { cx, formatters, percentageFormatter } from "@/lib/utils"
+import { cn, formatters, percentageFormatter } from "@/lib/utils"
 import {
   eachDayOfInterval,
   formatDate,
@@ -118,7 +118,7 @@ export function ChartCard({
       : 0
 
   return (
-    <div className={cx("transition")}>
+    <div className={cn("transition")}>
       <div className="flex items-center justify-between gap-x-2">
         <div className="flex items-center gap-x-2">
           <dt className="font-bold text-gray-900 sm:text-sm dark:text-gray-50">

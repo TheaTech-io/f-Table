@@ -3,7 +3,7 @@
 import * as LabelPrimitives from "@radix-ui/react-label"
 import * as React from "react"
 
-import { cx } from "@/lib/utils"
+import { cn } from "@/lib/utils"
 
 interface CheckboxProps
   extends React.ComponentPropsWithoutRef<typeof LabelPrimitives.Root> {
@@ -16,7 +16,7 @@ const Label = React.forwardRef<
 >(({ className, disabled, ...props }, forwardedRef) => (
   <LabelPrimitives.Root
     ref={forwardedRef}
-    className={cx(
+    className={cn(
       // base
       "text-sm leading-none",
       // text color

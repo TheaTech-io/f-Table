@@ -3,10 +3,10 @@
 import React from "react"
 import { tv, type VariantProps } from "tailwind-variants"
 
-import { cx } from "@/lib/utils"
+import { cn } from "@/lib/utils"
 
 const badgeVariants = tv({
-  base: cx(
+  base: cn(
     "inline-flex items-center gap-x-1 whitespace-nowrap rounded px-1.5 py-0.5 text-xs font-semibold ring-1",
   ),
   variants: {
@@ -47,7 +47,7 @@ const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
     return (
       <span
         ref={forwardedRef}
-        className={cx(badgeVariants({ variant }), className)}
+        className={cn(badgeVariants({ variant }), className)}
         {...props}
       />
     )

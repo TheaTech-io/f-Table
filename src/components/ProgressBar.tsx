@@ -3,7 +3,7 @@
 import React from "react"
 import { tv, type VariantProps } from "tailwind-variants"
 
-import { cx } from "@/lib/utils"
+import { cn } from "@/lib/utils"
 
 const progressBarVariants = tv({
   slots: {
@@ -66,11 +66,11 @@ const ProgressBar = React.forwardRef<HTMLDivElement, ProgressBarProps>(
     return (
       <div
         ref={forwardedRef}
-        className={cx("flex w-full items-center", className)}
+        className={cn("flex w-full items-center", className)}
         {...props}
       >
         <div
-          className={cx(
+          className={cn(
             "relative flex h-2 w-full items-center rounded-full",
             background(),
           )}
@@ -79,7 +79,7 @@ const ProgressBar = React.forwardRef<HTMLDivElement, ProgressBarProps>(
           aria-valuemax={max}
         >
           <div
-            className={cx(
+            className={cn(
               "h-full flex-col rounded-full",
               bar(),
               showAnimation &&
@@ -92,7 +92,7 @@ const ProgressBar = React.forwardRef<HTMLDivElement, ProgressBarProps>(
         </div>
         {label ? (
           <span
-            className={cx(
+            className={cn(
               // base
               "ml-2 whitespace-nowrap text-sm font-medium leading-none",
               // text color

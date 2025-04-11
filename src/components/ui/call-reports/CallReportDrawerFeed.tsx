@@ -1,4 +1,4 @@
-import { cx } from "@/lib/utils"
+import { cn } from "@/lib/utils"
 
 import { CircleCheck } from "lucide-react"
 import Image from "next/image"
@@ -47,7 +47,7 @@ export function CallReportDrawerFeed() { // Renamed export
         {activity.map((activityItem, activityItemindex) => (
           <li key={activityItem.id} className="relative flex gap-x-4">
             <div
-              className={cx(
+              className={cn(
                 activityItemindex === activity.length - 1 ? "h-6" : "-bottom-6",
                 "absolute left-0 top-0 flex w-6 justify-center",
               )}

@@ -1,6 +1,6 @@
 "use client"
 import { siteConfig } from "@/app/siteConfig"
-import { cx, focusRing } from "@/lib/utils"
+import { cn } from "@/lib/utils"
 import {
   RiHome2Line,
   RiLinkM,
@@ -72,12 +72,11 @@ export function Sidebar() {
                 <li key={item.name}>
                   <Link
                     href={item.href}
-                    className={cx(
+                    className={cn(
                       isActive(item.href)
                         ? "text-indigo-600 dark:text-indigo-400"
                         : "text-gray-700 hover:text-gray-900 dark:text-gray-400 hover:dark:text-gray-50",
-                      "flex items-center gap-x-2.5 rounded-md px-2 py-1.5 text-sm font-medium transition hover:bg-gray-100 hover:dark:bg-gray-900",
-                      focusRing,
+                      "flex items-center gap-x-2.5 rounded-md px-2 py-1.5 text-sm font-medium transition hover:bg-gray-100 hover:dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                     )}
                   >
                     <item.icon className="size-4 shrink-0" aria-hidden="true" />
@@ -95,12 +94,11 @@ export function Sidebar() {
                   <li key={item.name}>
                     <Link
                       href={item.href}
-                      className={cx(
+                      className={cn(
                         pathname === item.href || pathname.startsWith(item.href)
                           ? "text-indigo-600 dark:text-indigo-400"
                           : "text-gray-700 hover:text-gray-900 dark:text-gray-400 hover:dark:text-gray-50",
-                        "flex items-center gap-x-2.5 rounded-md px-2 py-1.5 text-sm font-medium transition hover:bg-gray-100 hover:dark:bg-gray-900",
-                        focusRing,
+                        "flex items-center gap-x-2.5 rounded-md px-2 py-1.5 text-sm font-medium transition hover:bg-gray-100 hover:dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                       )}
                     >
                       <item.icon

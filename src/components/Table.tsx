@@ -1,8 +1,9 @@
 // Tremor Raw Table [v0.0.2]
 
+import { cn } from "@/lib/utils"
+
 import React from "react"
 
-import { cx } from "@/lib/utils"
 
 const TableRoot = React.forwardRef<
   HTMLDivElement,
@@ -15,7 +16,7 @@ const TableRoot = React.forwardRef<
   >
     <div
       // make table scrollable on mobile
-      className={cx("w-full overflow-auto whitespace-nowrap", className)}
+      className={cn("w-full overflow-auto whitespace-nowrap", className)}
       {...props}
     >
       {children}
@@ -31,7 +32,7 @@ const Table = React.forwardRef<
 >(({ className, ...props }, forwardedRef) => (
   <table
     ref={forwardedRef}
-    className={cx(
+    className={cn(
       // base
       "w-full caption-bottom border-b",
       // border color
@@ -48,7 +49,7 @@ const TableHead = React.forwardRef<
   HTMLTableSectionElement,
   React.HTMLAttributes<HTMLTableSectionElement>
 >(({ className, ...props }, forwardedRef) => (
-  <thead ref={forwardedRef} className={cx(className)} {...props} />
+  <thead ref={forwardedRef} className={cn(className)} {...props} />
 ))
 
 TableHead.displayName = "TableHead"
@@ -59,7 +60,7 @@ const TableHeaderCell = React.forwardRef<
 >(({ className, ...props }, forwardedRef) => (
   <th
     ref={forwardedRef}
-    className={cx(
+    className={cn(
       // base
       "border-b px-4 py-3.5 text-left text-sm font-semibold",
       // text color
@@ -80,7 +81,7 @@ const TableBody = React.forwardRef<
 >(({ className, ...props }, forwardedRef) => (
   <tbody
     ref={forwardedRef}
-    className={cx(
+    className={cn(
       // base
       "divide-y",
       // divide color
@@ -99,7 +100,7 @@ const TableRow = React.forwardRef<
 >(({ className, ...props }, forwardedRef) => (
   <tr
     ref={forwardedRef}
-    className={cx(
+    className={cn(
       "[&_td:last-child]:pr-4 [&_th:last-child]:pr-4",
       "[&_td:first-child]:pl-4 [&_th:first-child]:pl-4",
       className,
@@ -116,7 +117,7 @@ const TableCell = React.forwardRef<
 >(({ className, ...props }, forwardedRef) => (
   <td
     ref={forwardedRef}
-    className={cx(
+    className={cn(
       // base
       "p-4 text-sm",
       // text color
@@ -136,7 +137,7 @@ const TableFoot = React.forwardRef<
   return (
     <tfoot
       ref={forwardedRef}
-      className={cx(
+      className={cn(
         // base
         "border-t text-left font-medium",
         // text color
@@ -158,7 +159,7 @@ const TableCaption = React.forwardRef<
 >(({ className, ...props }, forwardedRef) => (
   <caption
     ref={forwardedRef}
-    className={cx(
+    className={cn(
       // base
       "mt-3 px-3 text-center text-sm",
       // text color

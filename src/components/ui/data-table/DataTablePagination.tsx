@@ -1,5 +1,5 @@
 import { Button } from "@/components/Button"
-import { cx } from "@/lib/utils"
+import { cn } from "@/lib/utils"
 import {
   RiArrowLeftDoubleLine,
   RiArrowLeftSLine,
@@ -75,7 +75,7 @@ export function DataTablePagination<TData>({
             <Button
               key={index}
               variant="secondary"
-              className={cx(button.mobileView, "p-1.5")}
+              className={cn(button.mobileView, "p-1.5")}
               onClick={() => {
                 button.onClick()
                 table.resetRowSelection()

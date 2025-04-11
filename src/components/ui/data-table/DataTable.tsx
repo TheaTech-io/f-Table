@@ -8,7 +8,6 @@ import {
   TableHeaderCell,
   TableRow,
 } from "@/components/Table"
-import { cx } from "@/lib/utils"
 import { useState } from "react"
 
 import * as React from "react"
@@ -31,6 +30,8 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table"
+import { cn } from "@/lib/utils"
+
 
 interface DataTableProps<TData> {
   columns: ColumnDef<TData>[]
@@ -104,7 +105,7 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
                   {headerGroup.headers.map((header) => (
                     <TableHeaderCell
                       key={header.id}
-                      className={cx(
+                      className={cn(
                         "whitespace-nowrap px-4 py-2 text-sm font-medium text-gray-500 dark:text-gray-400", // Adjusted padding, font, color
                         header.column.columnDef.meta?.className,
                       )}
@@ -133,7 +134,7 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
                     {row.getVisibleCells().map((cell, index) => (
                       <TableCell
                         key={cell.id}
-                        className={cx(
+                        className={cn(
                           row.getIsSelected()
                             ? "bg-gray-50 dark:bg-gray-900"
                             : "",

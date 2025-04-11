@@ -3,7 +3,7 @@
 import * as NavigationMenuPrimitives from "@radix-ui/react-navigation-menu"
 import React from "react"
 
-import { cx, focusRing } from "@/lib/utils"
+import { cn } from "@/lib/utils"
 
 function getSubtree(
   options: { asChild: boolean | undefined; children: React.ReactNode },
@@ -31,7 +31,7 @@ const TabNavigation = React.forwardRef<
 >(({ className, children, ...props }, forwardedRef) => (
   <NavigationMenuPrimitives.Root ref={forwardedRef} {...props} asChild={false}>
     <NavigationMenuPrimitives.List
-      className={cx(
+      className={cn(
         // base
         "flex items-center justify-start whitespace-nowrap border-b [scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
         // border color
@@ -56,7 +56,7 @@ const TabNavigationLink = React.forwardRef<
   <NavigationMenuPrimitives.Item className="flex" aria-disabled={disabled}>
     <NavigationMenuPrimitives.Link
       aria-disabled={disabled}
-      className={cx(
+      className={cn(
         "group relative flex shrink-0 select-none items-center justify-center",
         disabled ? "pointer-events-none" : "",
       )}
@@ -67,7 +67,7 @@ const TabNavigationLink = React.forwardRef<
     >
       {getSubtree({ asChild, children }, (children) => (
         <span
-          className={cx(
+          className={cn(
             // base
             "-mb-px flex items-center justify-center whitespace-nowrap border-b-2 border-transparent px-3 pb-2 text-sm font-medium transition-all",
             // text color
@@ -83,7 +83,7 @@ const TabNavigationLink = React.forwardRef<
             disabled
               ? "pointer-events-none text-gray-300 dark:text-gray-700"
               : "",
-            focusRing,
+            "outline outline-offset-2 outline-0 focus-visible:outline-2 outline-indigo-500 dark:outline-indigo-500",
             className,
           )}
         >

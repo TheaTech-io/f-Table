@@ -3,7 +3,7 @@
 import * as RadioGroupPrimitives from "@radix-ui/react-radio-group"
 import React from "react"
 
-import { cx, focusInput, focusRing } from "@/lib/utils"
+import { cn } from "@/lib/utils"
 
 const RadioCardGroup = React.forwardRef<
   React.ComponentRef<typeof RadioGroupPrimitives.Root>,
@@ -12,7 +12,7 @@ const RadioCardGroup = React.forwardRef<
   return (
     <RadioGroupPrimitives.Root
       ref={forwardedRef}
-      className={cx("grid gap-2", className)}
+      className={cn("grid gap-2", className)}
       tremor-id="tremor-raw"
       {...props}
     />
@@ -28,7 +28,7 @@ const RadioCardItem = React.forwardRef<
   return (
     <RadioGroupPrimitives.Item
       ref={forwardedRef}
-      className={cx(
+      className={cn(
         // base
         "group relative w-full rounded-md border p-4 text-left shadow-sm transition focus:outline-none",
         // background color
@@ -40,7 +40,6 @@ const RadioCardItem = React.forwardRef<
         // disabled
         "data-[disabled]:border-gray-100 data-[disabled]:dark:border-gray-800",
         "data-[disabled]:bg-gray-50 data-[disabled]:shadow-none data-[disabled]:dark:bg-gray-900",
-        focusInput,
         className,
       )}
       {...props}
@@ -58,7 +57,7 @@ const RadioCardIndicator = React.forwardRef<
 >(({ className, ...props }, forwardedRef) => {
   return (
     <div
-      className={cx(
+      className={cn(
         // base
         "relative flex size-4 shrink-0 appearance-none items-center justify-center rounded-full border shadow-sm outline-none",
         // border color
@@ -70,18 +69,16 @@ const RadioCardIndicator = React.forwardRef<
         // disabled
         "group-data-[disabled]:border-gray-300 group-data-[disabled]:bg-gray-100 group-data-[disabled]:text-gray-400",
         "group-data-[disabled]:dark:border-gray-700 group-data-[disabled]:dark:bg-gray-800",
-        // focus
-        focusRing,
         className,
       )}
     >
       <RadioGroupPrimitives.Indicator
         ref={forwardedRef}
-        className={cx("flex items-center justify-center")}
+        className={cn("flex items-center justify-center")}
         {...props}
       >
         <div
-          className={cx(
+          className={cn(
             // base
             "size size-1.5 shrink-0 rounded-full",
             // indicator

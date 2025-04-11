@@ -4,7 +4,7 @@ import { RiSearchLine } from "@remixicon/react"
 import * as React from "react"
 import { tv, type VariantProps } from "tailwind-variants"
 
-import { cx, focusInput, hasErrorInput } from "@/lib/utils"
+import { cn } from "@/lib/utils"
 
 const inputStyles = tv({
   base: [
@@ -22,7 +22,7 @@ const inputStyles = tv({
     "disabled:border-gray-300 disabled:bg-gray-100 disabled:text-gray-400",
     "disabled:dark:border-gray-700 disabled:dark:bg-gray-800 disabled:dark:text-gray-500",
     // focus
-    focusInput,
+    "focus:ring-2 focus:ring-indigo-200 focus:dark:ring-indigo-700/30 focus:border-indigo-500 focus:dark:border-indigo-700",
     // invalid (optional)
     // "aria-[invalid=true]:dark:ring-red-400/20 aria-[invalid=true]:ring-2 aria-[invalid=true]:ring-red-200 aria-[invalid=true]:border-red-500 invalid:ring-2 invalid:ring-red-200 invalid:border-red-500"
     // remove search cancel button (optional)
@@ -30,7 +30,7 @@ const inputStyles = tv({
   ],
   variants: {
     hasError: {
-      true: hasErrorInput,
+      true: "ring-2 border-red-500 dark:border-red-700 ring-red-200 dark:ring-red-700/30",
     },
     // number input
     enableStepper: {
@@ -58,11 +58,11 @@ const Searchbar = React.forwardRef<HTMLInputElement, InputProps>(
     forwardedRef,
   ) => {
     return (
-      <div className={cx("relative w-full", className)}>
+      <div className={cn("relative w-full", className)}>
         <input
           ref={forwardedRef}
           type={type}
-          className={cx(
+          className={cn(
             inputStyles({ hasError, enableStepper }),
             "pl-8",
             inputClassName,
@@ -70,7 +70,7 @@ const Searchbar = React.forwardRef<HTMLInputElement, InputProps>(
           {...props}
         />
         <div
-          className={cx(
+          className={cn(
             // base
             "pointer-events-none absolute bottom-0 left-2 flex h-full items-center justify-center",
             // text color

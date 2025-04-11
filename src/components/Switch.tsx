@@ -4,7 +4,7 @@ import * as SwitchPrimitives from "@radix-ui/react-switch"
 import React from "react"
 import { tv, VariantProps } from "tailwind-variants"
 
-import { cx, focusRing } from "@/lib/utils"
+import { cn } from "@/lib/utils"
 
 const switchVariants = tv({
   slots: {
@@ -30,7 +30,6 @@ const switchVariants = tv({
       // disabled unchecked dark
       "data-[disabled]:data-[state=unchecked]:dark:ring-gray-700",
       "data-[disabled]:data-[state=unchecked]:dark:bg-gray-800",
-      focusRing,
     ],
     thumb: [
       // base
@@ -76,10 +75,10 @@ const Switch = React.forwardRef<
   return (
     <SwitchPrimitives.Root
       ref={forwardedRef}
-      className={cx(root(), className)}
+      className={cn(root(), className)}
       {...props}
     >
-      <SwitchPrimitives.Thumb className={cx(thumb())} />
+      <SwitchPrimitives.Thumb className={cn(thumb())} />
     </SwitchPrimitives.Root>
   )
 })

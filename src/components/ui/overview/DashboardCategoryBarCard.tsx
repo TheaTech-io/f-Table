@@ -1,5 +1,5 @@
 import { Badge } from "@/components/Badge"
-import { cx } from "@/lib/utils"
+import { cn } from "@/lib/utils"
 
 import type { KpiEntryExtended } from "@/app/(main)/overview/page"
 
@@ -50,7 +50,7 @@ export function CategoryBarCard({
               {data.map((item) => (
                 <div
                   key={item.title}
-                  className={cx(item.color, `h-1.5 rounded-full`)}
+                  className={cn(item.color, `h-1.5 rounded-full`)}
                   style={{ width: `${item.percentage}%` }}
                 />
               ))}
@@ -60,7 +60,7 @@ export function CategoryBarCard({
             {data.map((item) => (
               <li key={item.title} className="flex items-center gap-2 text-xs">
                 <span
-                  className={cx(item.color, "size-2.5 rounded-sm")}
+                  className={cn(item.color, "size-2.5 rounded-sm")}
                   aria-hidden="true"
                 />
                 <span className="text-gray-900 dark:text-gray-50">
