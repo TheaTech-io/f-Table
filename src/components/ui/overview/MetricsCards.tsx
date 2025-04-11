@@ -3,16 +3,12 @@ import React from 'react';
 type Category = "red" | "orange" | "emerald" | "gray"
 type CallReportMetric = {
   label: string;
-  value: number; // Raw value (0-1) for indicator logic
+  value: number; // Raw value (0-1) for indicator logic - kept for potential future use but not for color
   percentage: string; // Formatted percentage string (e.g., "85%")
   fraction: string; // Formatted fraction string (e.g., "425/500")
+  color: Category; // Explicit color assignment
 };
 
-const getCategory = (value: number): Category => {
-  if (value < 0.3) return "red"
-  if (value < 0.7) return "orange"
-  return "emerald"
-}
 
 const categoryConfig = {
   red: {
@@ -33,9 +29,8 @@ const categoryConfig = {
   },
 } as const
 
-function Indicator({ number }: { number: number }) {
-  const category = getCategory(number)
-  const config = categoryConfig[category]
+function Indicator({ color }: { color: Category }) { // Accept color directly
+  const config = categoryConfig[color] // Use the passed color
   const inactiveClass = "bg-gray-300 dark:bg-gray-800"
 
   return (
@@ -55,21 +50,24 @@ function Indicator({ number }: { number: number }) {
 const callReportMetrics: CallReportMetric[] = [
   {
     label: "Yanıtlanma Oranı", // Answer Rate
-    value: 0.85, // 85% as 0.85
+    value: 0.85,
     percentage: "85%",
     fraction: "425/500",
+    color: "orange", // Assign specific color
   },
   {
     label: "Günlük Çağrı Hedefi", // Daily Call Target
-    value: 0.75, // 75% as 0.75
+    value: 0.75,
     percentage: "75%",
-    fraction: "Ort. 750 / Hedef 1000", // Keep the specific format
+    fraction: "Ort. 750 / Hedef 1000",
+    color: "red", // Assign specific color
   },
   {
     label: "Pozitif Memnuniyet", // Positive Satisfaction Rate
-    value: 0.72, // 72% as 0.72
+    value: 0.72,
     percentage: "72%",
     fraction: "252/350",
+    color: "emerald", // Assign specific color (green)
   },
 ];
 
@@ -80,7 +78,7 @@ function CallReportMetricCard({ metric }: { metric: CallReportMetric }) {
         {metric.label}
       </dt>
       <dd className="mt-1.5 flex items-center gap-2">
-        <Indicator number={metric.value} />
+        <Indicator color={metric.color} /> {/* Pass the explicit color */}
         <p className="text-lg font-semibold text-gray-900 dark:text-gray-50">
           {metric.percentage}{" "}
           <span className="font-medium text-gray-400 dark:text-gray-600">
