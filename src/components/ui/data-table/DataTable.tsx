@@ -19,7 +19,7 @@ import { DataTablePagination } from "./DataTablePagination"
 
 import { ReportErrorDrawer } from "@/components/ui/ReportErrorDrawer" // Added import
 
-import { CallReportDrawer } from "@/components/ui/call-reports/CallReportDrawer"; // Adjust path if needed
+import { BaseCallDrawer } from "@/components/ui/call-reports/BaseCallDrawer"; // Use the new BaseCallDrawer
 import { CallReport } from "@/data/schema"; // Import the data type
 
 import {
@@ -83,7 +83,7 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
   return (
     <>
       {/* Drawer Components */}
-      <CallReportDrawer
+      <BaseCallDrawer
         open={isDrawerOpen}
         onOpenChange={setIsDrawerOpen}
         datas={selectedRowData}
