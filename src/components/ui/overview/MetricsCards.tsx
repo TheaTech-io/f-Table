@@ -1,40 +1,75 @@
 import React from 'react';
 
+type Category = "red" | "orange" | "emerald" | "gray"
 type CallReportMetric = {
   label: string;
-  percentageValue: number; // For progress bar (0-100)
-  displayValue: string; // Formatted string like "85% - 425/500"
+  value: number; // Raw value (0-1) for indicator logic
+  percentage: string; // Formatted percentage string (e.g., "85%")
+  fraction: string; // Formatted fraction string (e.g., "425/500")
 };
 
-function ProgressBar({ percentage }: { percentage: number }) {
-  const cappedPercentage = Math.min(100, Math.max(0, percentage)); // Ensure percentage is between 0 and 100
-
-  return (
-    <div className="h-2 w-20 rounded-full bg-gray-200 dark:bg-gray-700">
-      <div
-        className="h-full rounded-full bg-indigo-600 dark:bg-indigo-500"
-        style={{ width: `${cappedPercentage}%` }}
-      />
-    </div>
-  );
+const getCategory = (value: number): Category => {
+  if (value < 0.3) return "red"
+  if (value < 0.7) return "orange"
+  return "emerald"
 }
 
+const categoryConfig = {
+  red: {
+    activeClass: "bg-red-500 dark:bg-red-500",
+    bars: 1,
+  },
+  orange: {
+    activeClass: "bg-orange-500 dark:bg-orange-500",
+    bars: 2,
+  },
+  emerald: {
+    activeClass: "bg-emerald-500 dark:bg-emerald-500",
+    bars: 3,
+  },
+  gray: {
+    activeClass: "bg-gray-300 dark:bg-gray-800",
+    bars: 0,
+  },
+} as const
+
+function Indicator({ number }: { number: number }) {
+  const category = getCategory(number)
+  const config = categoryConfig[category]
+  const inactiveClass = "bg-gray-300 dark:bg-gray-800"
+
+  return (
+    <div className="flex gap-0.5">
+      {[0, 1, 2].map((index) => (
+        <div
+          key={index}
+          className={`h-3.5 w-1 rounded-sm ${
+            index < config.bars ? config.activeClass : inactiveClass
+          }`}
+        />
+      ))}
+    </div>
+  )
+}
 
 const callReportMetrics: CallReportMetric[] = [
   {
     label: "Yanıtlanma Oranı", // Answer Rate
-    percentageValue: 85,
-    displayValue: "85% - 425/500",
+    value: 0.85, // 85% as 0.85
+    percentage: "85%",
+    fraction: "425/500",
   },
   {
     label: "Günlük Çağrı Hedefi", // Daily Call Target
-    percentageValue: 75,
-    displayValue: "75% - Ort. 750 / Hedef 1000",
+    value: 0.75, // 75% as 0.75
+    percentage: "75%",
+    fraction: "Ort. 750 / Hedef 1000", // Keep the specific format
   },
   {
     label: "Pozitif Memnuniyet", // Positive Satisfaction Rate
-    percentageValue: 72,
-    displayValue: "72% - 252/350",
+    value: 0.72, // 72% as 0.72
+    percentage: "72%",
+    fraction: "252/350",
   },
 ];
 
@@ -45,9 +80,12 @@ function CallReportMetricCard({ metric }: { metric: CallReportMetric }) {
         {metric.label}
       </dt>
       <dd className="mt-1.5 flex items-center gap-2">
-        <ProgressBar percentage={metric.percentageValue} />
+        <Indicator number={metric.value} />
         <p className="text-lg font-semibold text-gray-900 dark:text-gray-50">
-          {metric.displayValue}
+          {metric.percentage}{" "}
+          <span className="font-medium text-gray-400 dark:text-gray-600">
+            - {metric.fraction}
+          </span>
         </p>
       </dd>
     </div>
