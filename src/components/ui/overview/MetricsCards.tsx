@@ -1,12 +1,12 @@
 import React from 'react';
 
 type Category = "red" | "orange" | "emerald" | "gray"
-type Metric = {
-  label: string
-  value: number
-  percentage: string
-  fraction: string
-}
+type CallReportMetric = {
+  label: string;
+  value: number; // Raw value (0-1) for indicator logic
+  percentage: string; // Formatted percentage string (e.g., "85%")
+  fraction: string; // Formatted fraction string (e.g., "425/500")
+};
 
 const getCategory = (value: number): Category => {
   if (value < 0.3) return "red"
@@ -52,28 +52,28 @@ function Indicator({ number }: { number: number }) {
   )
 }
 
-const metrics: Metric[] = [
+const callReportMetrics: CallReportMetric[] = [
   {
-    label: "Lead-to-Quote Ratio",
-    value: 0.61,
-    percentage: "59.8%",
-    fraction: "450/752",
+    label: "Yanıtlanma Oranı", // Answer Rate
+    value: 0.85, // 85% as 0.85
+    percentage: "85%",
+    fraction: "425/500",
   },
   {
-    label: "Project Load",
-    value: 0.24,
-    percentage: "12.9%",
-    fraction: "129/1K",
+    label: "Günlük Çağrı Hedefi", // Daily Call Target
+    value: 0.75, // 75% as 0.75
+    percentage: "75%",
+    fraction: "Ort. 750 / Hedef 1000", // Keep the specific format
   },
   {
-    label: "Win Probability",
-    value: 0.8,
-    percentage: "85.1%",
-    fraction: "280/329",
+    label: "Pozitif Memnuniyet", // Positive Satisfaction Rate
+    value: 0.72, // 72% as 0.72
+    percentage: "72%",
+    fraction: "252/350",
   },
-]
+];
 
-function MetricCard({ metric }: { metric: Metric }) {
+function CallReportMetricCard({ metric }: { metric: CallReportMetric }) {
   return (
     <div>
       <dt className="text-sm text-gray-500 dark:text-gray-500">
@@ -89,20 +89,21 @@ function MetricCard({ metric }: { metric: Metric }) {
         </p>
       </dd>
     </div>
-  )
+  );
 }
 
 export function MetricsCards() {
   return (
     <>
-      <h1 className="text-lg font-semibold text-gray-900 dark:text-gray-50">
-        Call Reports
-      </h1>
+      {/* Title can remain generic or be updated if needed */}
+      {/* <h1 className="text-lg font-semibold text-gray-900 dark:text-gray-50">
+        Overview
+      </h1> */}
       <dl className="mt-6 flex flex-wrap items-center gap-x-12 gap-y-8">
-        {metrics.map((metric) => (
-          <MetricCard key={metric.label} metric={metric} />
+        {callReportMetrics.map((metric) => (
+          <CallReportMetricCard key={metric.label} metric={metric} />
         ))}
       </dl>
     </>
-  )
+  );
 }
