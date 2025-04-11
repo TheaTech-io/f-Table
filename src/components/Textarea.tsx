@@ -1,8 +1,11 @@
 // Tremor Textarea [v0.0.2]
 
+import { cn } from "@/lib/utils"
+
 import React from "react"
 
-import { cx, focusInput, hasErrorInput } from "@/lib/utils"
+import { focusInput, hasErrorInput } from "@/lib/utils"
+
 
 interface TextareaProps
   extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
@@ -14,7 +17,7 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
     return (
       <textarea
         ref={forwardedRef}
-        className={cx(
+        className={cn(
           // base
           "flex min-h-[4rem] w-full rounded-md border px-3 py-1.5 shadow-sm outline-none transition-colors sm:text-sm",
           // text color

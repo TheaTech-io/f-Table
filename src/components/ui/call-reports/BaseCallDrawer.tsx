@@ -174,62 +174,98 @@ export function BaseCallDrawer({ // Renamed component
                      </div>
                      <span className="text-xs font-medium text-gray-900 dark:text-gray-50">20%</span> {/* Placeholder % */}
                    </div>
-                    {/* Add more bars as needed (Acil, Kibar, etc.) */}
-                 </div>
+                    {/* Example Bar 4: Acil */}
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs text-gray-500 dark:text-gray-400 w-16 shrink-0">Acil</span>
+                    <div className="h-2 flex-grow bg-gray-200 dark:bg-gray-700 rounded-full">
+                      <div className="h-full bg-orange-500 rounded-full" style={{ width: '5%' }}></div> {/* Placeholder % */}
+                    </div>
+                    <span className="text-xs font-medium text-gray-900 dark:text-gray-50">5%</span> {/* Placeholder % */}
+                  </div>
+                   {/* Example Bar 5: Kibar */}
+                   <div className="flex items-center gap-2">
+                    <span className="text-xs text-gray-500 dark:text-gray-400 w-16 shrink-0">Kibar</span>
+                    <div className="h-2 flex-grow bg-gray-200 dark:bg-gray-700 rounded-full">
+                      <div className="h-full bg-blue-500 rounded-full" style={{ width: '80%' }}></div> {/* Placeholder % */}
+                    </div>
+                    <span className="text-xs font-medium text-gray-900 dark:text-gray-50">80%</span> {/* Placeholder % */}
+                  </div>
+                </div>
 
-                 <div className="pt-4">
-                    <h3 className="text-sm font-medium text-gray-900 dark:text-gray-50 mb-2">Müşteri Duygu Durumu</h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">Orta, Sakin (Skor: 0.1)</p> {/* Placeholder */}
-                 </div>
-              </TabsContent>
-              {/* Tab 3: Aksiyon Önerileri */}
-              <TabsContent value="actions" className="space-y-6 px-6 pt-4">
-                 <h3 className="text-sm font-medium text-gray-900 dark:text-gray-50 mb-3">
-                   Aksiyon Önerileri
-                 </h3>
-                 {/* Action Items List - Placeholder Implementation */}
-                 <ul role="list" className="space-y-6">
-                   {/* Example Action Item 1 */}
+                <div className="pt-4">
+                   <h3 className="text-sm font-medium text-gray-900 dark:text-gray-50 mb-2">Müşteri Duygu Durumu</h3>
+                   <p className="text-sm text-gray-600 dark:text-gray-400">Orta, Sakin (Skor: 0.1)</p> {/* Placeholder */}
+                </div>
+             </TabsContent>
+             {/* Tab 3: Aksiyon Önerileri */}
+             <TabsContent value="actions" className="space-y-6 px-6 pt-4">
+                <h3 className="text-sm font-medium text-gray-900 dark:text-gray-50 mb-3">
+                  Aksiyon Önerileri
+                </h3>
+                {/* Action Items List - Placeholder Implementation */}
+                <ul role="list" className="space-y-6">
+                  {/* Example Action Item 1 */}
+                  <li className="relative flex flex-col gap-y-2">
+                    <div className="flex gap-x-3 items-start">
+                      <CircleCheck className="h-5 w-5 text-blue-500 mt-0.5 flex-none" aria-hidden="true" />
+                      <p className="text-sm text-gray-700 dark:text-gray-300">Müşteriye geri ödeme süreci hakkında bilgi verin.</p> {/* Placeholder Action */}
+                    </div>
+                    {/* Comments for Action 1 */}
+                    <div className="pl-8 space-y-2">
+                      {/* Existing Comment Example */}
+                      <div className="text-xs text-gray-500 dark:text-gray-400">
+                        <span className="font-medium text-gray-600 dark:text-gray-300">Ahmet Yılmaz:</span> Bilgi verildi. (2 saat önce)
+                      </div>
+                      {/* Add Comment Form */}
+                      <form className="relative">
+                        <Label htmlFor="comment-1" className="sr-only">Add comment for action 1</Label>
+                        <Textarea id="comment-1" name="comment-1" rows={2} placeholder="Add your comment..." className="text-xs"/>
+                        {/* Add submit button if needed */}
+                      </form>
+                    </div>
+                  </li>
+                  {/* Example Action Item 2 */}
+                  <li className="relative flex flex-col gap-y-2">
+                    <div className="flex gap-x-3 items-start">
+                      <CircleCheck className="h-5 w-5 text-blue-500 mt-0.5 flex-none" aria-hidden="true" />
+                      <p className="text-sm text-gray-700 dark:text-gray-300">Teknik ekibe fatura hatasıyla ilgili bildirim yapın.</p> {/* Placeholder Action */}
+                    </div>
+                     {/* Comments for Action 2 */}
+                    <div className="pl-8 space-y-2">
+                      {/* No existing comments example */}
+                      {/* Add Comment Form */}
+                      <form className="relative">
+                        <Label htmlFor="comment-2" className="sr-only">Add comment for action 2</Label>
+                        <Textarea id="comment-2" name="comment-2" rows={2} placeholder="Add your comment..." className="text-xs"/>
+                      </form>
+                    </div>
+                  </li>
+                   {/* Example Action Item 3 */}
                    <li className="relative flex flex-col gap-y-2">
-                     <div className="flex gap-x-3 items-start">
-                       <CircleCheck className="h-5 w-5 text-blue-500 mt-0.5 flex-none" aria-hidden="true" />
-                       <p className="text-sm text-gray-700 dark:text-gray-300">Müşteriye geri ödeme süreci hakkında bilgi verin.</p> {/* Placeholder Action */}
-                     </div>
-                     {/* Comments for Action 1 */}
-                     <div className="pl-8 space-y-2">
+                    <div className="flex gap-x-3 items-start">
+                      <CircleCheck className="h-5 w-5 text-blue-500 mt-0.5 flex-none" aria-hidden="true" />
+                      <p className="text-sm text-gray-700 dark:text-gray-300">Müşterinin abonelik iptal talebini işleme alın.</p> {/* Placeholder Action */}
+                    </div>
+                     {/* Comments for Action 3 */}
+                    <div className="pl-8 space-y-2">
                        {/* Existing Comment Example */}
                        <div className="text-xs text-gray-500 dark:text-gray-400">
-                         <span className="font-medium text-gray-600 dark:text-gray-300">Ahmet Yılmaz:</span> Bilgi verildi. (2 saat önce)
-                       </div>
-                       {/* Add Comment Form */}
-                       <form className="relative">
-                         <Label htmlFor="comment-1" className="sr-only">Add comment for action 1</Label>
-                         <Textarea id="comment-1" name="comment-1" rows={2} placeholder="Add your comment..." className="text-xs"/>
-                         {/* Add submit button if needed */}
-                       </form>
-                     </div>
-                   </li>
-                   {/* Example Action Item 2 */}
-                   <li className="relative flex flex-col gap-y-2">
-                     <div className="flex gap-x-3 items-start">
-                       <CircleCheck className="h-5 w-5 text-blue-500 mt-0.5 flex-none" aria-hidden="true" />
-                       <p className="text-sm text-gray-700 dark:text-gray-300">Teknik ekibe fatura hatasıyla ilgili bildirim yapın.</p> {/* Placeholder Action */}
-                     </div>
-                      {/* Comments for Action 2 */}
-                     <div className="pl-8 space-y-2">
-                       {/* No existing comments example */}
-                       {/* Add Comment Form */}
-                       <form className="relative">
-                         <Label htmlFor="comment-2" className="sr-only">Add comment for action 2</Label>
-                         <Textarea id="comment-2" name="comment-2" rows={2} placeholder="Add your comment..." className="text-xs"/>
-                       </form>
-                     </div>
-                   </li>
-                   {/* Add more action items as needed */}
-                 </ul>
-              </TabsContent>
-            </Tabs>
-          </DrawerBody>
+                        <span className="font-medium text-gray-600 dark:text-gray-300">Ayşe Demir:</span> Talep alındı, ilgili birime iletildi. (Dün 15:30)
+                      </div>
+                       <div className="text-xs text-gray-500 dark:text-gray-400">
+                        <span className="font-medium text-gray-600 dark:text-gray-300">Mehmet Kaya:</span> İptal işlemi tamamlandı. (Bugün 09:15)
+                      </div>
+                      {/* Add Comment Form */}
+                      <form className="relative">
+                        <Label htmlFor="comment-3" className="sr-only">Add comment for action 3</Label>
+                        <Textarea id="comment-3" name="comment-3" rows={2} placeholder="Add your comment..." className="text-xs"/>
+                      </form>
+                    </div>
+                  </li>
+                </ul>
+             </TabsContent>
+           </Tabs>
+         </DrawerBody>
           {/* Updated Footer */}
           <DrawerFooter className="-mx-6 -mb-2 gap-2 bg-white px-6 dark:bg-gray-925">
             {/* Removed original buttons */}
