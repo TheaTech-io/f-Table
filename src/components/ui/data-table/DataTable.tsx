@@ -19,6 +19,9 @@ import { DataTablePagination } from "./DataTablePagination"
 
 import { ReportErrorDrawer } from "@/components/ui/ReportErrorDrawer" // Added import
 
+import { CallReportDrawer } from "@/components/ui/call-reports/CallReportDrawer"; // Adjust path if needed
+import { CallReport } from "@/data/schema"; // Import the data type
+
 import {
   ColumnDef,
   flexRender,
@@ -39,6 +42,9 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
   const [rowSelection, setRowSelection] = useState({})
   const [globalFilter, setGlobalFilter] = useState("")
   const [isReportErrorOpen, setIsReportErrorOpen] = useState(false) // Added state for drawer
+
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [selectedRowData, setSelectedRowData] = useState<CallReport | undefined>(undefined);
 
   const table = useReactTable({
     data,
@@ -108,8 +114,12 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
                 table.getRowModel().rows.map((row) => (
                   <TableRow
                     key={row.id}
-                    onClick={() => row.toggleSelected(!row.getIsSelected())}
-                    className="group select-none hover:bg-gray-50 hover:dark:bg-gray-900"
+                    data-state={row.getIsSelected() && "selected"} // Keep existing data-state
+                    onClick={() => { // Add this onClick handler
+                      setSelectedRowData(row.original as CallReport);
+                      setIsDrawerOpen(true);
+                    }}
+                    className="group select-none hover:bg-gray-50 hover:dark:bg-gray-900 relative cursor-pointer" // Add cursor-pointer and relative
                   >
                     {row.getVisibleCells().map((cell, index) => (
                       <TableCell
@@ -140,6 +150,12 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
                     colSpan={columns.length}
                     className="h-24 text-center"
                   >
+      <CallReportDrawer
+        open={isDrawerOpen}
+        onOpenChange={setIsDrawerOpen}
+        datas={selectedRowData}
+      />
+
                     No results.
                   </TableCell>
                 </TableRow>
