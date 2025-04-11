@@ -8,6 +8,7 @@ import {
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
+  DrawerDescription,
 } from "@/components/Drawer"
 import { RadioCardGroup, RadioCardItem } from "@/components/RadioCardGroup"
 import {
@@ -79,6 +80,7 @@ const FirstPage = ({ formData, onUpdateForm }: FormPageProps) => (
         <span className="text-sm font-normal text-gray-500 dark:text-gray-500">
           Ticket Type &amp; Category
         </span>
+        <DrawerDescription className="sr-only">Dialog providing steps to create a support ticket.</DrawerDescription> {/* Added for accessibility */}
       </DrawerTitle>
     </DrawerHeader>
     <DrawerBody className="-mx-6 space-y-6 overflow-y-scroll border-t border-gray-200 px-6 dark:border-gray-800">

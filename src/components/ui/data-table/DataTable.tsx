@@ -123,6 +123,7 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
                         )}
                       >
                         {index === 0 && row.getIsSelected() && (
+                          /* Use original indigo for selected row accent */
                           <div className="absolute inset-y-0 left-0 w-0.5 bg-indigo-600 dark:bg-indigo-500" />
                         )}
                         {flexRender(
@@ -147,7 +148,7 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
           </Table>
       <ReportErrorDrawer open={isReportErrorOpen} onOpenChange={setIsReportErrorOpen} />
 
-          <DataTableBulkEditor table={table} rowSelection={rowSelection} />
+          <DataTableBulkEditor table={table} rowSelection={rowSelection} setIsReportErrorOpen={setIsReportErrorOpen} />
         </div>
         <DataTablePagination table={table} pageSize={pageSize} />
       </div>

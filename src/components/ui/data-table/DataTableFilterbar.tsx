@@ -39,14 +39,14 @@ export function Filterbar<TData>({
   const initialDateFilter = dateColumn?.getFilterValue() as DateRange | undefined;
   const [dateRange, setDateRange] = useState<DateRange | undefined>(initialDateFilter);
 
-   useEffect(() => {
-     setDateRange(dateColumn?.getFilterValue() as DateRange | undefined);
-   }, [dateColumn?.getFilterValue()]);
-
-
+  const dateFilterValue = dateColumn?.getFilterValue() as DateRange | undefined;
   useEffect(() => {
-    console.log("Date filter value changed in table state:", dateColumn?.getFilterValue());
-  }, [dateColumn?.getFilterValue()]); // Log when the filter value in the table state changes
+    setDateRange(dateFilterValue);
+  }, [dateFilterValue, dateColumn]); // Added dateColumn and used extracted variable
+
+
+  // useEffect(() => {
+  // }, [dateFilterValue, dateColumn]); // Added dateColumn and used extracted variable
 
   const debouncedSetGlobalFilter = useDebouncedCallback((value) => {
     setGlobalFilter(value || "") // Update global filter state

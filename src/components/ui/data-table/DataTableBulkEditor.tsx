@@ -1,5 +1,7 @@
 "use client"
 
+import React from "react" // Add React import
+
 import {
   CommandBar,
   CommandBarBar,
@@ -12,11 +14,13 @@ import { RowSelectionState, Table } from "@tanstack/react-table"
 type DataTableBulkEditorProps<TData> = {
   table: Table<TData>
   rowSelection: RowSelectionState
+  setIsReportErrorOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 function DataTableBulkEditor<TData>({
-  table,
+  table, // Destructure table correctly
   rowSelection,
+  setIsReportErrorOpen,
 }: DataTableBulkEditorProps<TData>) {
   const hasSelectedRows = Object.keys(rowSelection).length > 0
   return (
@@ -27,29 +31,40 @@ function DataTableBulkEditor<TData>({
         </CommandBarValue>
         <CommandBarSeperator />
         <CommandBarCommand
-          label="Edit"
+          label="Tekrar ara"
           action={() => {
-            console.log("Edit")
+            console.log("Redial requested for call ID(s):", Object.keys(rowSelection))
           }}
-          shortcut={{ shortcut: "e" }}
+          shortcut={{ shortcut: "" }} // Add placeholder shortcut
+
         />
         <CommandBarSeperator />
         <CommandBarCommand
-          label="Delete"
+          label="Hata Bildir"
           action={() => {
-            console.log("Delete")
+            setIsReportErrorOpen(true) // Use the prop here
           }}
-          shortcut={{ shortcut: "d" }}
+          shortcut={{ shortcut: "" }} // Add placeholder shortcut
+
         />
         <CommandBarSeperator />
         <CommandBarCommand
-          label="Reset"
+          label="Detaylı Rapor"
+          action={() => {
+            console.log("Detailed report requested for call ID(s):", Object.keys(rowSelection))
+          }}
+          shortcut={{ shortcut: "" }} // Add placeholder shortcut
+        />
+        {/* Keep Reset functionality */}
+        <CommandBarSeperator />
+        <CommandBarCommand
+          label="Reset Selection" // Renamed label
           action={() => {
             table.resetRowSelection()
           }}
           shortcut={{ shortcut: "Escape", label: "esc" }}
-          // don't disable this command
         />
+
       </CommandBarBar>
     </CommandBar>
   )

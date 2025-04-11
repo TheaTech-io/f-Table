@@ -202,21 +202,21 @@ export const columns: ColumnDef<CallReport>[] = [
       displayName: "Customer Number",
     },
   }),
-    columnHelper.accessor("callAttempts", {
+    columnHelper.accessor("stability", {
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Call Attempts" /> // Updated title
+        <DataTableColumnHeader column={column} title="Stability" />
       ),
       enableSorting: true, // Keep sorting enabled
       meta: {
         className: "text-center", // Ensure cell content can be centered
-        displayName: "Call Attempts", // Updated display name
+        displayName: "Stability",
       },
       cell: ({ getValue }) => {
         const attempts = getValue() as number; // Get attempt count (0-3)
 
         function Indicator({ count }: { count: number }) {
           const getBarClass = (index: number) => {
-            const filledClass = "bg-indigo-600 dark:bg-indigo-500";
+            const filledClass = "bg-primary-accent dark:bg-primary-accent";
             const emptyClass = "bg-gray-300 dark:bg-gray-700";
 
             if (index < count) {
