@@ -221,7 +221,7 @@ export const columns: ColumnDef<CallReport>[] = [
 
         function Indicator({ count }: { count: number }) {
           const getBarClass = (index: number) => {
-            const filledClass = "bg-primary-accent dark:bg-primary-accent";
+            const filledClass = "bg-blue-500 dark:bg-blue-600"; // Changed from primary-accent
             const emptyClass = "bg-gray-300 dark:bg-gray-700";
 
             if (index < count) {

@@ -12,7 +12,7 @@ function Indicator({ value, color }: { value: number; color: string }) {
   const percentageWidth = `${Math.max(0, Math.min(100, value * 100))}%`; // Ensure width is between 0% and 100%
 
   return (
-    <div className="w-20 h-2 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden">
+    <div className="w-20 h-3 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden"> {/* Increased height from h-2 to h-3 */}
       <div
         className={`h-full rounded-full ${color}`}
         style={{ width: percentageWidth }}
@@ -48,7 +48,7 @@ const callReportMetrics: CallReportMetric[] = [
 function CallReportMetricCard({ metric }: { metric: CallReportMetric }) {
   return (
     <div>
-      <dt className="text-sm text-gray-500 dark:text-gray-500">
+      <dt className="text-sm text-gray-500 dark:text-gray-400"> {/* Adjusted dark mode text color */}
         {metric.label}
       </dt>
       <dd className="mt-1.5 flex items-center gap-2">
@@ -56,7 +56,7 @@ function CallReportMetricCard({ metric }: { metric: CallReportMetric }) {
         <Indicator value={metric.value} color={metric.color} />
         <p className="text-lg font-semibold text-gray-900 dark:text-gray-50">
           {metric.percentage}{" "}
-          <span className="font-medium text-gray-400 dark:text-gray-600">
+          <span className="font-medium text-gray-500 dark:text-gray-400"> {/* Adjusted dark mode text color */}
             - {metric.fraction}
           </span>
         </p>
