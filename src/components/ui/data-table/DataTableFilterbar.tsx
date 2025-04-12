@@ -111,7 +111,7 @@ export function Filterbar<TData>({
               setGlobalFilter("") // Reset global filter state
               setDateRange(undefined) // Reset date range state
             }}
-            className="h-[30px] items-center border border-gray-200 px-2 font-semibold text-indigo-600 sm:border-none sm:py-1 dark:border-gray-700 dark:text-indigo-300" // Further adjusted dark text
+            className="h-[30px] items-center border border-gray-200 px-2 font-semibold text-indigo-600 sm:border-none sm:py-1 dark:border-gray-800 dark:text-indigo-500" // Added h-[30px] and items-center
           >
             Clear filters
           </Button>

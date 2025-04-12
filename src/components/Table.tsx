@@ -36,7 +36,7 @@ const Table = React.forwardRef<
       // base
       "w-full caption-bottom border-b",
       // border color
-      "border-gray-200 dark:border-gray-700", // Adjusted dark border
+      "border-gray-200 dark:border-gray-800",
       className,
     )}
     {...props}
@@ -66,7 +66,7 @@ const TableHeaderCell = React.forwardRef<
       // text color
       "text-gray-900 dark:text-gray-50",
       // border color
-      "border-gray-200 dark:border-gray-700", // Adjusted dark border
+      "border-gray-200 dark:border-gray-800",
       className,
     )}
     {...props}
@@ -85,7 +85,7 @@ const TableBody = React.forwardRef<
       // base
       "divide-y",
       // divide color
-      "divide-gray-200 dark:divide-gray-700", // Adjusted dark divide
+      "divide-gray-200 dark:divide-gray-800",
       className,
     )}
     {...props}
@@ -121,7 +121,7 @@ const TableCell = React.forwardRef<
       // base
       "p-4 text-sm",
       // text color
-      "text-gray-600 dark:text-gray-300", // Adjusted dark text
+      "text-gray-600 dark:text-gray-400",
       className,
     )}
     {...props}
@@ -143,7 +143,7 @@ const TableFoot = React.forwardRef<
         // text color
         "text-gray-900 dark:text-gray-50",
         // border color
-        "border-gray-200 dark:border-gray-700", // Adjusted dark border
+        "border-gray-200 dark:border-gray-800",
         className,
       )}
       {...props}
@@ -163,7 +163,7 @@ const TableCaption = React.forwardRef<
       // base
       "mt-3 px-3 text-center text-sm",
       // text color
-      "text-gray-500 dark:text-gray-400", // Adjusted dark text
+      "text-gray-500 dark:text-gray-500",
       className,
     )}
     {...props}

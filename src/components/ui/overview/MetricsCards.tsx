@@ -1,5 +1,4 @@
 import React from 'react';
-import { SegmentedVerticalBarIndicator } from "@/components/ui/SegmentedVerticalBarIndicator"; // Import the new indicator
 
 type CallReportMetric = {
   label: string;
@@ -8,6 +7,19 @@ type CallReportMetric = {
   fraction: string; // Formatted fraction string (e.g., "425/500")
   color: string; // Tailwind CSS background color class (e.g., "bg-blue-500")
 };
+
+function Indicator({ value, color }: { value: number; color: string }) {
+  const percentageWidth = `${Math.max(0, Math.min(100, value * 100))}%`; // Ensure width is between 0% and 100%
+
+  return (
+    <div className="w-20 h-2 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden">
+      <div
+        className={`h-full rounded-full ${color}`}
+        style={{ width: percentageWidth }}
+      />
+    </div>
+  );
+}
 
 const callReportMetrics: CallReportMetric[] = [
   {
@@ -36,20 +48,15 @@ const callReportMetrics: CallReportMetric[] = [
 function CallReportMetricCard({ metric }: { metric: CallReportMetric }) {
   return (
     <div>
-      <dt className="text-sm text-gray-500 dark:text-gray-400"> {/* Adjusted dark mode text */}
+      <dt className="text-sm text-gray-500 dark:text-gray-500">
         {metric.label}
       </dt>
       <dd className="mt-1.5 flex items-center gap-2">
-        {/* Use the new SegmentedVerticalBarIndicator */}
-        <SegmentedVerticalBarIndicator
-            value={metric.value}
-            color={metric.color}
-            isPercentage={true} // Value is percentage (0-1)
-        />
-        <p className="text-lg font-semibold text-gray-900 dark:text-gray-100"> {/* Adjusted dark text */}
+        {/* Pass value and color to the Indicator */}
+        <Indicator value={metric.value} color={metric.color} />
+        <p className="text-lg font-semibold text-gray-900 dark:text-gray-50">
           {metric.percentage}{" "}
-          {/* Adjusted dark mode text and matched light mode color */}
-          <span className="font-medium text-gray-500 dark:text-gray-400"> {/* Kept dark fraction text */}
+          <span className="font-medium text-gray-400 dark:text-gray-600">
             - {metric.fraction}
           </span>
         </p>

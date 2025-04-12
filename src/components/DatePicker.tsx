@@ -156,15 +156,15 @@ const triggerStyles = tv({
     // base
     "peer flex w-full cursor-pointer appearance-none items-center gap-x-2 truncate rounded-md border px-3 py-2 shadow-sm outline-none transition-all sm:text-sm h-[30px]", // Added h-[30px]
     // background color
-    "bg-white dark:bg-gray-900", // Adjusted dark bg
+    "bg-white dark:bg-gray-950",
     // border color
-    "border-gray-300 dark:border-gray-700", // Adjusted dark border
+    "border-gray-300 dark:border-gray-800",
     // text color
-    "text-gray-900 dark:text-gray-200", // Adjusted dark text
+    "text-gray-900 dark:text-gray-50",
     // placeholder color
-    "placeholder-gray-400 dark:placeholder-gray-500", // Kept placeholder
+    "placeholder-gray-400 dark:placeholder-gray-500",
     // hover
-    "hover:bg-gray-50 hover:dark:bg-gray-800", // Adjusted dark hover bg
+    "hover:bg-gray-50 hover:dark:bg-gray-950/50",
     // disabled
     "disabled:pointer-events-none",
     "disabled:bg-gray-100 disabled:text-gray-400",
@@ -199,12 +199,12 @@ const Trigger = React.forwardRef<HTMLButtonElement, TriggerProps>(
           className={cn(triggerStyles({ hasError }), className)}
           {...props}
         >
-          <RiCalendar2Fill className="size-5 shrink-0 text-gray-400 dark:text-gray-500" /> {/* Adjusted dark icon color */}
-          <span className="flex-1 overflow-hidden text-ellipsis whitespace-nowrap text-left text-gray-900 dark:text-gray-200"> {/* Adjusted dark text color */}
+          <RiCalendar2Fill className="size-5 shrink-0 text-gray-400 dark:text-gray-600" />
+          <span className="flex-1 overflow-hidden text-ellipsis whitespace-nowrap text-left text-gray-900 dark:text-gray-50">
             {children ? (
               children
             ) : placeholder ? (
-              <span className="text-gray-400 dark:text-gray-500"> {/* Adjusted dark placeholder color */}
+              <span className="text-gray-400 dark:text-gray-600">
                 {placeholder}
               </span>
             ) : null}

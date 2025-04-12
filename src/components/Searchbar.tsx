@@ -11,13 +11,13 @@ const inputStyles = tv({
     // base
     "relative block w-full appearance-none rounded-md border px-2.5 py-1.5 outline-none transition sm:text-sm",
     // border color (border only used in dark mode for better aesthetics in filterbar)
-    "border-transparent dark:border-gray-700", // Adjusted dark border
+    "border-transparent dark:border-gray-800",
     // text color
-    "text-gray-900 dark:text-gray-200", // Adjusted dark text
+    "text-gray-900 dark:text-gray-50",
     // placeholder color
-    "placeholder-gray-400 dark:placeholder-gray-500", // Kept placeholder
+    "placeholder-gray-400 dark:placeholder-gray-500",
     // background color
-    "bg-gray-100 dark:bg-gray-900", // Adjusted dark bg
+    "bg-gray-100 dark:bg-gray-950",
     // disabled
     "disabled:border-gray-300 disabled:bg-gray-100 disabled:text-gray-400",
     "disabled:dark:border-gray-700 disabled:dark:bg-gray-800 disabled:dark:text-gray-500",
@@ -74,7 +74,7 @@ const Searchbar = React.forwardRef<HTMLInputElement, InputProps>(
             // base
             "pointer-events-none absolute bottom-0 left-2 flex h-full items-center justify-center",
             // text color
-            "text-gray-400 dark:text-gray-500", // Adjusted dark icon color
+            "text-gray-400 dark:text-gray-600",
           )}
         >
           <RiSearchLine
