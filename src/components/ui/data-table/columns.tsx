@@ -24,6 +24,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/Dialog" // Import Dialog components
+import { SegmentedVerticalBarIndicator } from "@/components/ui/SegmentedVerticalBarIndicator"; // Import the new indicator
 
 const columnHelper = createColumnHelper<CallReport>()
 
@@ -218,28 +219,13 @@ export const columns: ColumnDef<CallReport>[] = [
       },
       cell: ({ getValue }) => {
         const attempts = getValue() as number; // Get attempt count (0-3)
-
-        function Indicator({ count }: { count: number }) {
-          const getBarClass = (index: number) => {
-            const filledClass = "bg-primary-accent dark:bg-primary-accent";
-            const emptyClass = "bg-gray-300 dark:bg-gray-700";
-
-            if (index < count) {
-              return filledClass;
-            }
-            return emptyClass;
-          };
-
-          return (
-            <div className="inline-flex items-center justify-center gap-0.5"> {/* Use inline-flex and ensure centering */}
-              <div className={`h-3.5 w-1 rounded-sm ${getBarClass(0)}`} />
-              <div className={`h-3.5 w-1 rounded-sm ${getBarClass(1)}`} />
-              <div className={`h-3.5 w-1 rounded-sm ${getBarClass(2)}`} />
-            </div>
-          );
-        }
-
-        return <Indicator count={attempts} />;
+        return (
+          <SegmentedVerticalBarIndicator
+            value={attempts}
+            color="bg-blue-500 dark:bg-blue-600" // Use blue color as planned
+            isPercentage={false} // Value is direct count (0-3)
+          />
+        );
       },
     }),
 
@@ -262,7 +248,7 @@ export const columns: ColumnDef<CallReport>[] = [
                 <RiFileListLine className="h-4 w-4" /> {/* Notes Icon */}
               </Button>
             </DialogTrigger>
-            <DialogContent onClick={(e) => e.stopPropagation()} /* Prevent closing on content click */ >
+            <DialogContent onClick={(e) => e.stopPropagation()} aria-describedby={undefined} /* Prevent closing on content click & fix accessibility warning */ >
               <DialogHeader>
                 <DialogTitle>Conversation Notes</DialogTitle>
                 <DialogDescription className="sr-only"> {/* Add sr-only description for accessibility */}

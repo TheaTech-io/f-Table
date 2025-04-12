@@ -17,15 +17,15 @@ const badgeVariants = tv({
       ],
       neutral: [
         "bg-gray-50 text-gray-700 ring-gray-500/30",
-        "dark:bg-gray-400/10 dark:text-gray-300 dark:ring-gray-400/20",
+        "dark:bg-gray-700 dark:text-gray-200 dark:ring-gray-600", // Adjusted dark neutral for better contrast
       ],
       success: [
         "bg-emerald-50 text-emerald-800 ring-emerald-600/30",
-        "dark:bg-emerald-400/10 dark:text-emerald-400 dark:ring-emerald-400/20",
+        "dark:bg-emerald-900 dark:text-emerald-300 dark:ring-emerald-700", // Adjusted dark success for better contrast
       ],
       error: [
         "bg-red-50 text-red-800 ring-red-600/20",
-        "dark:bg-red-400/10 dark:text-red-400 dark:ring-red-400/20",
+        "dark:bg-red-900 dark:text-red-300 dark:ring-red-700", // Adjusted dark error for better contrast
       ],
       warning: [
         "bg-yellow-50 text-yellow-800 ring-yellow-600/30",

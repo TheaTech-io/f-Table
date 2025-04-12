@@ -129,16 +129,16 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
                       setSelectedRowData(row.original as CallReport);
                       setIsDrawerOpen(true);
                     }}
-                    className="group select-none hover:bg-gray-50 hover:dark:bg-gray-900 relative cursor-pointer" // Add cursor-pointer and relative
+                    className="group select-none hover:bg-gray-100 hover:dark:bg-gray-800 relative cursor-pointer" // Adjusted light and dark hover bg
                   >
                     {row.getVisibleCells().map((cell, index) => (
                       <TableCell
                         key={cell.id}
                         className={cn(
                           row.getIsSelected()
-                            ? "bg-gray-50 dark:bg-gray-900"
+                            ? "bg-gray-100 dark:bg-gray-700" // Further adjusted dark selected bg for contrast
                             : "",
-                          "relative whitespace-nowrap px-4 py-2 text-sm text-gray-700 first:w-10 dark:text-gray-300", // Adjusted padding, color
+                          "relative whitespace-nowrap px-4 py-2 text-sm text-gray-700 first:w-10 dark:text-gray-100", // Adjusted dark text color for better contrast
                           cell.column.columnDef.meta?.className,
                         )}
                       >
