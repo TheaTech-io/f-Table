@@ -6,6 +6,8 @@ import { MetricsCards } from "@/components/ui/overview/MetricsCards"; // Added i
 export default function Example() {
   return (
     <>
+      <h1 className="text-2xl font-semibold text-gray-900 dark:text-gray-50 mb-4">Call Reports</h1>
+
       {/* Added Overview Component */}
       <div className="mb-6 sm:mb-8 lg:mb-10">
         <MetricsCards />

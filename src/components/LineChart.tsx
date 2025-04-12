@@ -27,7 +27,7 @@ import {
   hasOnlyOneValueForKey,
 } from "@/lib/chartUtils"
 import { useOnWindowResize } from "@/lib/useOnWindowResize"
-import { cx, percentageFormatter } from "@/lib/utils"
+import { cn, percentageFormatter } from "@/lib/utils"
 import { Badge } from "./Badge"
 import { getBadgeType } from "./ui/overview/DashboardChartCard"
 
@@ -49,7 +49,7 @@ const LegendItem = ({
   const hasOnValueChange = !!onClick
   return (
     <li
-      className={cx(
+      className={cn(
         // base
         "group inline-flex flex-nowrap items-center gap-1.5 whitespace-nowrap rounded px-2 py-1 transition",
         hasOnValueChange
@@ -62,7 +62,7 @@ const LegendItem = ({
       }}
     >
       <span
-        className={cx(
+        className={cn(
           "h-[3px] w-3.5 shrink-0 rounded-full",
           getColorClassName(color, "bg"),
           activeLegend && activeLegend !== name ? "opacity-40" : "opacity-100",
@@ -70,7 +70,7 @@ const LegendItem = ({
         aria-hidden="true"
       />
       <p
-        className={cx(
+        className={cn(
           // base
           "truncate whitespace-nowrap text-xs",
           // text color
@@ -118,7 +118,7 @@ const ScrollButton = ({ icon, onClick, disabled }: ScrollButtonProps) => {
   return (
     <button
       type="button"
-      className={cx(
+      className={cn(
         // base
         "group inline-flex size-5 items-center truncate rounded transition",
         disabled
@@ -252,13 +252,13 @@ const Legend = React.forwardRef<HTMLOListElement, LegendProps>((props, ref) => {
   return (
     <ol
       ref={ref}
-      className={cx("relative overflow-hidden", className)}
+      className={cn("relative overflow-hidden", className)}
       {...other}
     >
       <div
         ref={scrollableRef}
         tabIndex={0}
-        className={cx(
+        className={cn(
           "flex h-full",
           enableLegendSlider
             ? hasScroll?.right || hasScroll?.left
@@ -280,7 +280,7 @@ const Legend = React.forwardRef<HTMLOListElement, LegendProps>((props, ref) => {
       {enableLegendSlider && (hasScroll?.right || hasScroll?.left) ? (
         <>
           <div
-            className={cx(
+            className={cn(
               // base
               "absolute bottom-0 right-0 top-0 flex h-full items-center justify-center pr-1",
               // background color
@@ -358,10 +358,10 @@ const ChartTooltipRow = ({ value, name, color }: ChartTooltipRowProps) => (
     <div className="flex items-center space-x-2">
       <span
         aria-hidden="true"
-        className={cx("h-[3px] w-3.5 shrink-0 rounded-full", color)}
+        className={cn("h-[3px] w-3.5 shrink-0 rounded-full", color)}
       />
       <p
-        className={cx(
+        className={cn(
           // commmon
           "whitespace-nowrap text-right",
           // text color
@@ -372,7 +372,7 @@ const ChartTooltipRow = ({ value, name, color }: ChartTooltipRowProps) => (
       </p>
     </div>
     <p
-      className={cx(
+      className={cn(
         // base
         "whitespace-nowrap text-right font-medium tabular-nums",
         // text color
@@ -409,7 +409,7 @@ const OverviewChartTooltip = ({
 
     return (
       <div
-        className={cx(
+        className={cn(
           // base
           "rounded-md border text-sm shadow-md",
           // border color
@@ -420,7 +420,7 @@ const OverviewChartTooltip = ({
       >
         <div className="flex items-start justify-between gap-2 border-b border-inherit p-2">
           <p
-            className={cx(
+            className={cn(
               // base
               "font-medium",
               // text color
@@ -435,7 +435,7 @@ const OverviewChartTooltip = ({
             </Badge>
           )}
         </div>
-        <div className={cx("space-y-1 p-2")}>
+        <div className={cn("space-y-1 p-2")}>
           {filteredPayload.map((payload: any, index: number) => {
             const payloadData = payload.payload
             return (
@@ -593,7 +593,7 @@ const LineChart = React.forwardRef<HTMLDivElement, LineChartProps>(
     }
 
     return (
-      <div ref={ref} className={cx("h-80 w-full", className)} {...other}>
+      <div ref={ref} className={cn("h-80 w-full", className)} {...other}>
         <ResponsiveContainer>
           <RechartsLineChart
             data={data}
@@ -615,7 +615,7 @@ const LineChart = React.forwardRef<HTMLDivElement, LineChartProps>(
           >
             {showGridLines ? (
               <CartesianGrid
-                className={cx("stroke-gray-200 stroke-1 dark:stroke-gray-800")}
+                className={cn("stroke-gray-200 stroke-1 dark:stroke-gray-800")}
                 horizontal={true}
                 vertical={false}
               />
@@ -633,7 +633,7 @@ const LineChart = React.forwardRef<HTMLDivElement, LineChartProps>(
               }
               fill=""
               stroke=""
-              className={cx(
+              className={cn(
                 // base
                 "text-xs",
                 // text fill
@@ -663,7 +663,7 @@ const LineChart = React.forwardRef<HTMLDivElement, LineChartProps>(
               tick={{ transform: "translate(-3, 0)" }}
               fill=""
               stroke=""
-              className={cx(
+              className={cn(
                 // base
                 "text-xs",
                 // text fill
@@ -728,7 +728,7 @@ const LineChart = React.forwardRef<HTMLDivElement, LineChartProps>(
             ) : null}
             {categories.map((category) => (
               <Line
-                className={cx(
+                className={cn(
                   getColorClassName(
                     categoryColors.get(category) as AvailableChartColorsKeys,
                     "stroke",
@@ -751,7 +751,7 @@ const LineChart = React.forwardRef<HTMLDivElement, LineChartProps>(
                   } = props
                   return (
                     <Dot
-                      className={cx(
+                      className={cn(
                         "stroke-white dark:stroke-gray-950",
                         onValueChange ? "cursor-pointer" : "",
                         getColorClassName(
@@ -805,7 +805,7 @@ const LineChart = React.forwardRef<HTMLDivElement, LineChartProps>(
                         strokeLinecap={strokeLinecap}
                         strokeLinejoin={strokeLinejoin}
                         strokeWidth={strokeWidth}
-                        className={cx(
+                        className={cn(
                           "stroke-white dark:stroke-gray-950",
                           onValueChange ? "cursor-pointer" : "",
                           getColorClassName(
@@ -836,7 +836,7 @@ const LineChart = React.forwardRef<HTMLDivElement, LineChartProps>(
             {onValueChange
               ? categories.map((category) => (
                   <Line
-                    className={cx("cursor-pointer")}
+                    className={cn("cursor-pointer")}
                     strokeOpacity={0}
                     key={category}
                     name={category}
