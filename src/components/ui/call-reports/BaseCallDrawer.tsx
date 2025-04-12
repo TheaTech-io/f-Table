@@ -13,6 +13,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/Tabs" // 
 import { CallReport } from "@/data/schema" // Correct path for CallReport
 import { satisfactionLevels } from "@/data/data" // Correct path for levels
 import React from "react"
+import { useEffect } from "react"; // Add useEffect import
+
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"; // Path confirmed by shadcn output
 import { Textarea } from "@/components/Textarea"; // Found in base components
 import { Label } from "@/components/Label"; // Confirmed path from ls
@@ -35,6 +37,14 @@ export function BaseCallDrawer({ // Renamed component
   onOpenChange,
   datas,
 }: BaseCallDrawerProps) {
+
+  useEffect(() => {
+    console.log("BaseCallDrawer open prop changed:", open);
+    if (open) {
+      console.log("BaseCallDrawer received data:", datas);
+    }
+  }, [open, datas]);
+
 
   const satisfactionInfo = satisfactionLevels.find(
     (item: { value: string; label: string; icon?: any; variant?: string }) => item.value === datas?.customerSatisfaction, // Added type annotation

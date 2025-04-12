@@ -3,7 +3,7 @@
 import React from "react"
 import { tv, VariantProps } from "tailwind-variants"
 
-import { cx } from "@/lib/utils"
+import { cn } from "@/lib/utils"
 
 const progressCircleVariants = tv({
   slots: {
@@ -73,13 +73,13 @@ const ProgressCircle = React.forwardRef<SVGSVGElement, ProgressCircleProps>(
     const { background, circle } = progressCircleVariants({ variant })
     return (
       <>
-        <div className={cx("relative")}>
+        <div className={cn("relative")}>
           <svg
             ref={forwardedRef}
             width={radius * 2}
             height={radius * 2}
             viewBox={`0 0 ${radius * 2} ${radius * 2}`}
-            className={cx("-rotate-90 transform", className)}
+            className={cn("-rotate-90 transform", className)}
             role="progress circle"
             aria-label="progress bar"
             aria-valuenow={value}
@@ -97,7 +97,7 @@ const ProgressCircle = React.forwardRef<SVGSVGElement, ProgressCircleProps>(
               fill="transparent"
               stroke=""
               strokeLinecap="round"
-              className={cx("transition-colors ease-linear", background())}
+              className={cn("transition-colors ease-linear", background())}
             />
             {safeValue >= 0 ? (
               <circle
@@ -110,7 +110,7 @@ const ProgressCircle = React.forwardRef<SVGSVGElement, ProgressCircleProps>(
                 fill="transparent"
                 stroke=""
                 strokeLinecap="round"
-                className={cx(
+                className={cn(
                   "transition-colors ease-linear",
                   circle(),
                   showAnimation &&
@@ -120,7 +120,7 @@ const ProgressCircle = React.forwardRef<SVGSVGElement, ProgressCircleProps>(
             ) : null}
           </svg>
           <div
-            className={cx("absolute inset-0 flex items-center justify-center")}
+            className={cn("absolute inset-0 flex items-center justify-center")}
           >
             {children}
           </div>

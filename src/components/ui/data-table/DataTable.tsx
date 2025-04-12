@@ -127,6 +127,7 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
                     data-state={row.getIsSelected() && "selected"} // Keep existing data-state
                     onClick={() => { // Add this onClick handler
                       setSelectedRowData(row.original as CallReport);
+                      console.log("Row clicked, setting drawer open. Data:", row.original);
                       setIsDrawerOpen(true);
                     }}
                     className="group select-none hover:bg-gray-50 hover:dark:bg-gray-900 relative cursor-pointer" // Add cursor-pointer and relative
