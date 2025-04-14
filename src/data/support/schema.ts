@@ -1,216 +1,56 @@
-// schema.ts
 import { z } from "zod"
 
-export const schemaTickets = z.object({
-  created: z.string(),
-  status: z.string(),
-  description: z.string(),
-  priority: z.string(),
-  category: z.string(),
-  type: z.string(),
-  duration: z.string().nullable(), // call duration in minutes
-  policyNumber: z.string(),
-  policyType: z.string(),
-})
 
-export type Ticket = z.infer<typeof schemaTickets>
+export const appIssueCategories = [
+  { value: "general-ui", name: "General UI / Styling", description: "Issues related to the overall look and feel." },
+  { value: "filtering-search", name: "Filtering / Search", description: "Problems with filtering or searching data." },
+  { value: "table-data", name: "Table Data / Columns", description: "Issues with the data displayed in tables or columns." },
+  { value: "overview-stats", name: "Overview Statistics", description: "Problems with the dashboard/overview metrics." },
+  { value: "call-details-drawer", name: "Call Detail Drawer", description: "Issues within the call detail side panel." },
+  { value: "export", name: "Export Functionality", description: "Problems exporting data." },
+  { value: "performance", name: "Performance / Speed", description: "Issues related to application speed or responsiveness." },
+  { value: "other", name: "Other", description: "Issues not covered by other categories." },
+] as const;
+export type AppIssueCategory = (typeof appIssueCategories)[number]["value"];
 
-export const statusOptions = ["resolved", "in-progress", "escalated"] as const
-export type Status = (typeof statusOptions)[number]
+export const appIssueTypes = [
+    { value: "bug", name: "Bug / Error", description: "Something is broken or not working as expected." },
+    { value: "ui-visual", name: "UI / Visual Problem", description: "Something looks wrong or out of place." },
+    { value: "performance", name: "Performance Issue", description: "The application is slow or unresponsive." },
+    { value: "data-inconsistency", name: "Data Inconsistency", description: "The data shown seems incorrect or inconsistent." },
+    { value: "feature-request", name: "Feature Request / Suggestion", description: "An idea for a new feature or improvement." },
+    { value: "other", name: "Other", description: "An issue type not listed above." },
+] as const;
+export type AppIssueType = (typeof appIssueTypes)[number]["value"];
 
-export const categoryTypes = [
-  {
-    name: "Accident Report",
-    value: "accident-report",
-    extended: "Report a new accident or incident",
-    description: "File initial accident reports and incidents",
-  },
-  {
-    name: "Emergency",
-    value: "emergency",
-    extended: "Emergency Assistance Request",
-    description: "Immediate help for urgent situations",
-  },
-  {
-    name: "Claim Status",
-    value: "claim-status",
-    extended: "Check Existing Claim",
-    description: "Get updates on ongoing claims",
-  },
-  {
-    name: "Policy Changes",
-    value: "policy-changes",
-    extended: "Modify Policy Details",
-    description: "Update or modify existing policies",
-  },
-  {
-    name: "Coverage Inquiry",
-    value: "coverage-inquiry",
-    extended: "Coverage Information Request",
-    description: "Questions about policy coverage",
-  },
-  {
-    name: "Document Request",
-    value: "document-request",
-    extended: "Policy Document Service",
-    description: "Request insurance documentation",
-  },
-  {
-    name: "Billing",
-    value: "billing",
-    extended: "Payment & Billing Service",
-    description: "Handle payments and billing issues",
-  },
-  {
-    name: "New Quote",
-    value: "new-quote",
-    extended: "Insurance Quote Request",
-    description: "Get quotes for new policies",
-  },
-  {
-    name: "Account Service",
-    value: "account-service",
-    extended: "Account Management",
-    description: "General account-related assistance",
-  },
-  {
-    name: "Complaint",
-    value: "complaint",
-    extended: "File Complaint",
-    description: "Register and handle complaints",
-  },
-  {
-    name: "Fraud Report",
-    value: "fraud-report",
-    extended: "Report Suspicious Activity",
-    description: "Report potential fraud or suspicious claims",
-  },
-  {
-    name: "Agent Request",
-    value: "agent-request",
-    extended: "Agent Assistance",
-    description: "Connect with an insurance agent",
-  },
-] as const
-
-export const policyTypes = [
-  {
-    name: "Auto Insurance",
-    value: "auto",
-    extended: "Vehicle Coverage",
-    description: "Coverage for cars, motorcycles, and other vehicles",
-  },
-  {
-    name: "Home Insurance",
-    value: "home",
-    extended: "Property Coverage",
-    description: "Protection for houses and personal property",
-  },
-  {
-    name: "Life Insurance",
-    value: "life",
-    extended: "Life Coverage",
-    description: "Life insurance and related benefits",
-  },
-  {
-    name: "Health Insurance",
-    value: "health",
-    extended: "Medical Coverage",
-    description: "Medical and health-related coverage",
-  },
-  {
-    name: "Business Insurance",
-    value: "business",
-    extended: "Commercial Coverage",
-    description: "Coverage for business and commercial needs",
-  },
-  {
-    name: "Umbrella Insurance",
-    value: "umbrella",
-    extended: "Extended Coverage",
-    description: "Additional liability coverage above standard policies",
-  },
-] as const
-
-// Update the types to match the new structure
-export type Category = (typeof categoryTypes)[number]["value"]
-export type PolicyType = (typeof policyTypes)[number]["value"]
-
-// Helper function to get category details
-export const getCategoryDetails = (value: Category) => {
-  return categoryTypes.find((cat) => cat.value === value)
-}
-
-// Helper function to get policy type details
-export const getPolicyDetails = (value: PolicyType) => {
-  return policyTypes.find((policy) => policy.value === value)
-}
-
-export const ticketTypes: {
-  name: string
-  value: string
-  extended: string
-}[] = [
-  {
-    name: "First Notice of Loss",
-    value: "fnol",
-    extended: "First Notice of Loss Call",
-  },
-  {
-    name: "Policy Service",
-    value: "policy",
-    extended: "Policy Service Call",
-  },
-  {
-    name: "Claims Status",
-    value: "claims",
-    extended: "Claims Status Check",
-  },
-  {
-    name: "Emergency",
-    value: "emergency",
-    extended: "Emergency Assistance",
-  },
-  {
-    name: "Coverage Review",
-    value: "coverage",
-    extended: "Policy Coverage Discussion",
-  },
-  {
-    name: "Billing Support",
-    value: "billing",
-    extended: "Payment & Billing Assistance",
-  },
-]
-
-export const priorities: {
-  value: string
-  label: string
-  sla: string | boolean
-  description: string
-}[] = [
-  {
-    value: "emergency",
-    label: "Emergency",
-    sla: "15m",
-    description: "Accidents, injuries, immediate assistance needed",
-  },
+export const appIssuePriorities = [
   {
     value: "high",
-    label: "High Priority",
-    sla: "4h",
-    description: "Coverage issues, policy changes",
+    label: "High",
+    description: "Blocks core functionality / Potential data loss",
   },
   {
     value: "medium",
-    label: "Medium Priority",
-    sla: "24h",
-    description: "General inquiries, documentation requests",
+    label: "Medium",
+    description: "Affects usability but workaround exists / Significant UI issue",
   },
   {
     value: "low",
-    label: "Low Priority",
-    sla: "48h",
-    description: "Information requests, future policy changes",
+    label: "Low",
+    description: "Minor issue / Cosmetic problem / Suggestion",
   },
-]
+] as const;
+export type AppIssuePriority = (typeof appIssuePriorities)[number]["value"];
+
+
+export const schemaFeedbackReport = z.object({
+  category: z.enum(appIssueCategories.map(c => c.value) as [AppIssueCategory, ...AppIssueCategory[]]),
+  subject: z.string().min(1, "Subject is required"),
+  issueType: z.enum(appIssueTypes.map(t => t.value) as [AppIssueType, ...AppIssueType[]]),
+  priority: z.enum(appIssuePriorities.map(p => p.value) as [AppIssuePriority, ...AppIssuePriority[]]),
+  description: z.string().min(1, "Description is required"),
+  screenshotFile: z.instanceof(File).optional().nullable(), // Store the File object directly
+  created: z.string(), // Keep created date
+});
+
+export type FeedbackReport = z.infer<typeof schemaFeedbackReport>;

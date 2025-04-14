@@ -19,20 +19,21 @@ import {
   SelectValue,
 } from "@/components/Select"
 import {
-  categoryTypes,
-  policyTypes,
-  priorities,
-  ticketTypes,
-  type Category,
-  type PolicyType,
-  type Ticket,
+
+  appIssueCategories,
+  appIssuePriorities,
+  appIssueTypes,
+  type AppIssueCategory,
+  type AppIssuePriority,
+  type AppIssueType,
+  type FeedbackReport,
 } from "@/data/support/schema"
 import React from "react"
 import { Input } from "@/components/Input"
 import { Label } from "@/components/Label"
 import { Textarea } from "@/components/Textarea"
 
-type TicketFormData = Partial<Ticket>
+type FeedbackFormData = Partial<FeedbackReport>
 
 interface TicketDrawerProps {
   open: boolean
@@ -40,8 +41,8 @@ interface TicketDrawerProps {
 }
 
 interface FormPageProps {
-  formData: TicketFormData
-  onUpdateForm: (updates: Partial<TicketFormData>) => void
+  formData: FeedbackFormData
+  onUpdateForm: (updates: Partial<FeedbackFormData>) => void
 }
 
 const SummaryItem = ({
@@ -76,45 +77,25 @@ const FirstPage = ({ formData, onUpdateForm }: FormPageProps) => (
   <>
     <DrawerHeader>
       <DrawerTitle>
-        <p>Create Support Ticket</p>
-        <span className="text-sm font-normal text-gray-500 dark:text-gray-500">
-          Ticket Type &amp; Category
-        </span>
-        <DrawerDescription className="sr-only">Dialog providing steps to create a support ticket.</DrawerDescription> {/* Added for accessibility */}
+        <p>Report Issue: Step 1/3 - Define Issue</p>
+        {/* Subtitle removed as requested */}
+        <DrawerDescription className="sr-only">Dialog providing steps to report an application issue or feedback.</DrawerDescription>
       </DrawerTitle>
     </DrawerHeader>
     <DrawerBody className="-mx-6 space-y-6 overflow-y-scroll border-t border-gray-200 px-6 dark:border-gray-800">
-      <FormField label="Contact Type">
-        <RadioCardGroup
-          defaultValue={formData.type}
-          className="grid grid-cols-2 gap-2 text-sm"
-          onValueChange={(value) => onUpdateForm({ type: value })}
-        >
-          {ticketTypes.map((type) => (
-            <RadioCardItem
-              key={type.value}
-              value={type.value}
-              className="flex flex-col justify-start p-2.5 text-base duration-75 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 data-[state=checked]:border-transparent data-[state=checked]:bg-blue-500 data-[state=checked]:text-white sm:text-sm dark:focus:ring-blue-500"
-            >
-              {type.name}
-              <span className="block text-sm opacity-75 sm:text-xs">
-                {type.extended}
-              </span>
-            </RadioCardItem>
-          ))}
-        </RadioCardGroup>
-      </FormField>
+      {/* Contact Type field removed */}
 
       <FormField label="Category">
         <Select
+          required // Make required
           value={formData.category}
-          onValueChange={(value: Category) => onUpdateForm({ category: value })}
+          onValueChange={(value: AppIssueCategory) => onUpdateForm({ category: value })}
         >
           <SelectTrigger>
             <SelectValue placeholder="Select Category" />
           </SelectTrigger>
           <SelectContent>
-            {categoryTypes.map((category) => (
+            {appIssueCategories.map((category) => (
               <SelectItemExtended
                 key={category.value}
                 value={category.value}
@@ -126,18 +107,27 @@ const FirstPage = ({ formData, onUpdateForm }: FormPageProps) => (
         </Select>
       </FormField>
 
-      <FormField label="Policy Type">
+      <FormField label="Subject / Title">
+        <Input
+          required // Make required
+          name="subject"
+          value={formData.subject}
+          onChange={(e) => onUpdateForm({ subject: e.target.value })}
+          placeholder="Brief summary of the issue or feedback"
+        />
+      </FormField>
+
+      <FormField label="Issue Type">
         <Select
-          value={formData.policyType}
-          onValueChange={(value: PolicyType) =>
-            onUpdateForm({ policyType: value })
-          }
+          required // Make required
+          value={formData.issueType}
+          onValueChange={(value: AppIssueType) => onUpdateForm({ issueType: value })}
         >
           <SelectTrigger>
-            <SelectValue placeholder="Select Policy Type" />
+            <SelectValue placeholder="Select Issue Type" />
           </SelectTrigger>
           <SelectContent>
-            {policyTypes.map((type) => (
+            {appIssueTypes.map((type) => (
               <SelectItemExtended
                 key={type.value}
                 value={type.value}
@@ -149,15 +139,8 @@ const FirstPage = ({ formData, onUpdateForm }: FormPageProps) => (
         </Select>
       </FormField>
 
-      <FormField label="Policy Number">
-        <Input
-          disabled
-          name="policyNumber"
-          value={formData.policyNumber}
-          onChange={(e) => onUpdateForm({ policyNumber: e.target.value })}
-          placeholder="Auto generated"
-        />
-      </FormField>
+      {/* Policy Type field removed */}
+      {/* Policy Number field removed */}
     </DrawerBody>
   </>
 )
@@ -166,31 +149,26 @@ const SecondPage = ({ formData, onUpdateForm }: FormPageProps) => (
   <>
     <DrawerHeader>
       <DrawerTitle>
-        <p>Ticket Details</p>
-        <span className="text-sm font-normal text-gray-500 dark:text-gray-500">
-          Priority &amp; Description
-        </span>
+        <p>Report Issue: Step 2/3 - Details & Priority</p>
+        {/* Subtitle removed as requested */}
       </DrawerTitle>
     </DrawerHeader>
     <DrawerBody className="-mx-6 space-y-6 overflow-y-scroll border-t border-gray-200 px-6 dark:border-gray-800">
       <FormField label="Priority Level">
         <RadioCardGroup
-          defaultValue={formData.priority}
+          required // Make required
+          value={formData.priority} // Use value instead of defaultValue for controlled component
           className="grid grid-cols-1 gap-2 text-sm"
-          onValueChange={(value) => onUpdateForm({ priority: value })}
+          onValueChange={(value: AppIssuePriority) => onUpdateForm({ priority: value })}
         >
-          {priorities.map((priority) => (
+          {appIssuePriorities.map((priority) => (
             <RadioCardItem
               key={priority.value}
               value={priority.value}
               className="p-2.5 text-base duration-75 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 data-[state=checked]:border-transparent data-[state=checked]:bg-blue-500 data-[state=checked]:text-white sm:text-sm dark:focus:ring-blue-500"
             >
-              <div className="flex items-center justify-between">
-                <span>{priority.label}</span>
-                <span className="text-sm opacity-75 sm:text-xs">
-                  SLA: {priority.sla}
-                </span>
-              </div>
+              {/* Removed SLA display */}
+              <span>{priority.label}</span>
               <span className="block text-sm opacity-75 sm:text-xs">
                 {priority.description}
               </span>
@@ -201,82 +179,82 @@ const SecondPage = ({ formData, onUpdateForm }: FormPageProps) => (
 
       <FormField label="Description">
         <Textarea
+          required // Make required
           name="description"
           value={formData.description}
           onChange={(e) => onUpdateForm({ description: e.target.value })}
-          placeholder="Detailed description of the issue..."
-          className="h-32"
+          placeholder="Provide a detailed description of the issue, steps to reproduce, and expected behavior..."
+          className="h-32" // Keep height or adjust as needed
         />
       </FormField>
 
-      <FormField label="Expected Call Duration (minutes)">
+      {/* Expected Call Duration field removed */}
+
+      <FormField label="Attach Screenshot (Optional)">
         <Input
-          name="duration"
-          type="number"
-          value={formData.duration || ""}
+          name="screenshotFile"
+          type="file"
+          accept="image/*" // Accept only image files
           onChange={(e) => {
-            onUpdateForm({ duration: e.target.value || null })
+            const file = e.target.files ? e.target.files[0] : null;
+            onUpdateForm({ screenshotFile: file })
           }}
-          placeholder="0"
-          min="0"
         />
+        {/* Display filename if a file is selected */}
+        {formData.screenshotFile && (
+          <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+            Selected file: {formData.screenshotFile.name}
+          </p>
+        )}
       </FormField>
     </DrawerBody>
   </>
 )
 
-const SummaryPage = ({ formData }: { formData: TicketFormData }) => (
+const SummaryPage = ({ formData }: { formData: FeedbackFormData }) => (
   <>
     <DrawerHeader>
       <DrawerTitle>
-        <p>Review Ticket</p>
+        <p>Report Issue: Step 3/3 - Review & Submit</p>
         <span className="text-sm font-normal text-gray-500 dark:text-gray-500">
-          Please review all details before submitting
+          Please review details before submitting
         </span>
       </DrawerTitle>
     </DrawerHeader>
     <DrawerBody className="-mx-6 space-y-4 overflow-y-scroll border-t border-gray-200 px-6 dark:border-gray-800">
       <div className="rounded-md border border-gray-200 dark:border-gray-800">
         <div className="border-b border-gray-200 p-4 dark:border-gray-800">
-          <h3 className="font-medium">Ticket Information</h3>
+          <h3 className="font-medium">Issue Definition</h3>
           <div className="mt-4 space-y-4">
+            {/* Display new fields */}
             <SummaryItem
-              label="Type"
+              label="Issue Type"
               value={
-                ticketTypes.find((t) => t.value === formData.type)?.name ??
+                appIssueTypes.find((t) => t.value === formData.issueType)?.name ??
                 undefined
               }
             />
             <SummaryItem
               label="Category"
               value={
-                categoryTypes.find((c) => c.value === formData.category)
+                appIssueCategories.find((c) => c.value === formData.category)
                   ?.name ?? undefined
               }
             />
             <SummaryItem
-              label="Policy Type"
-              value={
-                policyTypes.find((p) => p.value === formData.policyType)
-                  ?.name ?? undefined
-              }
+              label="Subject"
+              value={formData.subject || undefined}
             />
-            <SummaryItem
-              label="Priority"
-              value={
-                priorities.find((p) => p.value === formData.priority)?.label ??
-                undefined
-              }
-            />
+            {/* Removed Type, Policy Type */}
           </div>
         </div>
         <div className="p-4">
-          <h3 className="font-medium">Details</h3>
+          <h3 className="font-medium">Details & Priority</h3>
           <div className="mt-4 space-y-4">
             <SummaryItem
               label="Priority"
               value={
-                priorities.find((p) => p.value === formData.priority)?.label ??
+                appIssuePriorities.find((p) => p.value === formData.priority)?.label ??
                 undefined
               }
             />
@@ -285,13 +263,10 @@ const SummaryPage = ({ formData }: { formData: TicketFormData }) => (
               value={formData.description || undefined}
             />
             <SummaryItem
-              label="Call Duration"
-              value={
-                formData.duration
-                  ? `${formData.duration} minute${formData.duration === "1" ? "" : "s"}`
-                  : undefined
-              }
+              label="Attached File"
+              value={formData.screenshotFile?.name ?? "None"}
             />
+            {/* Removed Call Duration */}
             <SummaryItem
               label="Created"
               value={
@@ -308,22 +283,20 @@ const SummaryPage = ({ formData }: { formData: TicketFormData }) => (
 )
 
 export function ReportErrorDrawer({ open, onOpenChange }: TicketDrawerProps) {
-  const [formData, setFormData] = React.useState<TicketFormData>({
-    status: "in-progress",
-    category: categoryTypes[0].value,
-    type: ticketTypes[0].value,
-    policyType: policyTypes[0].value,
-    priority: priorities[0].value,
+  const [formData, setFormData] = React.useState<FeedbackFormData>({
+    category: appIssueCategories[0].value, // Default to first category
+    subject: "",
+    issueType: appIssueTypes[0].value, // Default to first issue type
+    priority: appIssuePriorities[1].value, // Default to medium priority
     description: "",
-    policyNumber: "",
-    duration: "0",
+    screenshotFile: null, // Optional file
     created: new Date().toISOString(),
   })
 
   const [currentPage, setCurrentPage] = React.useState(1)
 
-  const handleUpdateForm = (updates: Partial<TicketFormData>) => {
-    setFormData((prev: TicketFormData) => ({ ...prev, ...updates }))
+  const handleUpdateForm = (updates: Partial<FeedbackFormData>) => {
+    setFormData((prev: FeedbackFormData) => ({ ...prev, ...updates }))
   }
 
   const handleSubmit = () => {
@@ -372,7 +345,7 @@ export function ReportErrorDrawer({ open, onOpenChange }: TicketDrawerProps) {
         <Button variant="secondary" onClick={() => setCurrentPage(2)}>
           Back
         </Button>
-        <Button onClick={handleSubmit}>Create Ticket</Button>
+        <Button onClick={handleSubmit}>Submit</Button>
       </>
     )
   }
