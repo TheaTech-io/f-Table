@@ -132,7 +132,7 @@ export function CallReportDrawer({ // Renamed component
                   <h4 className="mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Görüşme Metni</h4>
                   <div className="max-h-[300px] overflow-y-auto p-3 rounded bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
                     <div className="text-sm text-gray-600 dark:text-gray-400 whitespace-pre-wrap">
-                      <p><strong>Agent:</strong> Merhaba, TheaTech'e hoş geldiniz, ben Ayşe, nasıl yardımcı olabilirim?</p>
+                      <p><strong>Agent:</strong> Merhaba, TheaTech&apos;e hoş geldiniz, ben Ayşe, nasıl yardımcı olabilirim?</p>
                       <p><strong>User:</strong> Merhaba Ayşe Hanım, geçen hafta sipariş ettiğim ürünle ilgili bir sorun yaşıyorum.</p>
                       <p><strong>Agent:</strong> Anladım efendim, sipariş numaranızı alabilir miyim lütfen?</p>
                       <p><strong>User:</strong> Tabii, 123456789. Ürün elime ulaştı ama yanlış renk gönderilmiş.</p>
@@ -143,7 +143,7 @@ export function CallReportDrawer({ // Renamed component
                       <p><strong>Agent:</strong> Rica ederim, başka yardımcı olabileceğim bir konu var mıydı?</p>
                       <p><strong>User:</strong> Hayır, teşekkürler.</p>
                       <p><strong>Agent:</strong> İyi günler dileriz efendim.</p>
-                      <p><strong>Agent:</strong> Merhaba, TheaTech'e hoş geldiniz, ben Ayşe, nasıl yardımcı olabilirim?</p>
+                      <p><strong>Agent:</strong> Merhaba, TheaTech&apos;e hoş geldiniz, ben Ayşe, nasıl yardımcı olabilirim?</p>
                       <p><strong>User:</strong> Merhaba Ayşe Hanım, geçen hafta sipariş ettiğim ürünle ilgili bir sorun yaşıyorum.</p>
                       <p><strong>Agent:</strong> Anladım efendim, sipariş numaranızı alabilir miyim lütfen?</p>
                       <p><strong>User:</strong> Tabii, 123456789. Ürün elime ulaştı ama yanlış renk gönderilmiş.</p>
