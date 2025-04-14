@@ -23,6 +23,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/Dialog" // Import Dialog components
+import { SegmentedVerticalBarIndicator } from "@/components/ui/SegmentedVerticalBarIndicator"; // Import the new indicator
 
 const columnHelper = createColumnHelper<CallReport>()
 
@@ -160,6 +161,7 @@ export const columns: ColumnDef<CallReport>[] = [
     enableSorting: true,
     filterFn: "arrIncludesSome",
     meta: {
+      className: "text-center", // Center align the content
       displayName: "Customer Satisfaction",
     },
   }),
@@ -204,37 +206,22 @@ export const columns: ColumnDef<CallReport>[] = [
   }),
     columnHelper.accessor("stability", {
       header: ({ column }) => (
-        <DataTableColumnHeader column={column} title="Stability" />
+        <DataTableColumnHeader column={column} title="Call Attempts" /> // Rename header
       ),
       enableSorting: true, // Keep sorting enabled
       meta: {
         className: "text-center", // Ensure cell content can be centered
-        displayName: "Stability",
+        displayName: "Call Attempts", // Rename display name
       },
       cell: ({ getValue }) => {
         const attempts = getValue() as number; // Get attempt count (0-3)
-
-        function Indicator({ count }: { count: number }) {
-          const getBarClass = (index: number) => {
-            const filledClass = "bg-primary-accent dark:bg-primary-accent";
-            const emptyClass = "bg-gray-300 dark:bg-gray-700";
-
-            if (index < count) {
-              return filledClass;
-            }
-            return emptyClass;
-          };
-
-          return (
-            <div className="inline-flex items-center justify-center gap-0.5"> {/* Use inline-flex and ensure centering */}
-              <div className={`h-3.5 w-1 rounded-sm ${getBarClass(0)}`} />
-              <div className={`h-3.5 w-1 rounded-sm ${getBarClass(1)}`} />
-              <div className={`h-3.5 w-1 rounded-sm ${getBarClass(2)}`} />
-            </div>
-          );
-        }
-
-        return <Indicator count={attempts} />;
+        return (
+          <SegmentedVerticalBarIndicator
+            value={attempts}
+            color="bg-purple-500 dark:bg-purple-600" // Use purple color as requested
+            isPercentage={false} // Value is direct count (0-3)
+          />
+        );
       },
     }),
 
