@@ -13,11 +13,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/Tabs" // 
 import { CallReport } from "@/data/schema" // Correct path for CallReport
 import { satisfactionLevels } from "@/data/data" // Correct path for levels
 import React from "react"
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"; // Path confirmed by shadcn output
 import { Textarea } from "@/components/Textarea"; // Found in base components
 import { Label } from "@/components/Label"; // Confirmed path from ls
 
-import { Mic, Clock, Star, MessageSquareText, CircleCheck } from "lucide-react"; // Import icons (Removed Headphones)
+import { Mic, Clock, Star, MessageSquareText, CircleCheck } from "lucide-react"; // Import icons (Mic, Clock, Star, MessageSquareText used in Tab 2)
 
 
 import { Badge, BadgeProps } from "@/components/Badge" // Correct path
@@ -35,6 +34,28 @@ export function CallReportDrawer({ // Renamed component
   onOpenChange,
   datas,
 }: CallReportDrawerProps) {
+
+  const [actionComments, setActionComments] = React.useState<{ [key: number]: string[] }>({
+    0: ["Ahmet Yılmaz: Bilgi verildi. (2 saat önce)"], // Pre-populate with example
+    2: ["Ayşe Demir: Talep alındı, ilgili birime iletildi. (Dün 15:30)", "Mehmet Kaya: İptal işlemi tamamlandı. (Bugün 09:15)"] // Pre-populate with example
+  });
+  const [tempComments, setTempComments] = React.useState<{ [key: number]: string }>({});
+
+  const handleSaveComments = () => {
+    const newActionComments = { ...actionComments };
+    Object.keys(tempComments).forEach((keyStr) => {
+      const key = parseInt(keyStr, 10);
+      const comment = tempComments[key];
+      if (comment && comment.trim() !== "") {
+        if (!newActionComments[key]) {
+          newActionComments[key] = [];
+        }
+        newActionComments[key].push(`You: ${comment.trim()}`); // Trim comment
+      }
+    });
+    setActionComments(newActionComments);
+    setTempComments({}); // Clear temporary input fields
+  };
 
   const satisfactionInfo = satisfactionLevels.find(
     (item: { value: string; label: string; icon?: any; variant?: string }) => item.value === datas?.customerSatisfaction, // Added type annotation
@@ -106,44 +127,37 @@ export function CallReportDrawer({ // Renamed component
                   )}
                 </div>
 
-                {/* Transcript */}
-                <Accordion type="single" collapsible className="w-full">
-                  <AccordionItem value="transcript">
-                    <AccordionTrigger className="text-sm font-medium text-gray-900 dark:text-gray-50">Görüşme Metni</AccordionTrigger>
-                    <AccordionContent>
-                      <p className="text-sm text-gray-600 dark:text-gray-400 whitespace-pre-wrap">
-                        {datas?.conversationNotes || "Görüşme metni bulunamadı."}
-                      </p>
-                    </AccordionContent>
-                  </AccordionItem>
-                </Accordion>
-
-                {/* Key Metrics */}
-                <div>
-                   <h3 className="text-sm font-medium text-gray-900 dark:text-gray-50 mb-3">Önemli Metrikler</h3>
-                   <dl className="grid grid-cols-2 gap-x-4 gap-y-4">
-                     <div className="flex items-center gap-2">
-                       <Mic className="h-4 w-4 text-gray-500 dark:text-gray-400" />
-                       <dt className="text-xs text-gray-500 dark:text-gray-400">Ton:</dt>
-                       <dd className="text-xs font-medium text-gray-900 dark:text-gray-50">Nötr</dd> {/* Placeholder */}
-                     </div>
-                     <div className="flex items-center gap-2">
-                       <Star className="h-4 w-4 text-gray-500 dark:text-gray-400" />
-                       <dt className="text-xs text-gray-500 dark:text-gray-400">Nezaket:</dt>
-                       <dd className="text-xs font-medium text-gray-900 dark:text-gray-50">Yüksek</dd> {/* Placeholder */}
-                     </div>
-                     <div className="flex items-center gap-2">
-                       <MessageSquareText className="h-4 w-4 text-gray-500 dark:text-gray-400" />
-                       <dt className="text-xs text-gray-500 dark:text-gray-400">Anahtar Kelimeler:</dt>
-                       <dd className="text-xs font-medium text-gray-900 dark:text-gray-50">İptal, Fatura</dd> {/* Placeholder */}
-                     </div>
-                     <div className="flex items-center gap-2">
-                       <Clock className="h-4 w-4 text-gray-500 dark:text-gray-400" />
-                       <dt className="text-xs text-gray-500 dark:text-gray-400">Süre:</dt>
-                       <dd className="text-xs font-medium text-gray-900 dark:text-gray-50">03:45</dd> {/* Placeholder */}
-                     </div>
-                   </dl>
+                {/* Transcript Section */}
+                <div className="mt-4">
+                  <h4 className="mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Görüşme Metni</h4>
+                  <div className="max-h-[300px] overflow-y-auto p-3 rounded bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                    <div className="text-sm text-gray-600 dark:text-gray-400 whitespace-pre-wrap">
+                      <p><strong>Agent:</strong> Merhaba, TheaTech&apos;e hoş geldiniz, ben Ayşe, nasıl yardımcı olabilirim?</p>
+                      <p><strong>User:</strong> Merhaba Ayşe Hanım, geçen hafta sipariş ettiğim ürünle ilgili bir sorun yaşıyorum.</p>
+                      <p><strong>Agent:</strong> Anladım efendim, sipariş numaranızı alabilir miyim lütfen?</p>
+                      <p><strong>User:</strong> Tabii, 123456789. Ürün elime ulaştı ama yanlış renk gönderilmiş.</p>
+                      <p><strong>Agent:</strong> Hemen kontrol ediyorum... Evet, sistemde bir hata olmuş görünüyor, çok özür dileriz. Doğru ürünün gönderimi için hemen yeni bir kayıt oluşturuyorum.</p>
+                      <p><strong>User:</strong> Ne kadar sürede elimde olur?</p>
+                      <p><strong>Agent:</strong> Standart kargo ile 2-3 iş günü içinde size ulaşacaktır efendim. Gecikme için tekrar kusura bakmayın. Size bir indirim kuponu tanımlamamı ister misiniz?</p>
+                      <p><strong>User:</strong> Olur, teşekkür ederim.</p>
+                      <p><strong>Agent:</strong> Rica ederim, başka yardımcı olabileceğim bir konu var mıydı?</p>
+                      <p><strong>User:</strong> Hayır, teşekkürler.</p>
+                      <p><strong>Agent:</strong> İyi günler dileriz efendim.</p>
+                      <p><strong>Agent:</strong> Merhaba, TheaTech&apos;e hoş geldiniz, ben Ayşe, nasıl yardımcı olabilirim?</p>
+                      <p><strong>User:</strong> Merhaba Ayşe Hanım, geçen hafta sipariş ettiğim ürünle ilgili bir sorun yaşıyorum.</p>
+                      <p><strong>Agent:</strong> Anladım efendim, sipariş numaranızı alabilir miyim lütfen?</p>
+                      <p><strong>User:</strong> Tabii, 123456789. Ürün elime ulaştı ama yanlış renk gönderilmiş.</p>
+                      <p><strong>Agent:</strong> Hemen kontrol ediyorum... Evet, sistemde bir hata olmuş görünüyor, çok özür dileriz. Doğru ürünün gönderimi için hemen yeni bir kayıt oluşturuyorum.</p>
+                      <p><strong>User:</strong> Ne kadar sürede elimde olur?</p>
+                      <p><strong>Agent:</strong> Standart kargo ile 2-3 iş günü içinde size ulaşacaktır efendim. Gecikme için tekrar kusura bakmayın. Size bir indirim kuponu tanımlamamı ister misiniz?</p>
+                      <p><strong>User:</strong> Olur, teşekkür ederim.</p>
+                      <p><strong>Agent:</strong> Rica ederim, başka yardımcı olabileceğim bir konu var mıydı?</p>
+                      <p><strong>User:</strong> Hayır, teşekkürler.</p>
+                      <p><strong>Agent:</strong> İyi günler dileriz efendim.</p>
+                    </div>
+                  </div>
                 </div>
+
               </TabsContent>
               {/* Tab 2: Duygusal Analiz */}
               <TabsContent value="sentiment" className="space-y-6 px-6 pt-4">
@@ -172,10 +186,9 @@ export function CallReportDrawer({ // Renamed component
                      <div className="h-2 flex-grow bg-gray-200 dark:bg-gray-700 rounded-full">
                        <div className="h-full bg-gray-500 rounded-full" style={{ width: '20%' }}></div> {/* Placeholder % */}
                      </div>
-                     <span className="text-xs font-medium text-gray-900 dark:text-gray-50">20%</span> {/* Placeholder % */}
-                   </div>
-                    {/* Example Bar 4: Acil */}
-                  <div className="flex items-center gap-2">
+                  </div>
+                   {/* Example Bar 4: Acil */}
+                   <div className="flex items-center gap-2">
                     <span className="text-xs text-gray-500 dark:text-gray-400 w-16 shrink-0">Acil</span>
                     <div className="h-2 flex-grow bg-gray-200 dark:bg-gray-700 rounded-full">
                       <div className="h-full bg-orange-500 rounded-full" style={{ width: '5%' }}></div> {/* Placeholder % */}
@@ -190,11 +203,53 @@ export function CallReportDrawer({ // Renamed component
                     </div>
                     <span className="text-xs font-medium text-gray-900 dark:text-gray-50">80%</span> {/* Placeholder % */}
                   </div>
-                </div>
+                </div> {/* End of Sentiment Bars */}
 
-                <div className="pt-4">
-                   <h3 className="text-sm font-medium text-gray-900 dark:text-gray-50 mb-2">Müşteri Duygu Durumu</h3>
-                   <p className="text-sm text-gray-600 dark:text-gray-400">Orta, Sakin (Skor: 0.1)</p> {/* Placeholder */}
+                {/* Key Metrics Section (Moved to bottom) */}
+                <div className="p-4 border rounded-md border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-900/30 mt-6"> {/* Added mt-6 for spacing */}
+                  <h3 className="text-base font-semibold mb-4 text-gray-800 dark:text-gray-100">Önemli Metrikler</h3>
+                  <div className="space-y-3">
+                    {/* Ton */}
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-x-2">
+                        <Mic className="size-5 text-blue-500" />
+                        <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Ton</span>
+                      </div>
+                      <Badge variant="neutral">Nötr</Badge>
+                    </div>
+                    {/* Nezaket Düzeyi */}
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-x-2">
+                        <Star className="size-5 text-green-500" />
+                        <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Nezaket Düzeyi</span>
+                      </div>
+                      <Badge variant="success">Yüksek</Badge>
+                    </div>
+                    {/* Öne Çıkan Kelimeler */}
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-x-2">
+                        <MessageSquareText className="size-5 text-purple-500" />
+                        <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Öne Çıkan Kelimeler</span>
+                      </div>
+                      <span className="text-sm text-gray-800 dark:text-gray-200">İptal, Fatura</span>
+                    </div>
+                    {/* Çağrı Süresi */}
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-x-2">
+                        <Clock className="size-5 text-orange-500" />
+                        <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Çağrı Süresi</span>
+                      </div>
+                      <span className="text-sm font-medium text-gray-800 dark:text-gray-200">03:45</span>
+                    </div>
+                     {/* Müşteri Duygu Durumu (Moved inside) */}
+                    <div className="flex items-center justify-between pt-2 border-t border-blue-100 dark:border-blue-800/50"> {/* Added separator */}
+                       <div className="flex items-center gap-x-2">
+                         {/* Consider adding an icon here if desired */}
+                         <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Müşteri Duygu Durumu</span>
+                       </div>
+                       <span className="text-sm text-gray-600 dark:text-gray-400">Orta, Sakin (Skor: 0.1)</span> {/* Placeholder */}
+                    </div>
+                  </div>
                 </div>
              </TabsContent>
              {/* Tab 3: Aksiyon Önerileri */}
@@ -204,77 +259,69 @@ export function CallReportDrawer({ // Renamed component
                 </h3>
                 {/* Action Items List - Placeholder Implementation */}
                 <ul role="list" className="space-y-6">
-                  {/* Example Action Item 1 */}
-                  <li className="relative flex flex-col gap-y-2">
-                    <div className="flex gap-x-3 items-start">
-                      <CircleCheck className="h-5 w-5 text-blue-500 mt-0.5 flex-none" aria-hidden="true" />
-                      <p className="text-sm text-gray-700 dark:text-gray-300">Müşteriye geri ödeme süreci hakkında bilgi verin.</p> {/* Placeholder Action */}
-                    </div>
-                    {/* Comments for Action 1 */}
-                    <div className="pl-8 space-y-2">
-                      {/* Existing Comment Example */}
-                      <div className="text-xs text-gray-500 dark:text-gray-400">
-                        <span className="font-medium text-gray-600 dark:text-gray-300">Ahmet Yılmaz:</span> Bilgi verildi. (2 saat önce)
+                  {/* Action Items List - Placeholder Implementation */}
+                  {[
+                    "Müşteriye geri ödeme süreci hakkında bilgi verin.",
+                    "Teknik ekibe fatura hatasıyla ilgili bildirim yapın.",
+                    "Müşterinin abonelik iptal talebini işleme alın."
+                  ].map((actionText, index) => (
+                    <li key={index} className="relative flex flex-col gap-y-2">
+                      <div className="flex gap-x-3 items-start">
+                        <CircleCheck className="h-5 w-5 text-blue-500 mt-0.5 flex-none" aria-hidden="true" />
+                        <p className="text-sm text-gray-700 dark:text-gray-300">{actionText}</p>
                       </div>
-                      {/* Add Comment Form */}
-                      <form className="relative">
-                        <Label htmlFor="comment-1" className="sr-only">Add comment for action 1</Label>
-                        <Textarea id="comment-1" name="comment-1" rows={2} placeholder="Add your comment..." className="text-xs"/>
-                        {/* Add submit button if needed */}
-                      </form>
-                    </div>
-                  </li>
-                  {/* Example Action Item 2 */}
-                  <li className="relative flex flex-col gap-y-2">
-                    <div className="flex gap-x-3 items-start">
-                      <CircleCheck className="h-5 w-5 text-blue-500 mt-0.5 flex-none" aria-hidden="true" />
-                      <p className="text-sm text-gray-700 dark:text-gray-300">Teknik ekibe fatura hatasıyla ilgili bildirim yapın.</p> {/* Placeholder Action */}
-                    </div>
-                     {/* Comments for Action 2 */}
-                    <div className="pl-8 space-y-2">
-                      {/* No existing comments example */}
-                      {/* Add Comment Form */}
-                      <form className="relative">
-                        <Label htmlFor="comment-2" className="sr-only">Add comment for action 2</Label>
-                        <Textarea id="comment-2" name="comment-2" rows={2} placeholder="Add your comment..." className="text-xs"/>
-                      </form>
-                    </div>
-                  </li>
-                   {/* Example Action Item 3 */}
-                   <li className="relative flex flex-col gap-y-2">
-                    <div className="flex gap-x-3 items-start">
-                      <CircleCheck className="h-5 w-5 text-blue-500 mt-0.5 flex-none" aria-hidden="true" />
-                      <p className="text-sm text-gray-700 dark:text-gray-300">Müşterinin abonelik iptal talebini işleme alın.</p> {/* Placeholder Action */}
-                    </div>
-                     {/* Comments for Action 3 */}
-                    <div className="pl-8 space-y-2">
-                       {/* Existing Comment Example */}
-                       <div className="text-xs text-gray-500 dark:text-gray-400">
-                        <span className="font-medium text-gray-600 dark:text-gray-300">Ayşe Demir:</span> Talep alındı, ilgili birime iletildi. (Dün 15:30)
+                      {/* Comments Section */}
+                      <div className="pl-8 space-y-2">
+                        {/* Display Existing Comments */}
+                        {actionComments[index]?.map((comment, commentIndex) => (
+                          <div key={commentIndex} className="text-xs text-gray-500 dark:text-gray-400">
+                            {/* Basic parsing for display */}
+                            {comment.startsWith("You:") ? (
+                              <>
+                                <span className="font-medium text-gray-600 dark:text-gray-300">You:</span>
+                                {comment.substring(4)}
+                              </>
+                            ) : (
+                              comment // Display pre-populated/other comments as is
+                            )}
+                          </div>
+                        ))}
+                        {/* Add Comment Form */}
+                        <div className="relative"> {/* Removed form tag */}
+                          <Label htmlFor={`comment-${index}`} className="sr-only">Add comment for action {index + 1}</Label>
+                          <Textarea
+                            id={`comment-${index}`}
+                            name={`comment-${index}`}
+                            rows={2}
+                            placeholder="Add your comment..."
+                            className="text-xs"
+                            value={tempComments[index] || ""}
+                            onChange={(e) => {
+                              const newTempComments = { ...tempComments };
+                              newTempComments[index] = e.target.value;
+                              setTempComments(newTempComments);
+                            }}
+                          />
+                        </div>
                       </div>
-                       <div className="text-xs text-gray-500 dark:text-gray-400">
-                        <span className="font-medium text-gray-600 dark:text-gray-300">Mehmet Kaya:</span> İptal işlemi tamamlandı. (Bugün 09:15)
-                      </div>
-                      {/* Add Comment Form */}
-                      <form className="relative">
-                        <Label htmlFor="comment-3" className="sr-only">Add comment for action 3</Label>
-                        <Textarea id="comment-3" name="comment-3" rows={2} placeholder="Add your comment..." className="text-xs"/>
-                      </form>
-                    </div>
-                  </li>
+                    </li>
+                  ))}
                 </ul>
              </TabsContent>
            </Tabs>
          </DrawerBody>
           {/* Updated Footer */}
-          <DrawerFooter className="-mx-6 -mb-2 gap-2 bg-white px-6 dark:bg-gray-900">
-            {/* Removed original buttons */}
-            {/* Optional: Add Save button logic here */}
-             <DrawerClose asChild>
-               <Button variant="secondary" className="w-full">
-                 Kapat {/* Close button */}
-               </Button>
-             </DrawerClose>
+          <DrawerFooter className="-mx-6 -mb-2 gap-2 bg-white px-6 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700"> {/* Added border */}
+            {/* Save Button */}
+            <Button className="w-full" onClick={handleSaveComments}>
+              Kaydet
+            </Button>
+            {/* Close Button */}
+            <DrawerClose asChild>
+              <Button variant="secondary" className="w-full">
+                Kapat
+              </Button>
+            </DrawerClose>
           </DrawerFooter>
         </DrawerContent>
       ) : null}
