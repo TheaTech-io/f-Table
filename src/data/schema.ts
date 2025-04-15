@@ -34,6 +34,9 @@ export type OverviewData = {
 
 export type SentimentReport = {
   id: string;
+  isim: string; // Add Agent Name
+  numara: string; // Add Customer Number
+  tarihSaat: string; // Add Call Date/Time
   duygular: { icon: string; text: "Olumlu" | "Olumsuz" | "Nötr" };
   memnuniyet: "Düşük" | "Orta" | "Yüksek";
   musteriMemnuniyeti: { icon: string; text: "Positive" | "Negative" | "Neutral" };

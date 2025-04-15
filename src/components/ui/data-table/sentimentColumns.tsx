@@ -24,7 +24,48 @@ const renderIconText = (icon: string, text: string) => (
   </div>
 )
 
+const headerStyle = "bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200";
+
 export const sentimentColumns: ColumnDef<SentimentReport>[] = [
+  {
+    accessorKey: "isim",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="İsim" />
+    ),
+    cell: ({ row }) => <div>{row.getValue("isim")}</div>,
+    enableSorting: true,
+    enableHiding: true,
+    meta: {
+      className: headerStyle, // Apply header style
+      displayName: "İsim",
+    },
+  },
+  {
+    accessorKey: "numara",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Numara" />
+    ),
+    cell: ({ row }) => <div>{row.getValue("numara")}</div>,
+    enableSorting: true,
+    enableHiding: true,
+    meta: {
+      className: headerStyle, // Apply header style
+      displayName: "Numara",
+    },
+  },
+  {
+    accessorKey: "tarihSaat",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Tarih Saat" />
+    ),
+    cell: ({ row }) => <div>{row.getValue("tarihSaat")}</div>,
+    enableSorting: true,
+    enableHiding: true,
+    meta: {
+      className: headerStyle, // Apply header style
+      displayName: "Tarih Saat",
+    },
+  },
   {
     accessorKey: "duygular",
     header: ({ column }) => (
@@ -40,6 +81,10 @@ export const sentimentColumns: ColumnDef<SentimentReport>[] = [
     },
     enableSorting: true,
     enableHiding: true,
+    meta: {
+      className: headerStyle, // Apply header style
+      displayName: "Duygular",
+    },
   },
   {
     accessorKey: "memnuniyet",
@@ -49,6 +94,10 @@ export const sentimentColumns: ColumnDef<SentimentReport>[] = [
     cell: ({ row }) => <div>{row.getValue("memnuniyet")}</div>,
     enableSorting: true,
     enableHiding: true,
+    meta: {
+      className: headerStyle, // Apply header style
+      displayName: "Memnuniyet",
+    },
   },
   {
     accessorKey: "musteriMemnuniyeti",
@@ -65,6 +114,10 @@ export const sentimentColumns: ColumnDef<SentimentReport>[] = [
     },
     enableSorting: true,
     enableHiding: true,
+    meta: {
+      className: headerStyle, // Apply header style
+      displayName: "Müşteri Memnuniyeti",
+    },
   },
   {
     accessorKey: "oncelik",
@@ -74,6 +127,10 @@ export const sentimentColumns: ColumnDef<SentimentReport>[] = [
     cell: ({ row }) => <div>{row.getValue("oncelik")}</div>,
     enableSorting: true,
     enableHiding: true,
+    meta: {
+      className: headerStyle, // Apply header style
+      displayName: "Öncelik",
+    },
   },
   {
     accessorKey: "istek",
@@ -83,6 +140,10 @@ export const sentimentColumns: ColumnDef<SentimentReport>[] = [
     cell: ({ row }) => <div>{row.getValue("istek")}</div>,
     enableSorting: true,
     enableHiding: true,
+    meta: {
+      className: headerStyle, // Apply header style
+      displayName: "İstek",
+    },
   },
   {
     id: "actions",
@@ -115,5 +176,9 @@ export const sentimentColumns: ColumnDef<SentimentReport>[] = [
     },
     enableSorting: false,
     enableHiding: false,
+    meta: {
+      className: headerStyle, // Apply header style
+      displayName: "Actions",
+    },
   },
 ]
