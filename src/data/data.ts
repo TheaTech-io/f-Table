@@ -1,3 +1,5 @@
+import { SentimentReport } from "./schema";
+
 import { Usage } from "./schema"
 
 export const roles: { value: string; label: string }[] = [
@@ -177,6 +179,8 @@ export const usage: Usage[] = [
   {
     owner: "Alejandro Garcia",
     status: "live",
+
+
     costs: 7234.56,
     region: "EU-West 1",
     stability: 12,
@@ -720,3 +724,11 @@ export const callStatuses = [
    { value: "In Queue", label: "In Queue", color: "bg-yellow-500" }, // Using Yellow-500 default
    { value: "Dialing", label: "Dialing", color: "bg-blue-500" }, // Using Blue-500 default
 ]
+
+export const sentimentReports: SentimentReport[] = [
+  { id: "sr1", duygular: { icon: "✓", text: "Olumlu" }, memnuniyet: "Yüksek", musteriMemnuniyeti: { icon: "✓", text: "Positive" }, oncelik: "Düşük", istek: "Ürün Bilgisi" },
+  { id: "sr2", duygular: { icon: "x", text: "Olumsuz" }, memnuniyet: "Düşük", musteriMemnuniyeti: { icon: "x", text: "Negative" }, oncelik: "Kritik", istek: "Fatura Sorunu" },
+  { id: "sr3", duygular: { icon: "-", text: "Nötr" }, memnuniyet: "Orta", musteriMemnuniyeti: { icon: "-", text: "Neutral" }, oncelik: "Orta", istek: "Teknik Destek" },
+  { id: "sr4", duygular: { icon: "✓", text: "Olumlu" }, memnuniyet: "Orta", musteriMemnuniyeti: { icon: "✓", text: "Positive" }, oncelik: "Yüksek", istek: "Abonelik İptali" },
+  { id: "sr5", duygular: { icon: "x", text: "Olumsuz" }, memnuniyet: "Düşük", musteriMemnuniyeti: { icon: "x", text: "Negative" }, oncelik: "Düşük", istek: "Fatura Sorunu" },
+];

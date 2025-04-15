@@ -31,3 +31,12 @@ export type OverviewData = {
   "Sign outs": number
   "Support calls": number
 }
+
+export type SentimentReport = {
+  id: string;
+  duygular: { icon: string; text: "Olumlu" | "Olumsuz" | "Nötr" };
+  memnuniyet: "Düşük" | "Orta" | "Yüksek";
+  musteriMemnuniyeti: { icon: string; text: "Positive" | "Negative" | "Neutral" };
+  oncelik: "Düşük" | "Kritik" | "Yüksek" | "Orta";
+  istek: string; // e.g., "Fatura Sorunu", "Ürün Bilgisi", etc.
+};
