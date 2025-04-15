@@ -5,6 +5,7 @@ import {
   RiHome2Line,
   RiLinkM,
   RiListCheck,
+      RiChatSmile3Line,
   RiSettings5Line,
 } from "@remixicon/react"
 import Link from "next/link"
@@ -18,7 +19,8 @@ import { UserProfileDesktop, UserProfileMobile } from "./UserProfile"
 
 const navigation = [
   { name: "Overview", href: siteConfig.baseLinks.overview, icon: RiHome2Line },
-  { name: "Details", href: siteConfig.baseLinks.details, icon: RiListCheck },
+  { name: "Call Reports", href: siteConfig.baseLinks.details, icon: RiListCheck },
+  { name: "Sentiment Reports", href: siteConfig.baseLinks.sentimentReports, icon: RiChatSmile3Line },
   {
     name: "Settings",
     href: siteConfig.baseLinks.settings.general,

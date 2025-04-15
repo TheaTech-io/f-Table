@@ -1,3 +1,5 @@
+import { SentimentReport } from "./schema";
+
 import { Usage } from "./schema"
 
 export const roles: { value: string; label: string }[] = [
@@ -177,6 +179,8 @@ export const usage: Usage[] = [
   {
     owner: "Alejandro Garcia",
     status: "live",
+
+
     costs: 7234.56,
     region: "EU-West 1",
     stability: 12,
@@ -720,3 +724,11 @@ export const callStatuses = [
    { value: "In Queue", label: "In Queue", color: "bg-yellow-500" }, // Using Yellow-500 default
    { value: "Dialing", label: "Dialing", color: "bg-blue-500" }, // Using Blue-500 default
 ]
+
+export const sentimentReports: SentimentReport[] = [
+  { id: "sr1", isim: "Agent Smith", numara: "+1 555-001-0001", tarihSaat: "04/15/2025 10:00", duygular: { icon: "✓", text: "Olumlu" }, memnuniyet: "Yüksek", musteriMemnuniyeti: { icon: "✓", text: "Positive" }, oncelik: "Düşük", istek: "Ürün Bilgisi" },
+  { id: "sr2", isim: "Agent Jones", numara: "+1 555-002-0002", tarihSaat: "04/15/2025 11:30", duygular: { icon: "x", text: "Olumsuz" }, memnuniyet: "Düşük", musteriMemnuniyeti: { icon: "x", text: "Negative" }, oncelik: "Kritik", istek: "Fatura Sorunu" },
+  { id: "sr3", isim: "Agent Brown", numara: "+44 20 7946 0003", tarihSaat: "04/14/2025 09:15", duygular: { icon: "-", text: "Nötr" }, memnuniyet: "Orta", musteriMemnuniyeti: { icon: "-", text: "Neutral" }, oncelik: "Orta", istek: "Teknik Destek" },
+  { id: "sr4", isim: "Agent Smith", numara: "+49 30 1234 0004", tarihSaat: "04/14/2025 14:05", duygular: { icon: "✓", text: "Olumlu" }, memnuniyet: "Orta", musteriMemnuniyeti: { icon: "✓", text: "Positive" }, oncelik: "Yüksek", istek: "Abonelik İptali" },
+  { id: "sr5", isim: "Agent Jones", numara: "+1 555-005-0005", tarihSaat: "04/13/2025 16:50", duygular: { icon: "x", text: "Olumsuz" }, memnuniyet: "Düşük", musteriMemnuniyeti: { icon: "x", text: "Negative" }, oncelik: "Düşük", istek: "Fatura Sorunu" },
+];
